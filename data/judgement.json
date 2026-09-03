@@ -1,0 +1,25 @@
+{
+  "id": "j_f40f441f1d",
+  "assertion_id": "a_001",
+  "citation_relation_id": "cr_001",
+  "evidence_ids": [
+    "e_001"
+  ],
+  "relevance": "RELEVANT",
+  "support": "SUPPORTED",
+  "reliability": "HIGH",
+  "reliability_factors": {
+    "evidence_directness": "DIRECT",
+    "source_originality": "PRIMARY",
+    "method_completeness": "SUFFICIENT",
+    "characterization_quality": "SUFFICIENT",
+    "context_match": "MATCH",
+    "reproducibility_evidence": "UNKNOWN",
+    "reporting_clarity": "CLEAR"
+  },
+  "uncertainty": [
+    "Independent reproducibility evidence is absent or unknown."
+  ],
+  "rationale": "Deterministic v0 baseline: normalized-claim token coverage against reported evidence is 1.00. Relevance and support are provisional smoke-test outputs; reliability is derived from explicit factor states rather than a free-form confidence score.",
+  "judgement_status": "COMPLETE"
+}

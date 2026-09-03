@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: citation-needed-v0
+Version: 0.1.0
+Summary: Minimal traceable claim-citation-evidence judgement scaffold
+Requires-Python: >=3.11
+Requires-Dist: pydantic<3,>=2.7

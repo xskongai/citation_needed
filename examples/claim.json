@@ -1,0 +1,26 @@
+{
+  "assertion": {
+    "id": "a_001",
+    "text": "10% MnFe2O4@PANI nanoflower gave the highest specific capacitance.",
+    "normalized_claim": "10% MnFe2O4@PANI had the highest specific capacitance",
+    "paper_id": "paper_A",
+    "location": {
+      "page": 12,
+      "section": "Results and discussion"
+    },
+    "claim_type": "RESULT",
+    "citation_ids": ["cr_001"]
+  },
+  "citation_relation": {
+    "id": "cr_001",
+    "assertion_id": "a_001",
+    "source_paper_id": "paper_A",
+    "cited_paper_id": "paper_A",
+    "reference_number": "Fig. 5a",
+    "citation_context": "As can be seen from Fig. 5a, 10% MnFe2O4@PANI nanoflower gave the highest specific capacitance.",
+    "purpose": "RESULT",
+    "purpose_reason": "The figure is cited as direct support for the reported comparative result.",
+    "follow_priority": "HIGH",
+    "resolution_status": "RESOLVED"
+  }
+}

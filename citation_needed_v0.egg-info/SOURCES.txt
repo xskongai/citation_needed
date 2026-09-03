@@ -1,0 +1,17 @@
+README.md
+pyproject.toml
+citation_needed/__init__.py
+citation_needed/judgement/__init__.py
+citation_needed/judgement/engine.py
+citation_needed/models/__init__.py
+citation_needed/models/assertion.py
+citation_needed/models/citation.py
+citation_needed/models/evidence.py
+citation_needed/models/judgement.py
+citation_needed/models/source.py
+citation_needed_v0.egg-info/PKG-INFO
+citation_needed_v0.egg-info/SOURCES.txt
+citation_needed_v0.egg-info/dependency_links.txt
+citation_needed_v0.egg-info/requires.txt
+citation_needed_v0.egg-info/top_level.txt
+tests/test_judgement.py

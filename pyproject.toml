@@ -1,0 +1,11 @@
+[project]
+name = "citation-needed-v0"
+version = "0.1.0"
+description = "Minimal traceable claim-citation-evidence judgement scaffold"
+requires-python = ">=3.11"
+dependencies = [
+  "pydantic>=2.7,<3"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
