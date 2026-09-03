@@ -1,0 +1,23 @@
+{
+  "assertion": {
+    "id": "a_secondary",
+    "text": "Method X produces nanoparticles with an average size of 8 nm [4].",
+    "normalized_claim": "Method X produces nanoparticles with an average size of 8 nm",
+    "paper_id": "paper_target",
+    "location": {"page": 3, "section": "Introduction"},
+    "claim_type": "RESULT",
+    "citation_ids": ["cr_secondary"]
+  },
+  "citation_relation": {
+    "id": "cr_secondary",
+    "assertion_id": "a_secondary",
+    "source_paper_id": "paper_target",
+    "cited_paper_id": "paper_review",
+    "reference_number": "4",
+    "citation_context": "Method X produces nanoparticles with an average size of 8 nm [4].",
+    "purpose": "SUPPORT",
+    "purpose_reason": "The cited source is used to support a numerical particle-size result.",
+    "follow_priority": "HIGH",
+    "resolution_status": "RESOLVED"
+  }
+}

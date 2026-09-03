@@ -1,0 +1,56 @@
+{
+  "cases": [
+    {
+      "name": "overclaim_scope",
+      "claim": "claim_overreach.json",
+      "evidence": "evidence_overreach.json",
+      "expected": {
+        "relevance": ["RELEVANT"],
+        "support": ["PARTIALLY_SUPPORTED"],
+        "context_match": ["PARTIAL_MATCH", "MISMATCH"],
+        "source_originality": ["PRIMARY"]
+      }
+    },
+    {
+      "name": "direct_contradiction",
+      "claim": "claim_contradiction.json",
+      "evidence": "evidence_contradiction.json",
+      "expected": {
+        "relevance": ["RELEVANT"],
+        "support": ["CONTRADICTED"],
+        "source_originality": ["PRIMARY"]
+      }
+    },
+    {
+      "name": "related_but_insufficient",
+      "claim": "claim_related_insufficient.json",
+      "evidence": "evidence_related_insufficient.json",
+      "expected": {
+        "relevance": ["RELEVANT", "PARTIALLY_RELEVANT"],
+        "support": ["INSUFFICIENT_EVIDENCE"],
+        "source_originality": ["PRIMARY"]
+      }
+    },
+    {
+      "name": "secondary_source",
+      "claim": "claim_secondary.json",
+      "evidence": "evidence_secondary.json",
+      "expected": {
+        "relevance": ["RELEVANT"],
+        "support": ["SUPPORTED", "PARTIALLY_SUPPORTED"],
+        "source_originality": ["SECONDARY"]
+      }
+    },
+    {
+      "name": "condition_mismatch",
+      "claim": "claim_condition_mismatch.json",
+      "evidence": "evidence_condition_mismatch.json",
+      "expected": {
+        "relevance": ["RELEVANT"],
+        "support": ["PARTIALLY_SUPPORTED", "INSUFFICIENT_EVIDENCE"],
+        "context_match": ["MISMATCH"],
+        "source_originality": ["PRIMARY"]
+      }
+    }
+  ]
+}

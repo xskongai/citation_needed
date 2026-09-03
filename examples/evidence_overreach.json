@@ -1,0 +1,27 @@
+{
+  "evidence": [
+    {
+      "id": "e_overreach",
+      "citation_relation_id": "cr_overreach",
+      "source_paper_id": "paper_source",
+      "content": "Under the reported synthesis condition, the average particle size was 8 nm. The paper reports this single condition and does not report tests across other reaction conditions or independent replication.",
+      "evidence_type": "RESULT",
+      "provenance": {
+        "paper_id": "paper_source",
+        "title": "Synthetic semantic-judge test case",
+        "location": {
+          "page": 4,
+          "section": "Results"
+        },
+        "source_role": "PRIMARY_STUDY"
+      },
+      "epistemic_state": "REPORTED",
+      "experimental_context": {
+        "reported_particle_size": "8 nm",
+        "conditions_tested": "single reported condition",
+        "independent_replication": "not reported"
+      },
+      "extraction_confidence": 1.0
+    }
+  ]
+}

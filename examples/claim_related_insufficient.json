@@ -1,0 +1,23 @@
+{
+  "assertion": {
+    "id": "a_related_insufficient",
+    "text": "Adding MnFe2O4 improves the electrical conductivity of the composite [3].",
+    "normalized_claim": "Adding MnFe2O4 improves electrical conductivity of the composite",
+    "paper_id": "paper_target",
+    "location": {"page": 2, "section": "Introduction"},
+    "claim_type": "PROPERTY",
+    "citation_ids": ["cr_related_insufficient"]
+  },
+  "citation_relation": {
+    "id": "cr_related_insufficient",
+    "assertion_id": "a_related_insufficient",
+    "source_paper_id": "paper_target",
+    "cited_paper_id": "paper_source_related",
+    "reference_number": "3",
+    "citation_context": "Adding MnFe2O4 improves the electrical conductivity of the composite [3].",
+    "purpose": "SUPPORT",
+    "purpose_reason": "The citation is presented as support for an electrical-conductivity claim.",
+    "follow_priority": "HIGH",
+    "resolution_status": "RESOLVED"
+  }
+}

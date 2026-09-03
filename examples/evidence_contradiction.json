@@ -1,0 +1,24 @@
+{
+  "evidence": [
+    {
+      "id": "e_contradiction",
+      "citation_relation_id": "cr_contradiction",
+      "source_paper_id": "paper_source_contradiction",
+      "content": "After MnFe2O4 was added, the measured average particle size increased from 8 nm to 14 nm.",
+      "evidence_type": "RESULT",
+      "provenance": {
+        "paper_id": "paper_source_contradiction",
+        "title": "Synthetic contradiction test",
+        "source_role": "PRIMARY_STUDY",
+        "location": {"page": 5, "section": "Results"}
+      },
+      "epistemic_state": "REPORTED",
+      "experimental_context": {
+        "before": "8 nm",
+        "after": "14 nm",
+        "intervention": "MnFe2O4 addition"
+      },
+      "extraction_confidence": 1.0
+    }
+  ]
+}

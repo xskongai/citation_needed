@@ -1,0 +1,24 @@
+{
+  "evidence": [
+    {
+      "id": "e_related_insufficient",
+      "citation_relation_id": "cr_related_insufficient",
+      "source_paper_id": "paper_source_related",
+      "content": "The composite showed a 20% increase in specific capacitance after MnFe2O4 was added. Electrical conductivity was not measured in the supplied result.",
+      "evidence_type": "RESULT",
+      "provenance": {
+        "paper_id": "paper_source_related",
+        "title": "Synthetic related-but-insufficient test",
+        "source_role": "PRIMARY_STUDY",
+        "location": {"page": 7, "section": "Electrochemical performance"}
+      },
+      "epistemic_state": "REPORTED",
+      "experimental_context": {
+        "measured_outcome": "specific capacitance",
+        "change": "+20%",
+        "electrical_conductivity_measurement": "not supplied"
+      },
+      "extraction_confidence": 1.0
+    }
+  ]
+}

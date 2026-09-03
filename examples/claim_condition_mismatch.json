@@ -1,0 +1,23 @@
+{
+  "assertion": {
+    "id": "a_condition_mismatch",
+    "text": "Method X produces 8 nm particles at room temperature [5].",
+    "normalized_claim": "Method X produces 8 nm particles at room temperature",
+    "paper_id": "paper_target",
+    "location": {"page": 3, "section": "Methods"},
+    "claim_type": "RESULT",
+    "citation_ids": ["cr_condition_mismatch"]
+  },
+  "citation_relation": {
+    "id": "cr_condition_mismatch",
+    "assertion_id": "a_condition_mismatch",
+    "source_paper_id": "paper_target",
+    "cited_paper_id": "paper_source_condition",
+    "reference_number": "5",
+    "citation_context": "Method X produces 8 nm particles at room temperature [5].",
+    "purpose": "SUPPORT",
+    "purpose_reason": "The citation is presented as support for both particle size and synthesis condition.",
+    "follow_priority": "HIGH",
+    "resolution_status": "RESOLVED"
+  }
+}

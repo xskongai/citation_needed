@@ -10,12 +10,13 @@ from .judgement import (
     Presence,
     RelevanceJudgement,
     ReliabilityFactors,
+    ReliabilityFactorRationale,
     ReliabilityJudgement,
     ReportingClarity,
     SourceOriginality,
     SupportJudgement,
 )
-from .source import Provenance, SourceLocation
+from .source import Provenance, SourceLocation, SourceRole
 
 __all__ = [
     "Assertion",
@@ -32,6 +33,7 @@ __all__ = [
     "SupportJudgement",
     "ReliabilityJudgement",
     "ReliabilityFactors",
+    "ReliabilityFactorRationale",
     "EvidenceDirectness",
     "SourceOriginality",
     "Completeness",
@@ -41,4 +43,5 @@ __all__ = [
     "ReportingClarity",
     "Provenance",
     "SourceLocation",
+    "SourceRole",
 ]

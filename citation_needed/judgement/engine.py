@@ -22,6 +22,7 @@ from citation_needed.models import (
     SourceOriginality,
     SupportJudgement,
 )
+from .policy import policy_uncertainties, reliability_from_factors
 
 # This baseline is intentionally conservative and deterministic. It exists to
 # validate the data model + end-to-end plumbing, not to serve as the final
@@ -81,9 +82,9 @@ def _infer_reliability_factors(evidence: list[Evidence]) -> ReliabilityFactors:
     return ReliabilityFactors(
         evidence_directness=enum_or(EvidenceDirectness.UNCLEAR, EvidenceDirectness, "evidence_directness"),
         source_originality=enum_or(SourceOriginality.UNCLEAR, SourceOriginality, "source_originality"),
-        method_completeness=enum_or(Completeness.PARTIAL, Completeness, "method_completeness"),
+        method_completeness=enum_or(Completeness.UNKNOWN, Completeness, "method_completeness"),
         characterization_quality=enum_or(
-            CharacterisationQuality.NA,
+            CharacterisationQuality.UNKNOWN,
             CharacterisationQuality,
             "characterization_quality",
         ),
@@ -94,45 +95,11 @@ def _infer_reliability_factors(evidence: list[Evidence]) -> ReliabilityFactors:
 
 
 def _reliability_from_factors(f: ReliabilityFactors, evidence: list[Evidence]) -> ReliabilityJudgement:
-    if any(ev.epistemic_state in {EvidenceState.UNRESOLVED, EvidenceState.SOURCE_UNAVAILABLE} for ev in evidence):
-        return ReliabilityJudgement.UNRESOLVED
-
-    score = 0
-    score += {EvidenceDirectness.DIRECT: 2, EvidenceDirectness.INDIRECT: 0, EvidenceDirectness.UNCLEAR: -1}[f.evidence_directness]
-    score += {SourceOriginality.PRIMARY: 1, SourceOriginality.SECONDARY: -1, SourceOriginality.UNCLEAR: 0}[f.source_originality]
-    score += {Completeness.SUFFICIENT: 2, Completeness.PARTIAL: 0, Completeness.INSUFFICIENT: -2}[f.method_completeness]
-    score += {
-        CharacterisationQuality.SUFFICIENT: 2,
-        CharacterisationQuality.PARTIAL: 0,
-        CharacterisationQuality.INSUFFICIENT: -2,
-        CharacterisationQuality.NA: 0,
-    }[f.characterization_quality]
-    score += {ContextMatch.MATCH: 2, ContextMatch.PARTIAL_MATCH: 0, ContextMatch.MISMATCH: -2, ContextMatch.UNKNOWN: -1}[f.context_match]
-    score += {Presence.PRESENT: 1, Presence.ABSENT: -1, Presence.UNKNOWN: 0}[f.reproducibility_evidence]
-    score += {ReportingClarity.CLEAR: 1, ReportingClarity.PARTIAL: 0, ReportingClarity.UNCLEAR: -1}[f.reporting_clarity]
-
-    if score >= 7:
-        return ReliabilityJudgement.HIGH
-    if score >= 2:
-        return ReliabilityJudgement.MODERATE
-    return ReliabilityJudgement.LOW
+    return reliability_from_factors(f, evidence)
 
 
 def _uncertainties(f: ReliabilityFactors, evidence: list[Evidence]) -> list[str]:
-    out: list[str] = []
-    if f.evidence_directness != EvidenceDirectness.DIRECT:
-        out.append("Evidence is not clearly direct experimental support.")
-    if f.source_originality != SourceOriginality.PRIMARY:
-        out.append("Primary-source status is not established.")
-    if f.method_completeness != Completeness.SUFFICIENT:
-        out.append("Method reporting is incomplete or only partially assessed.")
-    if f.context_match != ContextMatch.MATCH:
-        out.append("Experimental/context match is incomplete or unknown.")
-    if f.reproducibility_evidence != Presence.PRESENT:
-        out.append("Independent reproducibility evidence is absent or unknown.")
-    if any(ev.epistemic_state == EvidenceState.INFERRED for ev in evidence):
-        out.append("At least one evidence item is an AI inference rather than explicitly reported information.")
-    return out
+    return policy_uncertainties(f, evidence)
 
 
 def judge(
@@ -157,6 +124,7 @@ def judge(
             uncertainty=["No explicitly reported evidence is available for evaluation."],
             rationale="The evidence chain cannot yet be evaluated because no reported evidence item is available.",
             judgement_status="UNRESOLVED",
+            judge_backend="deterministic-v0",
         )
 
     combined = " ".join(ev.content for ev in usable)
@@ -204,4 +172,5 @@ def judge(
         reliability_factors=factors,
         uncertainty=uncertainty,
         rationale=rationale,
+        judge_backend="deterministic-v0",
     )

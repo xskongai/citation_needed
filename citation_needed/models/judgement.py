@@ -42,12 +42,14 @@ class Completeness(str, Enum):
     SUFFICIENT = "SUFFICIENT"
     PARTIAL = "PARTIAL"
     INSUFFICIENT = "INSUFFICIENT"
+    UNKNOWN = "UNKNOWN"
 
 
 class CharacterisationQuality(str, Enum):
     SUFFICIENT = "SUFFICIENT"
     PARTIAL = "PARTIAL"
     INSUFFICIENT = "INSUFFICIENT"
+    UNKNOWN = "UNKNOWN"
     NA = "NA"
 
 
@@ -73,11 +75,21 @@ class ReportingClarity(str, Enum):
 class ReliabilityFactors(BaseModel):
     evidence_directness: EvidenceDirectness = EvidenceDirectness.UNCLEAR
     source_originality: SourceOriginality = SourceOriginality.UNCLEAR
-    method_completeness: Completeness = Completeness.PARTIAL
-    characterization_quality: CharacterisationQuality = CharacterisationQuality.NA
+    method_completeness: Completeness = Completeness.UNKNOWN
+    characterization_quality: CharacterisationQuality = CharacterisationQuality.UNKNOWN
     context_match: ContextMatch = ContextMatch.UNKNOWN
     reproducibility_evidence: Presence = Presence.UNKNOWN
     reporting_clarity: ReportingClarity = ReportingClarity.PARTIAL
+
+
+class ReliabilityFactorRationale(BaseModel):
+    evidence_directness: str
+    source_originality: str
+    method_completeness: str
+    characterization_quality: str
+    context_match: str
+    reproducibility_evidence: str
+    reporting_clarity: str
 
 
 class Judgement(BaseModel):
@@ -89,6 +101,12 @@ class Judgement(BaseModel):
     support: SupportJudgement
     reliability: ReliabilityJudgement
     reliability_factors: ReliabilityFactors
+    factor_rationale: ReliabilityFactorRationale | None = None
+    supported_components: list[str] = Field(default_factory=list)
+    unsupported_components: list[str] = Field(default_factory=list)
+    contradicted_components: list[str] = Field(default_factory=list)
     uncertainty: list[str] = Field(default_factory=list)
     rationale: str
     judgement_status: str = "COMPLETE"
+    judge_backend: str = "deterministic-v0"
+    judge_model: str | None = None

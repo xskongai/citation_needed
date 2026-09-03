@@ -1,6 +1,16 @@
 from __future__ import annotations
 
+from enum import Enum
+
 from pydantic import BaseModel, Field
+
+
+class SourceRole(str, Enum):
+    """Role of the evidence-bearing source, established by provenance/metadata when known."""
+
+    PRIMARY_STUDY = "PRIMARY_STUDY"
+    SECONDARY_SOURCE = "SECONDARY_SOURCE"
+    UNKNOWN = "UNKNOWN"
 
 
 class SourceLocation(BaseModel):
@@ -20,4 +30,5 @@ class Provenance(BaseModel):
     paper_id: str
     title: str | None = None
     doi: str | None = None
+    source_role: SourceRole = SourceRole.UNKNOWN
     location: SourceLocation

@@ -1,0 +1,26 @@
+{
+  "assertion": {
+    "id": "a_overreach",
+    "text": "This synthesis method reliably produces MnFe2O4 particles below 10 nm across reaction conditions [1].",
+    "normalized_claim": "The synthesis method reliably produces MnFe2O4 particles below 10 nm across reaction conditions",
+    "paper_id": "paper_target",
+    "location": {
+      "page": 1,
+      "section": "Introduction"
+    },
+    "claim_type": "RESULT",
+    "citation_ids": ["cr_overreach"]
+  },
+  "citation_relation": {
+    "id": "cr_overreach",
+    "assertion_id": "a_overreach",
+    "source_paper_id": "paper_target",
+    "cited_paper_id": "paper_source",
+    "reference_number": "1",
+    "citation_context": "This synthesis method reliably produces MnFe2O4 particles below 10 nm across reaction conditions [1].",
+    "purpose": "SUPPORT",
+    "purpose_reason": "The citation is presented as support for the general performance claim.",
+    "follow_priority": "HIGH",
+    "resolution_status": "RESOLVED"
+  }
+}
