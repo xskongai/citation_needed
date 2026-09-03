@@ -2,7 +2,9 @@ from .assertion import Assertion, ClaimType
 from .citation import CitationPurpose, CitationRelation, FollowPriority, ResolutionStatus
 from .evidence import Evidence, EvidenceState, EvidenceType
 from .judgement import (
+    AlignmentAssessment,
     CharacterisationQuality,
+    ClaimComponentAssessment,
     Completeness,
     ContextMatch,
     EvidenceDirectness,
@@ -37,6 +39,8 @@ __all__ = [
     "EvidenceDirectness",
     "SourceOriginality",
     "Completeness",
+    "AlignmentAssessment",
+    "ClaimComponentAssessment",
     "CharacterisationQuality",
     "ContextMatch",
     "Presence",

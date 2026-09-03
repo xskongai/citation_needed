@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from citation_needed.models import (
+    AlignmentAssessment,
     CharacterisationQuality,
     Completeness,
     ContextMatch,
@@ -13,6 +14,39 @@ from citation_needed.models import (
     ReportingClarity,
     SourceOriginality,
 )
+
+
+def overall_context_match(alignment: AlignmentAssessment) -> ContextMatch:
+    """Derive a coarse context match without destroying dimension-level detail.
+
+    Subject/outcome mismatch is fundamental and yields MISMATCH. A condition-only
+    mismatch yields PARTIAL_MATCH when subject and outcome still align. This is
+    exactly the distinction exposed by the v1.1 condition-mismatch adversarial case.
+    """
+    s = alignment.subject_match
+    o = alignment.outcome_match
+    c = alignment.condition_match
+
+    if s == ContextMatch.MISMATCH or o == ContextMatch.MISMATCH:
+        return ContextMatch.MISMATCH
+
+    if s == ContextMatch.UNKNOWN and o == ContextMatch.UNKNOWN and c == ContextMatch.UNKNOWN:
+        return ContextMatch.UNKNOWN
+
+    if c == ContextMatch.MISMATCH:
+        if s == ContextMatch.MATCH and o == ContextMatch.MATCH:
+            return ContextMatch.PARTIAL_MATCH
+        return ContextMatch.MISMATCH
+
+    states = {s, o, c}
+    if states == {ContextMatch.MATCH}:
+        return ContextMatch.MATCH
+    if ContextMatch.PARTIAL_MATCH in states:
+        return ContextMatch.PARTIAL_MATCH
+    if ContextMatch.UNKNOWN in states:
+        # Some dimensions are known and none mismatch: overall is partially established.
+        return ContextMatch.PARTIAL_MATCH
+    return ContextMatch.MATCH
 
 
 def reliability_from_factors(
@@ -82,6 +116,7 @@ def reliability_from_factors(
 def policy_uncertainties(
     factors: ReliabilityFactors,
     evidence: list[Evidence],
+    alignment: AlignmentAssessment | None = None,
 ) -> list[str]:
     out: list[str] = []
     if factors.evidence_directness != EvidenceDirectness.DIRECT:
@@ -96,8 +131,19 @@ def policy_uncertainties(
         out.append("Method reporting is incomplete or only partially assessed.")
     if factors.characterization_quality == CharacterisationQuality.UNKNOWN:
         out.append("Characterization/measurement quality was not assessed from the supplied material.")
-    if factors.context_match != ContextMatch.MATCH:
+
+    if alignment is not None:
+        if alignment.subject_match != ContextMatch.MATCH:
+            out.append("Claim/evidence subject alignment is incomplete, mismatched, or unknown.")
+        if alignment.outcome_match != ContextMatch.MATCH:
+            out.append("Claim/evidence outcome alignment is incomplete, mismatched, or unknown.")
+        if alignment.condition_match != ContextMatch.MATCH:
+            out.append("Experimental-condition alignment is incomplete, mismatched, or unknown.")
+        for mismatch in alignment.condition_mismatches:
+            out.append(f"Condition mismatch: {mismatch}")
+    elif factors.context_match != ContextMatch.MATCH:
         out.append("Experimental/context match is incomplete, mismatched, or unknown.")
+
     if factors.reproducibility_evidence == Presence.UNKNOWN:
         out.append("Independent reproducibility evidence is unknown from the supplied material.")
     elif factors.reproducibility_evidence == Presence.ABSENT:

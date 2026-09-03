@@ -1,92 +1,96 @@
-# Citation Needed v0.3 — Judge v1.1
+# Citation Needed — Judge v1.2
 
-A minimal, from-scratch scaffold for a **traceable claim–citation–evidence judgement pipeline**.
+From-scratch scaffold for a **traceable scientific claim–citation–evidence judgement pipeline**.
 
-## What this version proves
+Current core:
 
-This v0 deliberately starts with the system's core information model rather than PDF parsing, search, or multi-agent orchestration:
+```text
+Assertion
+  -> CitationRelation
+  -> Evidence + Provenance
+  -> Relation Judge
+       -> Relevance
+       -> Support
+       -> Claim-component coverage
+       -> Subject / Outcome / Condition alignment
+  -> Reliability factors
+  -> deterministic reliability policy
+```
 
-`Assertion -> CitationRelation -> Evidence -> Judgement`
+## What changed in v1.2
 
-The current judgement backend is a **deterministic smoke-test baseline only**. It is intentionally conservative and must not be treated as a scientifically valid entailment/reliability model. Its purpose is to make the schemas, provenance requirements, CLI, and reliability-factor policy executable before an evaluated semantic judge is added.
+### 1. Claim decomposition
 
-## Core invariants
+A partially supported claim is no longer just one label. The hosted judge decomposes it into decision-relevant propositions:
 
-1. Original assertion text and normalized claim are stored separately.
-2. Citation purpose is explicit.
-3. Every Evidence object must carry provenance.
-4. Reported information and AI inference are different epistemic states.
-5. Support and reliability are separate judgements.
-6. Reliability is derived from explicit factors, not an unexplained confidence number.
-7. Unknown information remains unknown.
+```text
+Claim: Method X reliably produces <10 nm particles across reaction conditions.
+
+P1: Method X produced <10 nm particles.       -> SUPPORTED
+P2: The result is reliable.                   -> INSUFFICIENT_EVIDENCE
+P3: It holds across reaction conditions.      -> INSUFFICIENT_EVIDENCE
+
+Overall -> PARTIALLY_SUPPORTED
+```
+
+The output includes `claim_components`, and convenience projections remain available as `supported_components`, `unsupported_components`, and `contradicted_components`.
+
+### 2. Structured context alignment
+
+The old coarse `context_match` is split into:
+
+```text
+alignment
+  subject_match
+  outcome_match
+  condition_match
+  condition_mismatches[]
+```
+
+For the adversarial condition case:
+
+```text
+Claim:    8 nm at room temperature
+Evidence: 8 nm at 145 C
+
+subject_match   = MATCH
+outcome_match   = MATCH
+condition_match = MISMATCH
+```
+
+For backwards compatibility, `reliability_factors.context_match` is still emitted, but code derives it from the richer alignment. A condition-only mismatch therefore produces `PARTIAL_MATCH` overall rather than hiding the actual temperature mismatch.
+
+### 3. System-owned facts stay outside LLM judgement
+
+`source_originality` is derived from provenance metadata (`PRIMARY_STUDY`, `SECONDARY_SOURCE`, `UNKNOWN`) rather than guessed from prose. The final reliability category is also aggregated by transparent application policy rather than directly chosen by the model.
 
 ## Install
 
+Requires Python 3.11+.
+
 ```bash
-cd citation-needed-v0
-python -m venv .venv
+cd citation-needed-v1.2
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -e .
-```
-
-## Run the first judgement
-
-```bash
-python scripts/run_judgement.py \
-  --claim examples/claim.json \
-  --evidence examples/evidence.json
-```
-
-Optional output file:
-
-```bash
-python scripts/run_judgement.py \
-  --claim examples/claim.json \
-  --evidence examples/evidence.json \
-  --out data/judgement.json
-```
-
-## Run tests
-
-```bash
 pip install pytest
-pytest -q
 ```
 
-## Next implementation step
-
-Replace the provisional semantic rules inside `citation_needed/judgement/engine.py` with an evaluated judge backend while keeping the same domain models and output contract. Recommended split:
-
-- relevance judge
-- support judge
-- reliability-factor extractor
-- reliability policy
-
-After that, add assertion/citation extraction and evidence retrieval around the stable core.
-
-## Judge v1 — hosted semantic reasoning
-
-v0 keeps the deterministic baseline for smoke tests. v1 adds an optional hosted semantic judge while keeping the final reliability aggregation in application code.
-
-Install/update dependencies:
-
-```bash
-pip install -e .
-```
-
-Set an API key in your shell:
+Set your API key:
 
 ```bash
 export OPENAI_API_KEY="your_key_here"
 ```
 
-Optional model override:
+Optional default model override:
 
 ```bash
 export CITATION_NEEDED_MODEL="gpt-5.6-terra"
 ```
 
-Run the semantic judge:
+## Run one judgement
+
+Hosted semantic judge:
 
 ```bash
 python scripts/run_judgement.py \
@@ -95,54 +99,89 @@ python scripts/run_judgement.py \
   --evidence examples/evidence.json
 ```
 
-Use a stronger model for a demo/evaluation run by passing `--model`:
+Overclaim case:
 
 ```bash
 python scripts/run_judgement.py \
   --backend openai \
-  --model gpt-5.6-sol \
+  --claim examples/claim_overreach.json \
+  --evidence examples/evidence_overreach.json
+```
+
+A deterministic local smoke-test backend is still retained for schema/plumbing tests:
+
+```bash
+python scripts/run_judgement.py \
   --claim examples/claim.json \
   --evidence examples/evidence.json
 ```
 
-The semantic model decides relevance, support, reliability factors, uncertainty, and concise rationale. The final HIGH/MODERATE/LOW reliability label is produced by the deterministic policy in `citation_needed/judgement/policy.py`.
-
-The v0 `_reliability` hints in example evidence are deliberately stripped before calling the semantic model, so they cannot bias Judge v1.
-
-## Judge v1.1 — adversarial semantic checks
-
-v1.1 tightens the boundary between **relation-level semantic judgement** and **source-level facts**.
-
-Key changes:
-
-- Partial support is decomposed into `supported_components`, `unsupported_components`, and `contradicted_components`.
-- `UNKNOWN` is now explicit for method completeness and characterization quality when an excerpt does not provide enough source context to assess the paper itself.
-- Reproducibility defaults to `UNKNOWN` when it is merely not shown; `ABSENT` is reserved for explicit evidence of absence.
-- `source_originality` is overridden from provenance metadata (`PRIMARY_STUDY`, `SECONDARY_SOURCE`, `UNKNOWN`) rather than guessed from prose.
-- Five adversarial cases test overclaiming, contradiction, related-but-insufficient evidence, secondary citation, and condition mismatch.
-
-Run one case as before:
-
-```bash
-python scripts/run_judgement.py \
-  --backend openai \
-  --claim examples/claim_contradiction.json \
-  --evidence examples/evidence_contradiction.json
-```
-
-Run the full semantic adversarial suite:
+## Run adversarial semantic suite
 
 ```bash
 python scripts/run_adversarial_suite.py \
   --out data/adversarial_report.json
 ```
 
-Optional stronger model:
+The five cases currently test:
 
-```bash
-python scripts/run_adversarial_suite.py \
-  --model gpt-5.6-sol \
-  --out data/adversarial_report.json
+- claim overreach / scope expansion
+- direct contradiction
+- related but insufficient evidence
+- secondary-source provenance
+- experimental-condition mismatch
+
+The v1.2 suite specifically checks that the condition-mismatch example reports:
+
+```text
+subject_match   = MATCH
+outcome_match   = MATCH
+condition_match = MISMATCH
+context_match   = PARTIAL_MATCH   # derived compatibility field
 ```
 
-The suite is an engineering diagnostic, not a scientific benchmark. A `REVIEW` result means the output fell outside the deliberately narrow expected label set and should be inspected; it does not automatically mean the model is scientifically wrong.
+It also checks whether claim decomposition contains the expected support states.
+
+## Run unit tests
+
+```bash
+pytest -q
+```
+
+Expected for the packaged version:
+
+```text
+11 passed
+```
+
+## Design invariants
+
+1. Original assertion text and normalized claim are separate.
+2. Citation purpose is explicit.
+3. Every evidence item carries provenance.
+4. Reported information and AI inference are distinct epistemic states.
+5. Relevance, support, and reliability are different questions.
+6. Unknown is not treated as negative evidence.
+7. Source-level quality is not inferred merely because an excerpt is incomplete.
+8. Condition mismatches stay explicit rather than disappearing into an overall context label.
+9. Reliability is derived from explicit factors, not an unexplained confidence score.
+10. Every judgement remains traceable back to evidence and source location.
+
+## Next boundary
+
+v1.2 is still primarily a **relation-level judge**. It does not yet constitute a full source-quality or cross-paper reliability assessment. The next distinct layers are intentionally separate:
+
+```text
+Full source context
+  -> Source Assessor
+     method completeness
+     characterization quality
+     reporting clarity
+
+Multiple independent papers
+  -> Cross-source Assessor
+     reproducibility
+     cross-source consistency
+```
+
+Do not collapse those into the relation judge just because an LLM can emit the fields.

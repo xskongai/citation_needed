@@ -21,13 +21,31 @@ def load_json(path: Path) -> dict:
 def check(result: dict, expected: dict) -> tuple[bool, list[str]]:
     failures: list[str] = []
     factor = result.get("reliability_factors", {})
+    alignment = result.get("alignment", {})
     actuals = {
         "relevance": result.get("relevance"),
         "support": result.get("support"),
         "context_match": factor.get("context_match"),
         "source_originality": factor.get("source_originality"),
+        "subject_match": alignment.get("subject_match"),
+        "outcome_match": alignment.get("outcome_match"),
+        "condition_match": alignment.get("condition_match"),
     }
+
     for key, allowed in expected.items():
+        if key == "must_include_component_statuses":
+            statuses = {x.get("status") for x in result.get("claim_components", [])}
+            missing = [status for status in allowed if status not in statuses]
+            if missing:
+                failures.append(
+                    f"claim_components missing statuses {missing}; got {sorted(x for x in statuses if x)}"
+                )
+            continue
+        if key == "min_claim_components":
+            actual = len(result.get("claim_components", []))
+            if actual < int(allowed):
+                failures.append(f"claim_components: got {actual}, expected >= {allowed}")
+            continue
         actual = actuals.get(key)
         if actual not in allowed:
             failures.append(f"{key}: got {actual!r}, expected one of {allowed}")
@@ -63,7 +81,12 @@ def main() -> None:
             "result": dumped,
         })
         status = "PASS" if passed else "REVIEW"
-        print(f"[{status}] {case['name']}: relevance={dumped['relevance']} support={dumped['support']} reliability={dumped['reliability']}")
+        alignment = dumped.get("alignment", {})
+        print(
+            f"[{status}] {case['name']}: relevance={dumped['relevance']} "
+            f"support={dumped['support']} reliability={dumped['reliability']} "
+            f"alignment=({alignment.get('subject_match')}, {alignment.get('outcome_match')}, {alignment.get('condition_match')})"
+        )
         if failures:
             for failure in failures:
                 print(f"  - {failure}")
@@ -73,7 +96,10 @@ def main() -> None:
 
     if args.out:
         args.out.parent.mkdir(parents=True, exist_ok=True)
-        args.out.write_text(json.dumps({"cases": report}, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        args.out.write_text(
+            json.dumps({"cases": report}, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
         print(f"Report written to {args.out}")
 
 

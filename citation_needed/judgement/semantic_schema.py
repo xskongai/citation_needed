@@ -3,6 +3,8 @@ from __future__ import annotations
 from pydantic import BaseModel, Field
 
 from citation_needed.models import (
+    AlignmentAssessment,
+    ClaimComponentAssessment,
     RelevanceJudgement,
     ReliabilityFactorRationale,
     ReliabilityFactors,
@@ -11,13 +13,12 @@ from citation_needed.models import (
 
 
 class SemanticJudgeOutput(BaseModel):
-    """Structured semantic output before deterministic reliability aggregation."""
+    """Structured relation-level semantic output before system overrides/policy."""
 
     relevance: RelevanceJudgement
     support: SupportJudgement
-    supported_components: list[str] = Field(default_factory=list)
-    unsupported_components: list[str] = Field(default_factory=list)
-    contradicted_components: list[str] = Field(default_factory=list)
+    claim_components: list[ClaimComponentAssessment] = Field(default_factory=list)
+    alignment: AlignmentAssessment
     reliability_factors: ReliabilityFactors
     factor_rationale: ReliabilityFactorRationale
     uncertainty: list[str] = Field(default_factory=list)
