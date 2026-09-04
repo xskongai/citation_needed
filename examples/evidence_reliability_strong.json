@@ -1,0 +1,29 @@
+{
+  "evidence": [
+    {
+      "id": "e_rel_strong",
+      "citation_relation_id": "cr_rel_strong",
+      "source_paper_id": "paper_gita_mfo_pani",
+      "content": "The 10% MnFe2O4@PANI electrode showed a specific capacitance of 623 F/g using equation (2) with high cyclic stability up to 10,000 cycles.",
+      "evidence_type": "RESULT",
+      "provenance": {
+        "paper_id": "paper_gita_mfo_pani",
+        "title": "Nano-flowered manganese doped ferrite@PANI composite as energy storage electrode material for supercapacitors",
+        "source_role": "PRIMARY_STUDY",
+        "location": {
+          "page": 13,
+          "section": "3.4.2. Cycling performances",
+          "figure": "Fig. 7d"
+        }
+      },
+      "epistemic_state": "REPORTED",
+      "experimental_context": {
+        "target_quantity": "specific capacitance",
+        "value": "623 F/g",
+        "current_density": "1 A/g",
+        "measurement_family": "GCD",
+        "derivation": "equation (2)"
+      }
+    }
+  ]
+}

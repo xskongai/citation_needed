@@ -1,0 +1,14 @@
+{
+  "source_paper_id": "paper_review",
+  "source_title": "Synthetic review article",
+  "source_role": "SECONDARY_SOURCE",
+  "context_scope": "EXCERPT_ONLY",
+  "evidence_ids": ["e_secondary"],
+  "context_items": [
+    {
+      "content": "Smith et al. reported that Method X produced nanoparticles with an average particle size of 8 nm.",
+      "context_type": "DISCUSSION",
+      "location": {"page": 4, "section": "Review of synthesis methods"}
+    }
+  ]
+}

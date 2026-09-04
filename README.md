@@ -1,61 +1,51 @@
-# Citation Needed — Relation Judge v1.2 + Source Assessor v1.4
+# Citation Needed — Reliability Policy v1
 
-This version keeps the v1.2 relation judge and refines the source-level assessor around two concepts exposed by the v1.3 semantic suite:
-
-1. **Evidence Basis** — a reported scientific result is not automatically an author interpretation.
-2. **Measurement Traceability** — identifying a measurement method is separate from proving that it produced the target result and from judging its appropriateness.
+This version keeps **Relation Judge v1.2** and **Source Assessor v1.4**, then combines them with a deterministic final reliability policy.
 
 ```text
 Claim + Evidence -> Relation Judge
-Evidence-bearing source context -> Source Assessor
+Source context   -> Source Assessor
+                         |
+                         v
+                 Reliability Policy v1
+                         |
+                         v
+               HIGH / MODERATE / LOW / UNRESOLVED
 ```
 
-## v1.4 Source Assessor model
+## What v1.5 adds
+
+- `ReliabilityDecision` and `CitationAuditResult`
+- deterministic `decide_reliability(...)` policy
+- no numeric confidence score and no LLM-generated final reliability label
+- explicit `positive_signals`, `caution_signals`, and `blocking_signals`
+- hard guards for:
+  - secondary-only evidence
+  - source-internal conflict
+  - inappropriate measurement
+  - unresolved/unavailable evidence
+- strict HIGH criteria requiring strong primary evidence, explicit measurement traceability, sufficient method/reporting context, and no material source conflict
+- contradiction can still be HIGH reliability when the contradictory evidence itself is strong
+- UNKNOWN remains cautionary/neutral rather than automatically negative
+
+Core rule:
 
 ```text
-Source Assessment
-├── Evidence Basis
-│   ├── DIRECT_MEASUREMENT
-│   ├── DERIVED_RESULT
-│   ├── REPORTED_RESULT
-│   ├── AUTHOR_INTERPRETATION
-│   ├── SECONDARY_REPORT
-│   └── UNKNOWN
-├── Method Completeness
-├── Measurement Traceability
-│   ├── method_status
-│   │   ├── IDENTIFIED
-│   │   ├── NOT_IDENTIFIED
-│   │   └── UNKNOWN
-│   ├── identified_methods[]
-│   ├── target_link
-│   │   ├── EXPLICIT
-│   │   ├── INFERRED
-│   │   └── UNKNOWN
-│   └── appropriateness
-│       ├── APPROPRIATE
-│       ├── PARTIAL
-│       ├── INAPPROPRIATE
-│       ├── UNKNOWN
-│       └── NA
-├── Reporting Completeness
-├── Source Originality       # provenance-owned
-└── Internal Consistency
+SUPPORTED != HIGH
+CONTRADICTED != LOW
+UNKNOWN != BAD
 ```
 
-A core invariant remains:
+The final reliability level means:
 
-```text
-Not observed != observed absent
-Missing source context != poor source quality
-```
+> How much should the system trust the resulting claim-evidence audit after combining relation fit and source evidence quality?
 
-If a measurement method is not identified, or the method-to-target link is unknown, the policy prevents the system from asserting measurement appropriateness.
+It is **not** an LLM confidence score.
 
 ## Install
 
 ```bash
-cd citation-needed-v1.4
+cd citation-needed-v1.5
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e .
@@ -72,33 +62,66 @@ pytest -q
 Expected for this package:
 
 ```text
-18 passed
+27 passed
 ```
 
-## Run one source assessment
+These are local schema/policy tests. They do not imply that hosted semantic-model suites will necessarily pass.
+
+## Run Relation Judge suite
 
 ```bash
-python scripts/run_source_assessment.py \
-  --source examples/source_strong.json \
-  --evidence examples/evidence_source_strong.json
+python scripts/run_adversarial_suite.py \
+  --out data/adversarial_report.json
 ```
 
-## Run Source Assessor semantic suite
+## Run Source Assessor suite
 
 ```bash
 python scripts/run_source_suite.py \
   --out data/source_assessment_report.json
 ```
 
-The suite now contains five cases:
+## Run integrated Reliability suite
 
-1. `strong_primary_measurement_traceability` — primary-paper result with explicit GCD/capacitance linkage and calculation context.
-2. `reported_comparative_result` — tests the new `REPORTED_RESULT` evidence-basis state.
-3. `excerpt_does_not_imply_bad_source` — tests UNKNOWN-vs-negative discipline.
-4. `secondary_report` — tests provenance-owned secondary status.
-5. `internal_numeric_conflict` — synthetic source-internal conflict stress test.
+```bash
+python scripts/run_reliability_suite.py \
+  --out data/reliability_report.json
+```
 
-The hosted suite is an evaluation. `18 passed` refers only to local schema/policy tests and does not imply all hosted semantic cases will pass.
+The integrated suite runs both hosted semantic components and then applies the deterministic reliability policy. It currently includes:
+
+1. `strong_primary_realistic` -> expected `MODERATE` because the real source package is strong but still only supplies relevant sections rather than a fully established source-wide assessment.
+2. `secondary_only_support` -> expected `LOW`.
+3. `internal_source_conflict` -> expected `LOW`.
+4. `condition_mismatch_is_limited_not_bad_source` -> expected `MODERATE`.
+5. `related_but_insufficient_primary` -> expected `MODERATE` for the audit conclusion without treating missing/unknown source context as poor quality.
+
+## Reliability Policy v1
+
+```text
+UNRESOLVED
+  when the relation/source/evidence chain cannot be evaluated.
+
+LOW
+  when a hard source-level weakness exists, such as:
+  - secondary-only support
+  - internal source conflict
+  - inappropriate measurement
+
+HIGH
+  only when:
+  - relation is clearly relevant and supported/contradicted
+  - subject/outcome/conditions align
+  - source is primary
+  - evidence is direct or explicitly derived
+  - method and reporting are sufficient
+  - measurement -> target link is explicit and appropriate
+  - full-source internal consistency is established
+
+MODERATE
+  for evaluable audits without hard failure when one or more
+  relation/source factors remain partial, limited, or unknown.
+```
 
 ## Architecture
 
@@ -117,7 +140,10 @@ Assertion
        |               Internal Consistency
        +---------+----------+
                  v
-        Reliability Policy   # next integration step
+        Reliability Policy v1
+                 |
+                 v
+          CitationAuditResult
 ```
 
-Not yet implemented: PDF parsing, citation retrieval, cross-paper reproducibility, cross-source consistency, calibrated final reliability policy, traversal policy.
+Not yet implemented: PDF parsing, citation/source retrieval, recursive citation traversal, cross-paper reproducibility, cross-source consistency, and calibrated empirical validation of the reliability policy.

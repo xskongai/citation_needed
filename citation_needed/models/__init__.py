@@ -1,3 +1,4 @@
+from .audit import CitationAuditResult, ReliabilityDecision
 from .assertion import Assertion, ClaimType
 from .citation import CitationPurpose, CitationRelation, FollowPriority, ResolutionStatus
 from .evidence import Evidence, EvidenceState, EvidenceType
@@ -76,4 +77,6 @@ __all__ = [
     "MeasurementMethodStatus",
     "MeasurementTargetLink",
     "MeasurementTraceability",
+    "ReliabilityDecision",
+    "CitationAuditResult",
 ]

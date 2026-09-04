@@ -1,0 +1,23 @@
+{
+  "assertion": {
+    "id": "a_rel_strong",
+    "text": "The 10% MnFe2O4@PANI electrode showed a specific capacitance of 623 F/g at 1 A/g [1].",
+    "normalized_claim": "The 10% MnFe2O4@PANI electrode had a specific capacitance of 623 F/g at 1 A/g",
+    "paper_id": "paper_target",
+    "location": {"page": 2, "section": "Results"},
+    "claim_type": "RESULT",
+    "citation_ids": ["cr_rel_strong"]
+  },
+  "citation_relation": {
+    "id": "cr_rel_strong",
+    "assertion_id": "a_rel_strong",
+    "source_paper_id": "paper_target",
+    "cited_paper_id": "paper_gita_mfo_pani",
+    "reference_number": "1",
+    "citation_context": "The 10% MnFe2O4@PANI electrode showed a specific capacitance of 623 F/g at 1 A/g [1].",
+    "purpose": "SUPPORT",
+    "purpose_reason": "The source is cited for the reported electrochemical result.",
+    "follow_priority": "HIGH",
+    "resolution_status": "RESOLVED"
+  }
+}

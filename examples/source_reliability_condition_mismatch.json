@@ -1,0 +1,19 @@
+{
+  "source_paper_id": "paper_source_condition",
+  "source_title": "Synthetic condition-mismatch test",
+  "source_role": "PRIMARY_STUDY",
+  "context_scope": "RELEVANT_SECTIONS",
+  "evidence_ids": ["e_condition_mismatch"],
+  "context_items": [
+    {
+      "content": "Method X was conducted at 145 °C for 24 hours.",
+      "context_type": "METHOD",
+      "location": {"page": 5, "section": "Methods"}
+    },
+    {
+      "content": "Method X produced nanoparticles with an average particle size of 8 nm when the reaction was conducted at 145 °C for 24 hours.",
+      "context_type": "RESULT",
+      "location": {"page": 6, "section": "Results"}
+    }
+  ]
+}

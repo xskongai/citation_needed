@@ -1,0 +1,58 @@
+{
+  "cases": [
+    {
+      "id": "strong_primary_realistic",
+      "claim": "examples/claim_reliability_strong.json",
+      "evidence": "examples/evidence_reliability_strong.json",
+      "source": "examples/source_reliability_strong.json",
+      "expected": {
+        "relation_support": ["SUPPORTED"],
+        "source_originality": ["PRIMARY"],
+        "reliability": ["MODERATE"]
+      }
+    },
+    {
+      "id": "secondary_only_support",
+      "claim": "examples/claim_secondary.json",
+      "evidence": "examples/evidence_secondary.json",
+      "source": "examples/source_reliability_secondary.json",
+      "expected": {
+        "relation_support": ["SUPPORTED", "PARTIALLY_SUPPORTED"],
+        "source_originality": ["SECONDARY"],
+        "reliability": ["LOW"]
+      }
+    },
+    {
+      "id": "internal_source_conflict",
+      "claim": "examples/claim_reliability_internal_conflict.json",
+      "evidence": "examples/evidence_source_internal_conflict.json",
+      "source": "examples/source_internal_conflict.json",
+      "expected": {
+        "source_consistency": ["CONFLICTED"],
+        "reliability": ["LOW"]
+      }
+    },
+    {
+      "id": "condition_mismatch_is_limited_not_bad_source",
+      "claim": "examples/claim_condition_mismatch.json",
+      "evidence": "examples/evidence_condition_mismatch.json",
+      "source": "examples/source_reliability_condition_mismatch.json",
+      "expected": {
+        "relation_support": ["PARTIALLY_SUPPORTED", "INSUFFICIENT_EVIDENCE"],
+        "condition_match": ["MISMATCH"],
+        "reliability": ["MODERATE"]
+      }
+    },
+    {
+      "id": "related_but_insufficient_primary",
+      "claim": "examples/claim_related_insufficient.json",
+      "evidence": "examples/evidence_related_insufficient.json",
+      "source": "examples/source_reliability_related_insufficient.json",
+      "expected": {
+        "relation_support": ["INSUFFICIENT_EVIDENCE"],
+        "source_originality": ["PRIMARY"],
+        "reliability": ["MODERATE"]
+      }
+    }
+  ]
+}

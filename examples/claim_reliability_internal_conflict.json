@@ -1,0 +1,23 @@
+{
+  "assertion": {
+    "id": "a_rel_conflict",
+    "text": "The nanoparticles had an average diameter of 8 nm [2].",
+    "normalized_claim": "The nanoparticles had an average diameter of 8 nm",
+    "paper_id": "paper_target",
+    "location": {"page": 2, "section": "Results"},
+    "claim_type": "RESULT",
+    "citation_ids": ["cr_internal_conflict"]
+  },
+  "citation_relation": {
+    "id": "cr_internal_conflict",
+    "assertion_id": "a_rel_conflict",
+    "source_paper_id": "paper_target",
+    "cited_paper_id": "paper_conflict",
+    "reference_number": "2",
+    "citation_context": "The nanoparticles had an average diameter of 8 nm [2].",
+    "purpose": "SUPPORT",
+    "purpose_reason": "The citation supports a numerical particle-size result.",
+    "follow_priority": "HIGH",
+    "resolution_status": "RESOLVED"
+  }
+}

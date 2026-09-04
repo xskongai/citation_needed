@@ -1,0 +1,45 @@
+{
+  "source_paper_id": "paper_gita_mfo_pani",
+  "source_title": "Nano-flowered manganese doped ferrite@PANI composite as energy storage electrode material for supercapacitors",
+  "source_role": "PRIMARY_STUDY",
+  "context_scope": "RELEVANT_SECTIONS",
+  "evidence_ids": [
+    "e_rel_strong"
+  ],
+  "context_items": [
+    {
+      "content": "The electrochemical properties were studied using Autolab PGSTAT204 potentiostat for CV and EIS analysis, whereas Arbin battery testing instrument (BT2000, USA) was used for GCD analysis of the MnFe2O4@PANI composite electrode.",
+      "context_type": "METHOD",
+      "location": {
+        "page": 3,
+        "section": "2.2. Characterization"
+      }
+    },
+    {
+      "content": "Chronopotentiometric galvanostatic charge-discharge (GCD) was performed to examine the cycling performance and the electrochemical capacitance of the 10% MnFe2O4@PANI based electrode. The repeated charge-discharge measurement was performed at a constant current density of 1 A/g.",
+      "context_type": "METHOD",
+      "location": {
+        "page": 13,
+        "section": "3.4.2. Cycling performances",
+        "figure": "Fig. 7d"
+      }
+    },
+    {
+      "content": "The 10% MnFe2O4@PANI electrode showed a specific capacitance of 623 F/g using equation (2) with high cyclic stability up to 10,000 cycles.",
+      "context_type": "RESULT",
+      "location": {
+        "page": 13,
+        "section": "3.4.2. Cycling performances",
+        "figure": "Fig. 7d"
+      }
+    },
+    {
+      "content": "The specific capacitance (Cs), energy density (E) and power density (P) for the supercapacitor were calculated using the reported equations.",
+      "context_type": "METHOD",
+      "location": {
+        "page": 13,
+        "section": "3.4.2. Cycling performances"
+      }
+    }
+  ]
+}
