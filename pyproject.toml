@@ -1,7 +1,7 @@
 [project]
 name = "citation-needed"
-version = "0.8.0"
-description = "Traceable citation audit with guarded citation-bearing assertion extraction, relation judgement, source assessment, and reliability policy"
+version = "0.9.0"
+description = "Traceable citation audit with bibliography resolution, guarded extraction, relation judgement, source assessment, and reliability policy"
 requires-python = ">=3.11"
 dependencies = [
   "pydantic>=2.7,<3",

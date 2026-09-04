@@ -1,48 +1,63 @@
-# Citation Needed — Extraction v1.6
+# Citation Needed — Reference Resolution v1.7
 
-v1.6 keeps the validated judgement stack from v1.5 and adds the first upstream stage: **guarded extraction of citation-bearing scientific assertions from parser-neutral structured text**.
+v1.7 keeps the validated v1.6 extraction + judgement stack and adds the next bridge: **resolve an in-text numeric citation to its bibliography entry and establish as much source identity as the supplied bibliography actually supports**.
 
 ```text
-Structured scientific text
-        |
-        v
-Citation-bearing Assertion Extractor v1
-        |
-        +-- Assertion
-        +-- CitationRelation
-        +-- Citation Purpose
-        +-- deterministic Follow Priority
-        |
-        v
-(existing) Relation Judge -> Source Assessor -> Reliability Policy
+Scientific text
+    |
+    v
+Citation-bearing Assertion Extraction        [v1.6]
+    |
+    v
+CitationRelation: reference [17]
+    |
+    v
+Reference Parser + Local Source Resolver      [v1.7]
+    |-- bibliography entry found?
+    |-- DOI / URL present?
+    |-- publication year extracted?
+    |-- canonical cited_paper_id when safe
+    |
+    v
+Evidence Retrieval                            [next]
+    |
+    v
+Relation Judge + Source Assessor + Reliability Policy
 ```
 
-## What v1.6 adds
+## What v1.7 adds
 
-- parser-neutral `StructuredDocument`, `DocumentSection`, and `ReferenceEntry` contracts
-- `ExtractionResult` containing `Assertion[]` + `CitationRelation[]`
-- hosted semantic extraction with structured outputs
-- numeric bracket citation support for `[14]`, `[1,2,3]`, and ranges such as `[10-12,14]`
-- deterministic follow-priority policy:
-  - METHOD / PARAMETER / CONTRADICTION -> HIGH
-  - RESULT / SUPPORT / COMPARISON -> MEDIUM
-  - BACKGROUND / THEORY -> LOW
-- extraction guardrails:
-  - source text must be verbatim from a supplied section
-  - returned reference numbers must be visibly present in that text
-  - section/page provenance is taken from structured input, not invented by the model
-  - cited-paper resolution is deliberately deferred
-  - uncited statements are excluded
-- hosted semantic extraction suite with support, background, method dependency, contradiction, uncited-control, and citation-range cases
+- deterministic numeric bibliography parsing for `[17] ...` and `17. ...`
+- multiline bibliography-entry reconstruction
+- conservative DOI / URL / publication-year extraction
+- `CitationResolution` and `IdentityBasis`
+- explicit resolution states:
+  - `RESOLVED`: bibliography entry found **and** a canonical identifier (DOI / URL, or already-structured title+year metadata) is available
+  - `PARTIALLY_RESOLVED`: bibliography entry found but canonical source identity is not yet established
+  - `UNRESOLVED`: no matching bibliography entry (or ambiguous duplicate)
+  - `SOURCE_UNAVAILABLE`: reserved for a later acquisition stage; not used merely because a reference could not be resolved
+- deterministic `cited_paper_id` generation from canonical identity
+- no LLM guessing of missing titles, DOI, authors, or source identity
+- a seven-case resolution suite, including a real Gita-paper bibliography entry
 
-## Why structured text first?
+Core rule:
 
-PDF parsing is deliberately not coupled to citation reasoning. A later parser only needs to produce `StructuredDocument`; the extraction and judgement layers remain unchanged. This lets us validate citation semantics before introducing PDF-layout noise.
+```text
+Reference entry found != source fully resolved
+UNRESOLVED != source unavailable
+Missing DOI != bad source
+```
+
+## Why local resolution first?
+
+The citation marker `[17]` is only meaningful inside Paper A. Before querying Crossref, OpenAlex, Unpaywall, or a repository, the system must first establish **which bibliography entry Paper A means**. v1.7 makes that mapping deterministic and auditable.
+
+Remote metadata lookup and full-text acquisition are deliberately deferred. This prevents an external search result from silently replacing the source actually cited by the paper.
 
 ## Install
 
 ```bash
-cd citation-needed-v1.6
+cd citation-needed-v1.7
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e .
@@ -56,24 +71,27 @@ export OPENAI_API_KEY="your_key_here"
 pytest -q
 ```
 
-## Run one extraction
+## Run the resolution suite
 
 ```bash
-python scripts/run_extraction.py \
-  --document examples/document_extraction_gita.json \
-  --out data/extraction.json
+python scripts/run_resolution_suite.py \
+  --out data/resolution_report.json
 ```
 
-## Run extraction semantic suite
+The suite covers:
+
+1. DOI-backed canonical resolution
+2. URL-backed canonical resolution
+3. real Gita bibliography entry without DOI -> `PARTIALLY_RESOLVED`
+4. missing bibliography number -> `UNRESOLVED`
+5. multiline bibliography reconstruction
+6. dot-style numeric references (`17.`)
+7. duplicate reference numbers -> `UNRESOLVED` rather than silent selection
+
+## Existing semantic suites
 
 ```bash
-python scripts/run_extraction_suite.py \
-  --out data/extraction_report.json
-```
-
-## Existing suites
-
-```bash
+python scripts/run_extraction_suite.py --out data/extraction_report.json
 python scripts/run_adversarial_suite.py --out data/adversarial_report.json
 python scripts/run_source_suite.py --out data/source_assessment_report.json
 python scripts/run_reliability_suite.py --out data/reliability_report.json
@@ -85,171 +103,29 @@ python scripts/run_reliability_suite.py --out data/reliability_report.json
 StructuredDocument
       |
       v
-Assertion + CitationRelation Extraction
+Assertion + CitationRelation Extraction       DONE
       |
       v
-Source Resolution / Evidence Retrieval     <- next
+Reference / Source Resolution                 DONE (local bibliography identity)
+      |
+      v
+Remote Metadata + Full-text Acquisition       NEXT / NOT DONE
+      |
+      v
+Evidence Retrieval                            NOT DONE
       |
       v
 Evidence + Provenance
       |                 |
       v                 v
-Relation Judge      Source Assessor
+Relation Judge      Source Assessor            DONE
       +--------+--------+
                v
-       Reliability Policy
+       Reliability Policy                      DONE
 ```
 
-Not yet implemented: PDF parsing, bibliography/source resolution, cited-paper retrieval, evidence retrieval, recursive citation traversal, and cross-paper reproducibility/consistency.
+## Important boundary
 
----
+v1.7 does **not** claim that a raw bibliography string uniquely identifies a paper. If the entry has no DOI/URL and no pre-structured title+year metadata, the result remains `PARTIALLY_RESOLVED` rather than inventing a canonical identity.
 
-# Citation Needed — Reliability Policy v1
-
-This version keeps **Relation Judge v1.2** and **Source Assessor v1.4**, then combines them with a deterministic final reliability policy.
-
-```text
-Claim + Evidence -> Relation Judge
-Source context   -> Source Assessor
-                         |
-                         v
-                 Reliability Policy v1
-                         |
-                         v
-               HIGH / MODERATE / LOW / UNRESOLVED
-```
-
-## What v1.5 adds
-
-- `ReliabilityDecision` and `CitationAuditResult`
-- deterministic `decide_reliability(...)` policy
-- no numeric confidence score and no LLM-generated final reliability label
-- explicit `positive_signals`, `caution_signals`, and `blocking_signals`
-- hard guards for:
-  - secondary-only evidence
-  - source-internal conflict
-  - inappropriate measurement
-  - unresolved/unavailable evidence
-- strict HIGH criteria requiring strong primary evidence, explicit measurement traceability, sufficient method/reporting context, and no material source conflict
-- contradiction can still be HIGH reliability when the contradictory evidence itself is strong
-- UNKNOWN remains cautionary/neutral rather than automatically negative
-
-Core rule:
-
-```text
-SUPPORTED != HIGH
-CONTRADICTED != LOW
-UNKNOWN != BAD
-```
-
-The final reliability level means:
-
-> How much should the system trust the resulting claim-evidence audit after combining relation fit and source evidence quality?
-
-It is **not** an LLM confidence score.
-
-## Install
-
-```bash
-cd citation-needed-v1.5
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e .
-pip install pytest
-export OPENAI_API_KEY="your_key_here"
-```
-
-## Run local tests
-
-```bash
-pytest -q
-```
-
-Expected for this package:
-
-```text
-27 passed
-```
-
-These are local schema/policy tests. They do not imply that hosted semantic-model suites will necessarily pass.
-
-## Run Relation Judge suite
-
-```bash
-python scripts/run_adversarial_suite.py \
-  --out data/adversarial_report.json
-```
-
-## Run Source Assessor suite
-
-```bash
-python scripts/run_source_suite.py \
-  --out data/source_assessment_report.json
-```
-
-## Run integrated Reliability suite
-
-```bash
-python scripts/run_reliability_suite.py \
-  --out data/reliability_report.json
-```
-
-The integrated suite runs both hosted semantic components and then applies the deterministic reliability policy. It currently includes:
-
-1. `strong_primary_realistic` -> expected `MODERATE` because the real source package is strong but still only supplies relevant sections rather than a fully established source-wide assessment.
-2. `secondary_only_support` -> expected `LOW`.
-3. `internal_source_conflict` -> expected `LOW`.
-4. `condition_mismatch_is_limited_not_bad_source` -> expected `MODERATE`.
-5. `related_but_insufficient_primary` -> expected `MODERATE` for the audit conclusion without treating missing/unknown source context as poor quality.
-
-## Reliability Policy v1
-
-```text
-UNRESOLVED
-  when the relation/source/evidence chain cannot be evaluated.
-
-LOW
-  when a hard source-level weakness exists, such as:
-  - secondary-only support
-  - internal source conflict
-  - inappropriate measurement
-
-HIGH
-  only when:
-  - relation is clearly relevant and supported/contradicted
-  - subject/outcome/conditions align
-  - source is primary
-  - evidence is direct or explicitly derived
-  - method and reporting are sufficient
-  - measurement -> target link is explicit and appropriate
-  - full-source internal consistency is established
-
-MODERATE
-  for evaluable audits without hard failure when one or more
-  relation/source factors remain partial, limited, or unknown.
-```
-
-## Architecture
-
-```text
-Assertion
-  -> Citation Relation
-  -> Evidence + Provenance
-       |                    |
-       v                    v
-  Relation Judge       Source Assessor
-       |               Evidence Basis
-       |               Method Coverage
-       |               Measurement Traceability
-       |               Reporting
-       |               Provenance
-       |               Internal Consistency
-       +---------+----------+
-                 v
-        Reliability Policy v1
-                 |
-                 v
-          CitationAuditResult
-```
-
-Not yet implemented: PDF parsing, citation/source retrieval, recursive citation traversal, cross-paper reproducibility, cross-source consistency, and calibrated empirical validation of the reliability policy.
+Next: **remote source metadata resolution + evidence retrieval contract** so the pipeline can move from `Paper A -> [17] -> Paper B -> relevant evidence`.

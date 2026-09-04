@@ -4,6 +4,7 @@ from .citation import CitationPurpose, CitationRelation, FollowPriority, Resolut
 from .evidence import Evidence, EvidenceState, EvidenceType
 from .document import DocumentSection, ReferenceEntry, StructuredDocument
 from .extraction import ExtractionResult
+from .resolution import CitationResolution, IdentityBasis
 from .judgement import (
     AlignmentAssessment,
     CharacterisationQuality,
@@ -52,6 +53,8 @@ __all__ = [
     "ReferenceEntry",
     "StructuredDocument",
     "ExtractionResult",
+    "CitationResolution",
+    "IdentityBasis",
     "Judgement",
     "RelevanceJudgement",
     "SupportJudgement",

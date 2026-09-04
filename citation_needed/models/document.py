@@ -22,7 +22,11 @@ class ReferenceEntry(BaseModel):
     reference_number: str = Field(min_length=1)
     raw_text: str = Field(min_length=1)
     title: str | None = None
+    authors: list[str] = Field(default_factory=list)
+    year: int | None = Field(default=None, ge=1800, le=2200)
+    venue: str | None = None
     doi: str | None = None
+    url: str | None = None
 
 
 class StructuredDocument(BaseModel):

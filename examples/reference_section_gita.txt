@@ -1,0 +1,4 @@
+References
+[13] V. Augustyn, P. Simon, B. Dunn, Pseudocapacitive oxide materials for high-rate electrochemical energy storage, Energy Environ. Sci. 7 (2014) 1597–1614.
+[14] S. Liu, L. Hu, X. Xu, A.A. Al-ghamdi, X. Fang, Nickel Cobaltite Nanostructures for Photoelectric and Catalytic Applications, Small. 11 (2015) 4267–4283.
+[17] K.V. Sankar, R.K. Selvan, The preparation of MnFe2O4 decorated flexible graphene wrapped with PANI and its electrochemical performances for hybrid supercapacitors, RSC Adv. 4 (2014) 17555–17566.

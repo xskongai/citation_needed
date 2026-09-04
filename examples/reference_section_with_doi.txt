@@ -1,0 +1,2 @@
+[1] A. Example, A canonical source, Journal of Tests 12 (2020) 1-10. https://doi.org/10.1234/TEST.2020.001
+[2] B. Example, A source with a URL only, Example Journal 5 (2021) 20-30. https://example.org/papers/2

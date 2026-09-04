@@ -26,6 +26,7 @@ class FollowPriority(str, Enum):
 
 class ResolutionStatus(str, Enum):
     RESOLVED = "RESOLVED"
+    PARTIALLY_RESOLVED = "PARTIALLY_RESOLVED"
     UNRESOLVED = "UNRESOLVED"
     SOURCE_UNAVAILABLE = "SOURCE_UNAVAILABLE"
 

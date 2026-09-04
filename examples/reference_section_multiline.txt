@@ -1,0 +1,4 @@
+[10] A. Author, A long title that continues
+     across a second physical line, Journal X 4 (2018) 1-9.
+[11] B. Author, Another paper,
+     Journal Y 7 (2019) 10-20.

@@ -1,0 +1,56 @@
+[
+  {
+    "name": "canonical_doi_resolution",
+    "reference_section": "examples/reference_section_with_doi.txt",
+    "reference_number": "1",
+    "expected_status": "RESOLVED",
+    "expected_basis": "DOI",
+    "expected_doi": "10.1234/TEST.2020.001"
+  },
+  {
+    "name": "url_resolution",
+    "reference_section": "examples/reference_section_with_doi.txt",
+    "reference_number": "2",
+    "expected_status": "RESOLVED",
+    "expected_basis": "URL"
+  },
+  {
+    "name": "gita_reference_without_identifier",
+    "reference_section": "examples/reference_section_gita.txt",
+    "reference_number": "17",
+    "expected_status": "PARTIALLY_RESOLVED",
+    "expected_basis": "RAW_REFERENCE",
+    "expected_year": 2014
+  },
+  {
+    "name": "missing_reference_number",
+    "reference_section": "examples/reference_section_gita.txt",
+    "reference_number": "99",
+    "expected_status": "UNRESOLVED",
+    "expected_basis": "UNKNOWN"
+  },
+  {
+    "name": "multiline_reference_entry",
+    "reference_section": "examples/reference_section_multiline.txt",
+    "reference_number": "10",
+    "expected_status": "PARTIALLY_RESOLVED",
+    "expected_basis": "RAW_REFERENCE",
+    "expected_year": 2018,
+    "raw_contains": "across a second physical line"
+  },
+  {
+    "name": "dot_style_numeric_reference",
+    "reference_section": "examples/reference_section_dot_style.txt",
+    "reference_number": "2",
+    "expected_status": "PARTIALLY_RESOLVED",
+    "expected_basis": "RAW_REFERENCE",
+    "expected_year": 2018
+  },
+  {
+    "name": "duplicate_reference_number_is_ambiguous",
+    "reference_section": "examples/reference_section_duplicate.txt",
+    "reference_number": "5",
+    "expected_status": "UNRESOLVED",
+    "expected_basis": "UNKNOWN"
+  }
+]
