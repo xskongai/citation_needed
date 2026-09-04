@@ -19,6 +19,11 @@ from .judgement import (
     SupportJudgement,
 )
 from .source import Provenance, SourceLocation, SourceRole
+from .source_assessment import (
+    InternalConsistency, MeasurementAppropriateness, SourceAssessment, SourceAssessmentInput,
+    SourceAssessmentRationale, SourceContextItem, SourceContextScope, SourceContextType,
+    SourceEvidenceDirectness,
+)
 
 __all__ = [
     "Assertion",
@@ -48,4 +53,13 @@ __all__ = [
     "Provenance",
     "SourceLocation",
     "SourceRole",
+    "SourceAssessment",
+    "SourceAssessmentInput",
+    "SourceAssessmentRationale",
+    "SourceContextItem",
+    "SourceContextScope",
+    "SourceContextType",
+    "SourceEvidenceDirectness",
+    "MeasurementAppropriateness",
+    "InternalConsistency",
 ]

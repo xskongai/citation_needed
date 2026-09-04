@@ -1,187 +1,80 @@
-# Citation Needed — Judge v1.2
+# Citation Needed — Relation Judge v1.2 + Source Assessor v0
 
-From-scratch scaffold for a **traceable scientific claim–citation–evidence judgement pipeline**.
-
-Current core:
+This version keeps the v1.2 relation judge and adds a separate source-level evidence assessor.
 
 ```text
-Assertion
-  -> CitationRelation
-  -> Evidence + Provenance
-  -> Relation Judge
-       -> Relevance
-       -> Support
-       -> Claim-component coverage
-       -> Subject / Outcome / Condition alignment
-  -> Reliability factors
-  -> deterministic reliability policy
+Claim + Evidence -> Relation Judge
+Evidence-bearing source context -> Source Assessor
 ```
 
-## What changed in v1.2
+The Source Assessor emits: evidence directness, method completeness, measurement appropriateness, reporting completeness, source originality, and internal consistency.
 
-### 1. Claim decomposition
-
-A partially supported claim is no longer just one label. The hosted judge decomposes it into decision-relevant propositions:
+A key guard is `context_scope`:
 
 ```text
-Claim: Method X reliably produces <10 nm particles across reaction conditions.
-
-P1: Method X produced <10 nm particles.       -> SUPPORTED
-P2: The result is reliable.                   -> INSUFFICIENT_EVIDENCE
-P3: It holds across reaction conditions.      -> INSUFFICIENT_EVIDENCE
-
-Overall -> PARTIALLY_SUPPORTED
+EXCERPT_ONLY
+RELEVANT_SECTIONS
+FULL_SOURCE
 ```
 
-The output includes `claim_components`, and convenience projections remain available as `supported_components`, `unsupported_components`, and `contradicted_components`.
+Missing source context is not treated as negative evidence. In particular, an excerpt that omits the method does **not** imply that the paper has an incomplete method.
 
-### 2. Structured context alignment
-
-The old coarse `context_match` is split into:
-
-```text
-alignment
-  subject_match
-  outcome_match
-  condition_match
-  condition_mismatches[]
-```
-
-For the adversarial condition case:
-
-```text
-Claim:    8 nm at room temperature
-Evidence: 8 nm at 145 C
-
-subject_match   = MATCH
-outcome_match   = MATCH
-condition_match = MISMATCH
-```
-
-For backwards compatibility, `reliability_factors.context_match` is still emitted, but code derives it from the richer alignment. A condition-only mismatch therefore produces `PARTIAL_MATCH` overall rather than hiding the actual temperature mismatch.
-
-### 3. System-owned facts stay outside LLM judgement
-
-`source_originality` is derived from provenance metadata (`PRIMARY_STUDY`, `SECONDARY_SOURCE`, `UNKNOWN`) rather than guessed from prose. The final reliability category is also aggregated by transparent application policy rather than directly chosen by the model.
+`source_originality` is derived from provenance rather than guessed by the model.
 
 ## Install
 
-Requires Python 3.11+.
-
 ```bash
-cd citation-needed-v1.2
+cd citation-needed-v1.3
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e .
 pip install pytest
-```
-
-Set your API key:
-
-```bash
 export OPENAI_API_KEY="your_key_here"
 ```
 
-Optional default model override:
-
-```bash
-export CITATION_NEEDED_MODEL="gpt-5.6-terra"
-```
-
-## Run one judgement
-
-Hosted semantic judge:
-
-```bash
-python scripts/run_judgement.py \
-  --backend openai \
-  --claim examples/claim.json \
-  --evidence examples/evidence.json
-```
-
-Overclaim case:
-
-```bash
-python scripts/run_judgement.py \
-  --backend openai \
-  --claim examples/claim_overreach.json \
-  --evidence examples/evidence_overreach.json
-```
-
-A deterministic local smoke-test backend is still retained for schema/plumbing tests:
-
-```bash
-python scripts/run_judgement.py \
-  --claim examples/claim.json \
-  --evidence examples/evidence.json
-```
-
-## Run adversarial semantic suite
-
-```bash
-python scripts/run_adversarial_suite.py \
-  --out data/adversarial_report.json
-```
-
-The five cases currently test:
-
-- claim overreach / scope expansion
-- direct contradiction
-- related but insufficient evidence
-- secondary-source provenance
-- experimental-condition mismatch
-
-The v1.2 suite specifically checks that the condition-mismatch example reports:
-
-```text
-subject_match   = MATCH
-outcome_match   = MATCH
-condition_match = MISMATCH
-context_match   = PARTIAL_MATCH   # derived compatibility field
-```
-
-It also checks whether claim decomposition contains the expected support states.
-
-## Run unit tests
+## Run local tests
 
 ```bash
 pytest -q
 ```
 
-Expected for the packaged version:
+## Run one source assessment
 
-```text
-11 passed
+```bash
+python scripts/run_source_assessment.py \
+  --source examples/source_strong.json \
+  --evidence examples/evidence_source_strong.json
 ```
 
-## Design invariants
+## Run Source Assessor semantic suite
 
-1. Original assertion text and normalized claim are separate.
-2. Citation purpose is explicit.
-3. Every evidence item carries provenance.
-4. Reported information and AI inference are distinct epistemic states.
-5. Relevance, support, and reliability are different questions.
-6. Unknown is not treated as negative evidence.
-7. Source-level quality is not inferred merely because an excerpt is incomplete.
-8. Condition mismatches stay explicit rather than disappearing into an overall context label.
-9. Reliability is derived from explicit factors, not an unexplained confidence score.
-10. Every judgement remains traceable back to evidence and source location.
-
-## Next boundary
-
-v1.2 is still primarily a **relation-level judge**. It does not yet constitute a full source-quality or cross-paper reliability assessment. The next distinct layers are intentionally separate:
-
-```text
-Full source context
-  -> Source Assessor
-     method completeness
-     characterization quality
-     reporting clarity
-
-Multiple independent papers
-  -> Cross-source Assessor
-     reproducibility
-     cross-source consistency
+```bash
+python scripts/run_source_suite.py \
+  --out data/source_assessment_report.json
 ```
 
-Do not collapse those into the relation judge just because an LLM can emit the fields.
+Cases:
+
+1. `strong_primary_relevant_sections` — adapted from the supplied MFO-PANI paper.
+2. `excerpt_does_not_imply_bad_source` — tests UNKNOWN-vs-negative discipline.
+3. `secondary_report` — tests provenance-owned secondary status.
+4. `internal_numeric_conflict` — synthetic stress test with 8 nm vs 18 nm for the same sample.
+
+The hosted suite is an evaluation; local unit tests do not imply the hosted semantic cases will pass.
+
+## Architecture
+
+```text
+Assertion
+  -> Citation Relation
+  -> Evidence + Provenance
+       |                    |
+       v                    v
+  Relation Judge       Source Assessor
+       |                    |
+       +---------+----------+
+                 v
+        Reliability Policy   # next integration step
+```
+
+Not yet implemented: PDF parsing, citation retrieval, cross-paper reproducibility, cross-source consistency, calibrated final reliability scoring, traversal policy.

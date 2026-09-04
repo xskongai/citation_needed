@@ -11,16 +11,23 @@
         "support": [
           "PARTIALLY_SUPPORTED"
         ],
-        "context_match": [
-          "PARTIAL_MATCH",
-          "MISMATCH"
+        "subject_match": [
+          "MATCH"
+        ],
+        "outcome_match": [
+          "MATCH"
         ],
         "source_originality": [
           "PRIMARY"
+        ],
+        "min_claim_components": 2,
+        "must_include_component_statuses": [
+          "SUPPORTED",
+          "INSUFFICIENT_EVIDENCE"
         ]
       },
       "result": {
-        "id": "j_4984b4c946",
+        "id": "j_e2f3c25cfa",
         "assertion_id": "a_overreach",
         "citation_relation_id": "cr_overreach",
         "evidence_ids": [
@@ -29,6 +36,28 @@
         "relevance": "RELEVANT",
         "support": "PARTIALLY_SUPPORTED",
         "reliability": "MODERATE",
+        "alignment": {
+          "subject_match": "MATCH",
+          "outcome_match": "MATCH",
+          "condition_match": "PARTIAL_MATCH",
+          "condition_mismatches": [
+            "Claim: performance reliably across reaction conditions; evidence: average size reported under a single synthesis condition only.",
+            "Claim implies reliability/generalizability; evidence reports no independent replication. "
+          ],
+          "rationale": "The material and particle-size outcome align, but the evidence does not span the claim's across-conditions reliability scope."
+        },
+        "claim_components": [
+          {
+            "component": "Under the reported synthesis condition, the method produces MnFe2O4 particles below 10 nm.",
+            "status": "SUPPORTED",
+            "rationale": "The supplied result reports an average particle size of 8 nm under one reported synthesis condition."
+          },
+          {
+            "component": "The method reliably produces MnFe2O4 particles below 10 nm across reaction conditions.",
+            "status": "INSUFFICIENT_EVIDENCE",
+            "rationale": "The evidence explicitly covers only a single condition and reports no tests across other reaction conditions or independent replication."
+          }
+        ],
         "reliability_factors": {
           "evidence_directness": "DIRECT",
           "source_originality": "PRIMARY",
@@ -39,32 +68,32 @@
           "reporting_clarity": "CLEAR"
         },
         "factor_rationale": {
-          "evidence_directness": "The evidence directly reports particle size for the synthesis method under one condition.",
+          "evidence_directness": "The result directly reports particle size for the stated synthesis condition.",
           "source_originality": "Provenance metadata marks the supplied evidence source as a primary study.",
-          "method_completeness": "The supplied excerpt does not provide enough information to assess source-level method reporting.",
-          "characterization_quality": "No particle-sizing method or characterization details are supplied.",
-          "context_match": "The claim spans reaction conditions and reliability, whereas the evidence covers only one reported condition.",
-          "reproducibility_evidence": "Independent replication is not reported; this does not establish that it is absent.",
-          "reporting_clarity": "The excerpt clearly states the 8 nm average and the single-condition scope."
+          "method_completeness": "The supplied excerpt does not permit assessment of source-level method reporting completeness.",
+          "characterization_quality": "No characterization method or underlying size-distribution data are supplied.",
+          "context_match": "Derived from subject/outcome/condition alignment: subject=MATCH, outcome=MATCH, condition=PARTIAL_MATCH.",
+          "reproducibility_evidence": "No independent replication is reported; the supplied material does not establish whether replication evidence is absent from the broader source.",
+          "reporting_clarity": "The excerpt clearly states the 8 nm result and that only one condition was reported."
         },
         "supported_components": [
-          "Under one reported synthesis condition, MnFe2O4 had a reported average particle size of 8 nm, which is below 10 nm."
+          "Under the reported synthesis condition, the method produces MnFe2O4 particles below 10 nm."
         ],
         "unsupported_components": [
-          "That the method reliably produces sub-10-nm particles.",
-          "That sub-10-nm particle sizes are produced across reaction conditions.",
-          "That all individual particles, rather than the reported average size, are below 10 nm."
+          "The method reliably produces MnFe2O4 particles below 10 nm across reaction conditions."
         ],
         "contradicted_components": [],
         "uncertainty": [
-          "The evidence reports an average size, not a particle-size distribution or maximum particle size.",
-          "No evidence is supplied for robustness to changes in reaction conditions or independent replication.",
+          "It is not specified whether the reported 8 nm value is a mean, median, or another particle-size statistic beyond being described as an average.",
+          "The supplied evidence does not establish performance under untested reaction conditions.",
           "Method completeness was not assessed from the supplied material.",
           "Characterization/measurement quality was not assessed from the supplied material.",
-          "Experimental/context match is incomplete, mismatched, or unknown.",
+          "Experimental-condition alignment is incomplete, mismatched, or unknown.",
+          "Condition mismatch: Claim: performance reliably across reaction conditions; evidence: average size reported under a single synthesis condition only.",
+          "Condition mismatch: Claim implies reliability/generalizability; evidence reports no independent replication.",
           "Independent reproducibility evidence is unknown from the supplied material."
         ],
-        "rationale": "The reported 8 nm average supports a sub-10-nm average under one specific condition. It does not establish reliable production across reaction conditions, so the general claim is only partially supported.",
+        "rationale": "The citation supports a below-10-nm average particle size at one reported condition, but it does not establish reliable production across reaction conditions. The generalization is therefore only partially supported.",
         "judgement_status": "COMPLETE",
         "judge_backend": "openai-responses",
         "judge_model": "gpt-5.6-terra"
@@ -81,12 +110,21 @@
         "support": [
           "CONTRADICTED"
         ],
+        "subject_match": [
+          "MATCH"
+        ],
+        "outcome_match": [
+          "MATCH"
+        ],
         "source_originality": [
           "PRIMARY"
+        ],
+        "must_include_component_statuses": [
+          "CONTRADICTED"
         ]
       },
       "result": {
-        "id": "j_ac82e4615d",
+        "id": "j_554b9e3b4b",
         "assertion_id": "a_contradiction",
         "citation_relation_id": "cr_contradiction",
         "evidence_ids": [
@@ -95,6 +133,30 @@
         "relevance": "RELEVANT",
         "support": "CONTRADICTED",
         "reliability": "MODERATE",
+        "alignment": {
+          "subject_match": "MATCH",
+          "outcome_match": "MATCH",
+          "condition_match": "MATCH",
+          "condition_mismatches": [],
+          "rationale": "Both the claim and evidence concern MnFe2O4 addition and average particle size, under the stated before/after intervention context. The reported direction and values are opposite."
+        },
+        "claim_components": [
+          {
+            "component": "MnFe2O4 is added to the system.",
+            "status": "SUPPORTED",
+            "rationale": "The evidence explicitly describes measurements after MnFe2O4 addition."
+          },
+          {
+            "component": "Adding MnFe2O4 decreases the average particle size.",
+            "status": "CONTRADICTED",
+            "rationale": "The evidence reports an increase in measured average particle size after MnFe2O4 addition."
+          },
+          {
+            "component": "The average particle size changes from 14 nm to 8 nm.",
+            "status": "CONTRADICTED",
+            "rationale": "The evidence reports the reverse numerical change, from 8 nm to 14 nm."
+          }
+        ],
         "reliability_factors": {
           "evidence_directness": "DIRECT",
           "source_originality": "PRIMARY",
@@ -105,26 +167,29 @@
           "reporting_clarity": "CLEAR"
         },
         "factor_rationale": {
-          "evidence_directness": "The reported result directly addresses particle-size change following MnFe2O4 addition.",
+          "evidence_directness": "The evidence directly reports the particle-size result following MnFe2O4 addition.",
           "source_originality": "Provenance metadata marks the supplied evidence source as a primary study.",
-          "method_completeness": "No source-level methodological detail is supplied.",
-          "characterization_quality": "The particle-size measurement method and supporting characterization data are not supplied.",
-          "context_match": "The intervention and outcome match the assertion's stated context.",
+          "method_completeness": "No source-level methodological detail is supplied beyond the reported result.",
+          "characterization_quality": "The measurement method and characterization details are not supplied.",
+          "context_match": "Derived from subject/outcome/condition alignment: subject=MATCH, outcome=MATCH, condition=MATCH.",
           "reproducibility_evidence": "No independent replication information is supplied.",
-          "reporting_clarity": "The excerpt clearly reports the intervention, direction, and numerical sizes."
+          "reporting_clarity": "The reported before/after values and direction are explicit."
         },
-        "supported_components": [],
+        "supported_components": [
+          "MnFe2O4 is added to the system."
+        ],
         "unsupported_components": [],
         "contradicted_components": [
-          "The direction of the particle-size change: the claim states a decrease, whereas the evidence reports an increase after MnFe2O4 addition.",
-          "The stated before/after values: the claim gives 14 nm to 8 nm, whereas the evidence gives 8 nm to 14 nm."
+          "Adding MnFe2O4 decreases the average particle size.",
+          "The average particle size changes from 14 nm to 8 nm."
         ],
         "uncertainty": [
+          "The supplied excerpt does not provide particle-size measurement methods or broader experimental conditions.",
           "Method completeness was not assessed from the supplied material.",
           "Characterization/measurement quality was not assessed from the supplied material.",
           "Independent reproducibility evidence is unknown from the supplied material."
         ],
-        "rationale": "The evidence is directly relevant but materially opposes the assertion: it reports that MnFe2O4 addition increased average particle size from 8 nm to 14 nm, the reverse of the claimed decrease from 14 nm to 8 nm.",
+        "rationale": "The evidence is directly relevant but materially opposes the claim: it reports that MnFe2O4 addition increased average particle size from 8 nm to 14 nm, rather than decreasing it from 14 nm to 8 nm.",
         "judgement_status": "COMPLETE",
         "judge_backend": "openai-responses",
         "judge_model": "gpt-5.6-terra"
@@ -144,10 +209,13 @@
         ],
         "source_originality": [
           "PRIMARY"
+        ],
+        "must_include_component_statuses": [
+          "INSUFFICIENT_EVIDENCE"
         ]
       },
       "result": {
-        "id": "j_25da4bbd8f",
+        "id": "j_a45477f4a6",
         "assertion_id": "a_related_insufficient",
         "citation_relation_id": "cr_related_insufficient",
         "evidence_ids": [
@@ -155,40 +223,64 @@
         ],
         "relevance": "PARTIALLY_RELEVANT",
         "support": "INSUFFICIENT_EVIDENCE",
-        "reliability": "MODERATE",
+        "reliability": "LOW",
+        "alignment": {
+          "subject_match": "PARTIAL_MATCH",
+          "outcome_match": "MISMATCH",
+          "condition_match": "UNKNOWN",
+          "condition_mismatches": [],
+          "rationale": "The evidence concerns a composite with MnFe2O4 addition, but no composition details establish it is the same composite. Its measured outcome is specific capacitance rather than electrical conductivity; experimental conditions are not supplied."
+        },
+        "claim_components": [
+          {
+            "component": "MnFe2O4 is added to the composite.",
+            "status": "SUPPORTED",
+            "rationale": "The supplied result explicitly states that MnFe2O4 was added."
+          },
+          {
+            "component": "Adding MnFe2O4 improves the composite's electrical conductivity.",
+            "status": "INSUFFICIENT_EVIDENCE",
+            "rationale": "The supplied result reports a 20% increase in specific capacitance and explicitly states that electrical conductivity was not measured."
+          }
+        ],
         "reliability_factors": {
           "evidence_directness": "INDIRECT",
           "source_originality": "PRIMARY",
           "method_completeness": "UNKNOWN",
           "characterization_quality": "UNKNOWN",
-          "context_match": "PARTIAL_MATCH",
+          "context_match": "MISMATCH",
           "reproducibility_evidence": "UNKNOWN",
           "reporting_clarity": "CLEAR"
         },
         "factor_rationale": {
-          "evidence_directness": "The reported result measures specific capacitance, not electrical conductivity.",
+          "evidence_directness": "The result concerns a related electrochemical outcome, not conductivity itself.",
           "source_originality": "Provenance metadata marks the supplied evidence source as a primary study.",
-          "method_completeness": "The supplied excerpt does not permit assessment of source-level method reporting.",
-          "characterization_quality": "No conductivity measurement or associated characterization is supplied.",
-          "context_match": "The evidence concerns MnFe2O4 addition to a composite, but evaluates a different property.",
+          "method_completeness": "No source-level method details are supplied.",
+          "characterization_quality": "No conductivity characterization or measurement data are supplied.",
+          "context_match": "Derived from subject/outcome/condition alignment: subject=PARTIAL_MATCH, outcome=MISMATCH, condition=UNKNOWN.",
           "reproducibility_evidence": "No independent replication information is supplied.",
-          "reporting_clarity": "The excerpt clearly states the measured capacitance change and that conductivity was not measured."
+          "reporting_clarity": "The excerpt clearly reports capacitance improvement and explicitly notes that conductivity was not measured."
         },
-        "supported_components": [],
+        "supported_components": [
+          "MnFe2O4 is added to the composite."
+        ],
         "unsupported_components": [
           "Adding MnFe2O4 improves the composite's electrical conductivity."
         ],
         "contradicted_components": [],
         "uncertainty": [
-          "The composite composition and experimental conditions are not specified in the supplied evidence.",
-          "No electrical-conductivity data are supplied.",
+          "The composition and identity of the evidence composite relative to the claimed composite are not specified.",
+          "No electrical-conductivity measurement, value, or direction of conductivity change is supplied.",
+          "Experimental conditions are not supplied.",
           "Evidence is not clearly direct support for the evaluated claim.",
           "Method completeness was not assessed from the supplied material.",
           "Characterization/measurement quality was not assessed from the supplied material.",
-          "Experimental/context match is incomplete, mismatched, or unknown.",
+          "Claim/evidence subject alignment is incomplete, mismatched, or unknown.",
+          "Claim/evidence outcome alignment is incomplete, mismatched, or unknown.",
+          "Experimental-condition alignment is incomplete, mismatched, or unknown.",
           "Independent reproducibility evidence is unknown from the supplied material."
         ],
-        "rationale": "The evidence reports a 20% increase in specific capacitance after MnFe2O4 addition, which is related to composite electrochemical performance but does not establish an improvement in electrical conductivity. It neither supports nor contradicts the conductivity claim.",
+        "rationale": "The evidence supports only that MnFe2O4 was added and that specific capacitance increased by 20%. Because electrical conductivity was not measured, it does not establish the asserted conductivity improvement.",
         "judgement_status": "COMPLETE",
         "judge_backend": "openai-responses",
         "judge_model": "gpt-5.6-terra"
@@ -208,10 +300,16 @@
         ],
         "source_originality": [
           "SECONDARY"
+        ],
+        "subject_match": [
+          "MATCH"
+        ],
+        "outcome_match": [
+          "MATCH"
         ]
       },
       "result": {
-        "id": "j_a4eb87afe0",
+        "id": "j_9534289241",
         "assertion_id": "a_secondary",
         "citation_relation_id": "cr_secondary",
         "evidence_ids": [
@@ -219,41 +317,60 @@
         ],
         "relevance": "RELEVANT",
         "support": "SUPPORTED",
-        "reliability": "MODERATE",
+        "reliability": "LOW",
+        "alignment": {
+          "subject_match": "MATCH",
+          "outcome_match": "MATCH",
+          "condition_match": "UNKNOWN",
+          "condition_mismatches": [],
+          "rationale": "The review explicitly attributes production by Method X and an 8 nm average particle size. No experimental conditions are stated in either the claim or evidence."
+        },
+        "claim_components": [
+          {
+            "component": "Method X produces nanoparticles",
+            "status": "SUPPORTED",
+            "rationale": "The supplied review text reports that Method X produced nanoparticles."
+          },
+          {
+            "component": "The nanoparticles have an average particle size of 8 nm",
+            "status": "SUPPORTED",
+            "rationale": "The supplied review text explicitly reports an average particle size of 8 nm."
+          }
+        ],
         "reliability_factors": {
           "evidence_directness": "INDIRECT",
           "source_originality": "SECONDARY",
           "method_completeness": "UNKNOWN",
           "characterization_quality": "UNKNOWN",
-          "context_match": "MATCH",
+          "context_match": "PARTIAL_MATCH",
           "reproducibility_evidence": "UNKNOWN",
           "reporting_clarity": "CLEAR"
         },
         "factor_rationale": {
-          "evidence_directness": "The review reports the result attributed to Smith et al.; no original study data are supplied.",
+          "evidence_directness": "The evidence is a review's report of Smith et al., rather than the original study data.",
           "source_originality": "Provenance metadata marks the supplied evidence source as secondary.",
-          "method_completeness": "No source-level experimental-method detail is supplied for assessment.",
-          "characterization_quality": "No particle-sizing method, data, or characterization details are supplied.",
-          "context_match": "The evidence explicitly concerns Method X, nanoparticles, and an average size of 8 nm.",
-          "reproducibility_evidence": "The supplied material neither provides nor rules out independent replication.",
-          "reporting_clarity": "The reported method, material, metric, and numerical size are stated explicitly."
+          "method_completeness": "No source-level methodological detail is supplied.",
+          "characterization_quality": "No particle-size measurement method or characterization data is supplied.",
+          "context_match": "Derived from subject/outcome/condition alignment: subject=MATCH, outcome=MATCH, condition=UNKNOWN.",
+          "reproducibility_evidence": "No independent replication information is supplied.",
+          "reporting_clarity": "The review statement clearly reports Method X and the 8 nm average size."
         },
         "supported_components": [
-          "Method X is reported to produce nanoparticles.",
-          "The reported average particle size is 8 nm."
+          "Method X produces nanoparticles",
+          "The nanoparticles have an average particle size of 8 nm"
         ],
         "unsupported_components": [],
         "contradicted_components": [],
         "uncertainty": [
-          "Support rests on a secondary source's report rather than supplied primary-study evidence.",
-          "The nanoparticle type, synthesis conditions, and particle-size measurement method are not specified.",
+          "The evidence is secondary and does not provide the original study's measurement method, conditions, or underlying size data.",
           "Evidence is not clearly direct support for the evaluated claim.",
           "The supplied evidence is secondary; the original source should be followed where possible.",
           "Method completeness was not assessed from the supplied material.",
           "Characterization/measurement quality was not assessed from the supplied material.",
+          "Experimental-condition alignment is incomplete, mismatched, or unknown.",
           "Independent reproducibility evidence is unknown from the supplied material."
         ],
-        "rationale": "The cited review explicitly reports that Method X produced nanoparticles with an average particle size of 8 nm, matching the asserted result. It supports the claim as stated, though indirectly through a secondary source.",
+        "rationale": "The supplied secondary source explicitly reports both elements of the claim: that Method X produced nanoparticles and that their average particle size was 8 nm. It supports the assertion as reported, though indirectly rather than through primary evidence.",
         "judgement_status": "COMPLETE",
         "judge_backend": "openai-responses",
         "judge_model": "gpt-5.6-terra"
@@ -261,10 +378,8 @@
     },
     {
       "case": "condition_mismatch",
-      "passed": false,
-      "failures": [
-        "context_match: got 'PARTIAL_MATCH', expected one of ['MISMATCH']"
-      ],
+      "passed": true,
+      "failures": [],
       "expected": {
         "relevance": [
           "RELEVANT"
@@ -273,15 +388,29 @@
           "PARTIALLY_SUPPORTED",
           "INSUFFICIENT_EVIDENCE"
         ],
-        "context_match": [
+        "subject_match": [
+          "MATCH"
+        ],
+        "outcome_match": [
+          "MATCH"
+        ],
+        "condition_match": [
           "MISMATCH"
+        ],
+        "context_match": [
+          "PARTIAL_MATCH"
         ],
         "source_originality": [
           "PRIMARY"
+        ],
+        "min_claim_components": 2,
+        "must_include_component_statuses": [
+          "SUPPORTED",
+          "INSUFFICIENT_EVIDENCE"
         ]
       },
       "result": {
-        "id": "j_fe813e868d",
+        "id": "j_6f5f9b1444",
         "assertion_id": "a_condition_mismatch",
         "citation_relation_id": "cr_condition_mismatch",
         "evidence_ids": [
@@ -290,6 +419,28 @@
         "relevance": "RELEVANT",
         "support": "PARTIALLY_SUPPORTED",
         "reliability": "MODERATE",
+        "alignment": {
+          "subject_match": "MATCH",
+          "outcome_match": "MATCH",
+          "condition_match": "MISMATCH",
+          "condition_mismatches": [
+            "claim: room temperature; evidence: 145 °C",
+            "claim does not specify reaction duration; evidence: 24 hours"
+          ],
+          "rationale": "The method and particle-size outcome align, but the temperature required by the claim conflicts with the reported 145 °C reaction condition."
+        },
+        "claim_components": [
+          {
+            "component": "Method X produces 8 nm particles.",
+            "status": "SUPPORTED",
+            "rationale": "The reported result states that Method X produced nanoparticles with an average particle size of 8 nm."
+          },
+          {
+            "component": "Method X produces 8 nm particles at room temperature.",
+            "status": "INSUFFICIENT_EVIDENCE",
+            "rationale": "The evidence reports production at 145 °C for 24 hours, not at room temperature."
+          }
+        ],
         "reliability_factors": {
           "evidence_directness": "DIRECT",
           "source_originality": "PRIMARY",
@@ -300,29 +451,32 @@
           "reporting_clarity": "CLEAR"
         },
         "factor_rationale": {
-          "evidence_directness": "The reported result directly addresses Method X, particle size, and reaction temperature.",
+          "evidence_directness": "The source directly reports Method X, particle size, and reaction conditions.",
           "source_originality": "Provenance metadata marks the supplied evidence source as a primary study.",
           "method_completeness": "The supplied excerpt does not permit assessment of source-level method reporting completeness.",
-          "characterization_quality": "An average size is reported, but no measurement or characterization method is supplied.",
-          "context_match": "The particle-size result matches, but the reported reaction temperature is 145 °C rather than room temperature.",
-          "reproducibility_evidence": "No independent replication information is supplied.",
-          "reporting_clarity": "The excerpt clearly states the average size and reaction conditions."
+          "characterization_quality": "The excerpt reports an average particle size but does not provide characterization method or supporting measurement details.",
+          "context_match": "Derived from subject/outcome/condition alignment: subject=MATCH, outcome=MATCH, condition=MISMATCH.",
+          "reproducibility_evidence": "No independent replication evidence is supplied.",
+          "reporting_clarity": "The reported size, temperature, and reaction time are stated clearly."
         },
         "supported_components": [
-          "Method X produced nanoparticles with an average particle size of 8 nm."
+          "Method X produces 8 nm particles."
         ],
         "unsupported_components": [
-          "That the 8 nm particles were produced at room temperature."
+          "Method X produces 8 nm particles at room temperature."
         ],
         "contradicted_components": [],
         "uncertainty": [
-          "The evidence does not establish whether Method X can also produce 8 nm particles at room temperature.",
+          "The evidence does not specify the particle-size characterization method or distribution.",
+          "The claim's room-temperature condition is unsupported by the supplied evidence.",
           "Method completeness was not assessed from the supplied material.",
           "Characterization/measurement quality was not assessed from the supplied material.",
-          "Experimental/context match is incomplete, mismatched, or unknown.",
+          "Experimental-condition alignment is incomplete, mismatched, or unknown.",
+          "Condition mismatch: claim: room temperature; evidence: 145 °C",
+          "Condition mismatch: claim does not specify reaction duration; evidence: 24 hours",
           "Independent reproducibility evidence is unknown from the supplied material."
         ],
-        "rationale": "The evidence directly reports 8 nm average particles from Method X, but only when conducted at 145 °C for 24 hours. It therefore supports the size component but not the room-temperature condition; the differing condition alone does not show that room-temperature production is impossible.",
+        "rationale": "The evidence supports the 8 nm particle-size result for Method X, but only under a 145 °C, 24-hour reaction. It therefore does not establish the room-temperature claim.",
         "judgement_status": "COMPLETE",
         "judge_backend": "openai-responses",
         "judge_model": "gpt-5.6-terra"
