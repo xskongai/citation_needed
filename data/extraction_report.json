@@ -1,0 +1,290 @@
+[
+  {
+    "case": "gita_background_and_support",
+    "passed": true,
+    "issues": [],
+    "result": {
+      "paper_id": "gita_mfo_pani",
+      "assertions": [
+        {
+          "id": "a_c3eec90d33",
+          "text": "Currently, there are eight most promising and emerging energy storage technologies viz. compressed air energy systems, flywheels, flow batteries, superconducting magnets, pumped hydropower, sodium-sulphur batteries, lithium-ion batteries and supercapacitors [1,2,3].",
+          "normalized_claim": "Compressed air energy systems, flywheels, flow batteries, superconducting magnets, pumped hydropower, sodium-sulphur batteries, lithium-ion batteries, and supercapacitors are promising and emerging energy storage technologies.",
+          "paper_id": "gita_mfo_pani",
+          "location": {
+            "page": 1,
+            "section": "Introduction",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "claim_type": "GENERAL",
+          "citation_ids": [
+            "cr_00dc26c3a4",
+            "cr_be55f63b02",
+            "cr_e16cd62abd"
+          ]
+        },
+        {
+          "id": "a_a12946920a",
+          "text": "Bimetallic oxides and metal ferrites (MxFe2O4, where M = Mn, Zn, Co, Ni, etc.) are also considered as a promising candidate due to their higher electric conductivity and electrochemical activity due to the presence of multiple valence cations [14].",
+          "normalized_claim": "Bimetallic oxides and metal ferrites are promising candidates because multiple valence cations provide higher electrical conductivity and electrochemical activity.",
+          "paper_id": "gita_mfo_pani",
+          "location": {
+            "page": 2,
+            "section": "Introduction",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "claim_type": "CAUSAL",
+          "citation_ids": [
+            "cr_8b91779fd1"
+          ]
+        }
+      ],
+      "citation_relations": [
+        {
+          "id": "cr_00dc26c3a4",
+          "assertion_id": "a_c3eec90d33",
+          "source_paper_id": "gita_mfo_pani",
+          "cited_paper_id": null,
+          "reference_number": "1",
+          "citation_context": "Currently, there are eight most promising and emerging energy storage technologies viz. compressed air energy systems, flywheels, flow batteries, superconducting magnets, pumped hydropower, sodium-sulphur batteries, lithium-ion batteries and supercapacitors [1,2,3].",
+          "purpose": "BACKGROUND",
+          "purpose_reason": "Supports the introductory technology overview.",
+          "follow_priority": "LOW",
+          "resolution_status": "UNRESOLVED"
+        },
+        {
+          "id": "cr_be55f63b02",
+          "assertion_id": "a_c3eec90d33",
+          "source_paper_id": "gita_mfo_pani",
+          "cited_paper_id": null,
+          "reference_number": "2",
+          "citation_context": "Currently, there are eight most promising and emerging energy storage technologies viz. compressed air energy systems, flywheels, flow batteries, superconducting magnets, pumped hydropower, sodium-sulphur batteries, lithium-ion batteries and supercapacitors [1,2,3].",
+          "purpose": "BACKGROUND",
+          "purpose_reason": "Supports the introductory technology overview.",
+          "follow_priority": "LOW",
+          "resolution_status": "UNRESOLVED"
+        },
+        {
+          "id": "cr_e16cd62abd",
+          "assertion_id": "a_c3eec90d33",
+          "source_paper_id": "gita_mfo_pani",
+          "cited_paper_id": null,
+          "reference_number": "3",
+          "citation_context": "Currently, there are eight most promising and emerging energy storage technologies viz. compressed air energy systems, flywheels, flow batteries, superconducting magnets, pumped hydropower, sodium-sulphur batteries, lithium-ion batteries and supercapacitors [1,2,3].",
+          "purpose": "BACKGROUND",
+          "purpose_reason": "Supports the introductory technology overview.",
+          "follow_priority": "LOW",
+          "resolution_status": "UNRESOLVED"
+        },
+        {
+          "id": "cr_8b91779fd1",
+          "assertion_id": "a_a12946920a",
+          "source_paper_id": "gita_mfo_pani",
+          "cited_paper_id": null,
+          "reference_number": "14",
+          "citation_context": "Bimetallic oxides and metal ferrites (MxFe2O4, where M = Mn, Zn, Co, Ni, etc.) are also considered as a promising candidate due to their higher electric conductivity and electrochemical activity due to the presence of multiple valence cations [14].",
+          "purpose": "SUPPORT",
+          "purpose_reason": "Supports the stated conductivity and electrochemical-activity rationale.",
+          "follow_priority": "MEDIUM",
+          "resolution_status": "UNRESOLVED"
+        }
+      ],
+      "warnings": [],
+      "extractor_backend": "openai-responses",
+      "extractor_model": "gpt-5.6-terra"
+    }
+  },
+  {
+    "case": "method_dependency",
+    "passed": true,
+    "issues": [],
+    "result": {
+      "paper_id": "synthetic_method",
+      "assertions": [
+        {
+          "id": "a_35e006e48b",
+          "text": "The synthesis method was adapted from the procedure reported in [17].",
+          "normalized_claim": "The synthesis method was adapted from a previously reported procedure.",
+          "paper_id": "synthetic_method",
+          "location": {
+            "page": 3,
+            "section": "Experimental Methods",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "claim_type": "METHOD",
+          "citation_ids": [
+            "cr_ba7f817230"
+          ]
+        }
+      ],
+      "citation_relations": [
+        {
+          "id": "cr_ba7f817230",
+          "assertion_id": "a_35e006e48b",
+          "source_paper_id": "synthetic_method",
+          "cited_paper_id": null,
+          "reference_number": "17",
+          "citation_context": "The synthesis method was adapted from the procedure reported in [17].",
+          "purpose": "METHOD",
+          "purpose_reason": "The cited procedure is the basis for the synthesis method.",
+          "follow_priority": "HIGH",
+          "resolution_status": "UNRESOLVED"
+        }
+      ],
+      "warnings": [],
+      "extractor_backend": "openai-responses",
+      "extractor_model": "gpt-5.6-terra"
+    }
+  },
+  {
+    "case": "contradictory_citation",
+    "passed": true,
+    "issues": [],
+    "result": {
+      "paper_id": "synthetic_contradiction",
+      "assertions": [
+        {
+          "id": "a_50a5f0c261",
+          "text": "In contrast to the increase reported in [8], we observed a decrease in particle size under otherwise comparable conditions.",
+          "normalized_claim": "Reference 8 reported an increase in particle size under otherwise comparable conditions, whereas this study observed a decrease.",
+          "paper_id": "synthetic_contradiction",
+          "location": {
+            "page": 8,
+            "section": "Discussion",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "claim_type": "COMPARISON",
+          "citation_ids": [
+            "cr_3a0438e506"
+          ]
+        }
+      ],
+      "citation_relations": [
+        {
+          "id": "cr_3a0438e506",
+          "assertion_id": "a_50a5f0c261",
+          "source_paper_id": "synthetic_contradiction",
+          "cited_paper_id": null,
+          "reference_number": "8",
+          "citation_context": "In contrast to the increase reported in [8], we observed a decrease in particle size under otherwise comparable conditions.",
+          "purpose": "CONTRADICTION",
+          "purpose_reason": "The cited report is explicitly contrasted with the present opposite observation.",
+          "follow_priority": "HIGH",
+          "resolution_status": "UNRESOLVED"
+        }
+      ],
+      "warnings": [],
+      "extractor_backend": "openai-responses",
+      "extractor_model": "gpt-5.6-terra"
+    }
+  },
+  {
+    "case": "uncited_statement_control",
+    "passed": true,
+    "issues": [],
+    "result": {
+      "paper_id": "synthetic_uncited",
+      "assertions": [],
+      "citation_relations": [],
+      "warnings": [],
+      "extractor_backend": "openai-responses",
+      "extractor_model": "gpt-5.6-terra"
+    }
+  },
+  {
+    "case": "numeric_range_expansion",
+    "passed": true,
+    "issues": [],
+    "result": {
+      "paper_id": "synthetic_range",
+      "assertions": [
+        {
+          "id": "a_02acd75161",
+          "text": "Several studies have reported related metal-oxide electrode systems [10-12,14].",
+          "normalized_claim": "Several studies have reported related metal-oxide electrode systems.",
+          "paper_id": "synthetic_range",
+          "location": {
+            "page": 1,
+            "section": "Introduction",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "claim_type": "GENERAL",
+          "citation_ids": [
+            "cr_d9c29aa11c",
+            "cr_fd69803b85",
+            "cr_38c8a0cb9f",
+            "cr_3a21947523"
+          ]
+        }
+      ],
+      "citation_relations": [
+        {
+          "id": "cr_d9c29aa11c",
+          "assertion_id": "a_02acd75161",
+          "source_paper_id": "synthetic_range",
+          "cited_paper_id": null,
+          "reference_number": "10",
+          "citation_context": "Several studies have reported related metal-oxide electrode systems [10-12,14].",
+          "purpose": "BACKGROUND",
+          "purpose_reason": "Cited as prior related studies.",
+          "follow_priority": "LOW",
+          "resolution_status": "UNRESOLVED"
+        },
+        {
+          "id": "cr_fd69803b85",
+          "assertion_id": "a_02acd75161",
+          "source_paper_id": "synthetic_range",
+          "cited_paper_id": null,
+          "reference_number": "11",
+          "citation_context": "Several studies have reported related metal-oxide electrode systems [10-12,14].",
+          "purpose": "BACKGROUND",
+          "purpose_reason": "Cited as prior related studies.",
+          "follow_priority": "LOW",
+          "resolution_status": "UNRESOLVED"
+        },
+        {
+          "id": "cr_38c8a0cb9f",
+          "assertion_id": "a_02acd75161",
+          "source_paper_id": "synthetic_range",
+          "cited_paper_id": null,
+          "reference_number": "12",
+          "citation_context": "Several studies have reported related metal-oxide electrode systems [10-12,14].",
+          "purpose": "BACKGROUND",
+          "purpose_reason": "Cited as prior related studies.",
+          "follow_priority": "LOW",
+          "resolution_status": "UNRESOLVED"
+        },
+        {
+          "id": "cr_3a21947523",
+          "assertion_id": "a_02acd75161",
+          "source_paper_id": "synthetic_range",
+          "cited_paper_id": null,
+          "reference_number": "14",
+          "citation_context": "Several studies have reported related metal-oxide electrode systems [10-12,14].",
+          "purpose": "BACKGROUND",
+          "purpose_reason": "Cited as prior related studies.",
+          "follow_priority": "LOW",
+          "resolution_status": "UNRESOLVED"
+        }
+      ],
+      "warnings": [],
+      "extractor_backend": "openai-responses",
+      "extractor_model": "gpt-5.6-terra"
+    }
+  }
+]
