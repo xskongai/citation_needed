@@ -1,0 +1,207 @@
+[
+  {
+    "case": "strong_primary_relevant_sections",
+    "status": "REVIEW",
+    "issues": [
+      "evidence_directness: got 'AUTHOR_INTERPRETATION', expected one of ['DIRECT_MEASUREMENT', 'DERIVED_RESULT']",
+      "measurement_appropriateness: got 'UNKNOWN', expected one of ['APPROPRIATE']"
+    ],
+    "result": {
+      "id": "sa_9f2651a05c",
+      "source_paper_id": "paper_gita_mfo_pani",
+      "evidence_ids": [
+        "e_source_strong"
+      ],
+      "context_scope": "RELEVANT_SECTIONS",
+      "evidence_directness": "AUTHOR_INTERPRETATION",
+      "method_completeness": "PARTIAL",
+      "measurement_appropriateness": "UNKNOWN",
+      "reporting_completeness": "PARTIAL",
+      "source_originality": "PRIMARY",
+      "internal_consistency": "UNKNOWN",
+      "missing_information": [
+        "Specific-capacitance measurement protocol and calculation details (for example, measurement mode, potential window, current density or scan rate, electrode loading, and reference/counter-electrode configuration).",
+        "Numerical specific-capacitance values, units, and uncertainty or replicate information for each composition.",
+        "The supplied excerpt does not provide Fig. 5a data or its measurement conditions."
+      ],
+      "supporting_locations": [
+        {
+          "page": 11,
+          "section": "3.4.1. Electrochemical performances",
+          "paragraph": null,
+          "figure": "Fig. 5a",
+          "table": null,
+          "supplementary": null
+        },
+        {
+          "page": 3,
+          "section": "2.2. Characterization",
+          "paragraph": null,
+          "figure": null,
+          "table": null,
+          "supplementary": null
+        }
+      ],
+      "factor_rationale": {
+        "evidence_directness": "The target is a textual comparative statement about the figure rather than supplied numerical figure data or a direct measurement record.",
+        "method_completeness": "The source identifies electrochemical techniques and the 1 M H2SO4 testing medium, but lacks critical conditions needed to interpret or reproduce the composition comparison.",
+        "measurement_appropriateness": "No specific-capacitance measurement or calculation procedure is supplied, so its appropriateness cannot be assessed.",
+        "reporting_completeness": "The rank ordering and tested electrolyte are reported, but numerical capacitances, units, test conditions, and uncertainty are absent from the supplied material.",
+        "source_originality": "Provenance metadata marks the evidence-bearing source as a primary study.",
+        "internal_consistency": "RELEVANT_SECTIONS scope does not permit a source-wide consistency determination."
+      },
+      "rationale": "The supplied primary-study result reports a qualitative ranking of compositions in 1 M H2SO4 and identifies Fig. 5a as its traceable location. However, the supplied context does not include the underlying figure values or the specific-capacitance test and calculation conditions needed for full quantitative interpretation.",
+      "assessment_status": "COMPLETE",
+      "assessor_backend": "openai-responses",
+      "assessor_model": "gpt-5.6-terra"
+    }
+  },
+  {
+    "case": "excerpt_does_not_imply_bad_source",
+    "status": "PASS",
+    "issues": [],
+    "result": {
+      "id": "sa_3e5b71a45a",
+      "source_paper_id": "paper_excerpt",
+      "evidence_ids": [
+        "e_excerpt"
+      ],
+      "context_scope": "EXCERPT_ONLY",
+      "evidence_directness": "DIRECT_MEASUREMENT",
+      "method_completeness": "UNKNOWN",
+      "measurement_appropriateness": "UNKNOWN",
+      "reporting_completeness": "UNKNOWN",
+      "source_originality": "PRIMARY",
+      "internal_consistency": "UNKNOWN",
+      "missing_information": [
+        "Particle-sizing/characterisation method",
+        "Sample preparation and measurement conditions",
+        "Size distribution, number of particles analysed, and uncertainty or variability",
+        "Whether 8 nm is a mean, median, or another average definition"
+      ],
+      "supporting_locations": [
+        {
+          "page": 5,
+          "section": "Results",
+          "paragraph": null,
+          "figure": null,
+          "table": null,
+          "supplementary": null
+        }
+      ],
+      "factor_rationale": {
+        "evidence_directness": "The excerpt directly reports a particle-size result (8 nm), without presenting an intervening calculation or interpretation.",
+        "method_completeness": "Not assessed: only an excerpt was supplied, so source-level method completeness cannot be established.",
+        "measurement_appropriateness": "The measurement method is not supplied, so its suitability cannot be assessed.",
+        "reporting_completeness": "Not assessed: only an excerpt was supplied, so source-level reporting completeness cannot be established.",
+        "source_originality": "Provenance metadata marks the evidence-bearing source as a primary study.",
+        "internal_consistency": "Only an excerpt is supplied, so consistency across the source cannot be established."
+      },
+      "rationale": "The supplied Results excerpt provides a traceable numerical particle-size finding, but lacks the methodological and statistical context needed to fully interpret the reported average.",
+      "assessment_status": "COMPLETE",
+      "assessor_backend": "openai-responses",
+      "assessor_model": "gpt-5.6-terra"
+    }
+  },
+  {
+    "case": "secondary_report",
+    "status": "PASS",
+    "issues": [],
+    "result": {
+      "id": "sa_6ab023ca7b",
+      "source_paper_id": "paper_review",
+      "evidence_ids": [
+        "e_secondary_source"
+      ],
+      "context_scope": "EXCERPT_ONLY",
+      "evidence_directness": "SECONDARY_REPORT",
+      "method_completeness": "UNKNOWN",
+      "measurement_appropriateness": "UNKNOWN",
+      "reporting_completeness": "UNKNOWN",
+      "source_originality": "SECONDARY",
+      "internal_consistency": "UNKNOWN",
+      "missing_information": [
+        "Original Smith et al. source and its experimental and characterization methods",
+        "Nanoparticle composition, synthesis conditions, sample basis, and diameter measurement definition",
+        "Diameter distribution, uncertainty, and number of particles measured"
+      ],
+      "supporting_locations": [
+        {
+          "page": 7,
+          "section": "Review of prior studies",
+          "paragraph": null,
+          "figure": null,
+          "table": null,
+          "supplementary": null
+        }
+      ],
+      "factor_rationale": {
+        "evidence_directness": "The excerpt attributes the size and morphology result to Smith et al. rather than presenting primary measurements.",
+        "method_completeness": "Not assessed: only an excerpt was supplied, so source-level method completeness cannot be established.",
+        "measurement_appropriateness": "No nanoparticle characterization method is described in the supplied excerpt.",
+        "reporting_completeness": "Not assessed: only an excerpt was supplied, so source-level reporting completeness cannot be established.",
+        "source_originality": "Provenance metadata marks the evidence-bearing source as secondary.",
+        "internal_consistency": "Only an excerpt is supplied, so consistency across the source cannot be established."
+      },
+      "rationale": "This is a traceable secondary report of a numerical nanoparticle-size finding, but the excerpt does not provide the underlying methods or sufficient measurement context to interpret the reported average fully.",
+      "assessment_status": "COMPLETE",
+      "assessor_backend": "openai-responses",
+      "assessor_model": "gpt-5.6-terra"
+    }
+  },
+  {
+    "case": "internal_numeric_conflict",
+    "status": "PASS",
+    "issues": [],
+    "result": {
+      "id": "sa_24f9dc427a",
+      "source_paper_id": "paper_conflict",
+      "evidence_ids": [
+        "e_internal_conflict"
+      ],
+      "context_scope": "RELEVANT_SECTIONS",
+      "evidence_directness": "DIRECT_MEASUREMENT",
+      "method_completeness": "PARTIAL",
+      "measurement_appropriateness": "PARTIAL",
+      "reporting_completeness": "PARTIAL",
+      "source_originality": "PRIMARY",
+      "internal_consistency": "CONFLICTED",
+      "missing_information": [
+        "TEM acquisition and particle-sizing methodology",
+        "Number of particles measured and statistical summary/uncertainty",
+        "Basis or method for the 8 nm value in the abstract",
+        "Conditions or definitions that could explain the discrepant diameter values"
+      ],
+      "supporting_locations": [
+        {
+          "page": 1,
+          "section": "Abstract",
+          "paragraph": null,
+          "figure": null,
+          "table": null,
+          "supplementary": null
+        },
+        {
+          "page": 6,
+          "section": "Results",
+          "paragraph": null,
+          "figure": null,
+          "table": null,
+          "supplementary": null
+        }
+      ],
+      "factor_rationale": {
+        "evidence_directness": "The Results statement reports a TEM-derived average diameter, whereas the abstract reports an unqualified average diameter.",
+        "method_completeness": "TEM is identified, but critical acquisition and sizing details are not supplied.",
+        "measurement_appropriateness": "TEM is a stated characterization method, but the supplied material lacks enough methodological detail to fully assess its suitability for the reported average.",
+        "reporting_completeness": "Both values are reported in nm and refer to the same prepared sample, but uncertainty, sample count, and the basis of the abstract value are absent.",
+        "source_originality": "Provenance metadata marks the evidence-bearing source as a primary study.",
+        "internal_consistency": "The abstract reports 8 nm, while the Results section reports 18 nm by TEM for the same prepared sample. These are materially discrepant values for the same quantity and context."
+      },
+      "rationale": "The supplied relevant sections contain a material internal conflict in reported average nanoparticle diameter (8 nm versus 18 nm for the same prepared sample).",
+      "assessment_status": "COMPLETE",
+      "assessor_backend": "openai-responses",
+      "assessor_model": "gpt-5.6-terra"
+    }
+  }
+]
