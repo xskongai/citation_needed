@@ -1,0 +1,38 @@
+[
+  {
+    "name": "gita_background_and_support",
+    "document": "examples/document_extraction_gita.json",
+    "expected_assertions_min": 2,
+    "expected_refs": ["1", "2", "3", "14"],
+    "expected_purpose_by_ref": {"1": ["BACKGROUND"], "2": ["BACKGROUND"], "3": ["BACKGROUND"], "14": ["SUPPORT"]}
+  },
+  {
+    "name": "method_dependency",
+    "document": "examples/document_extraction_method.json",
+    "expected_assertions_min": 1,
+    "expected_refs": ["17"],
+    "expected_purpose_by_ref": {"17": ["METHOD"]},
+    "expected_priority_by_ref": {"17": ["HIGH"]}
+  },
+  {
+    "name": "contradictory_citation",
+    "document": "examples/document_extraction_contradiction.json",
+    "expected_assertions_min": 1,
+    "expected_refs": ["8"],
+    "expected_purpose_by_ref": {"8": ["CONTRADICTION"]},
+    "expected_priority_by_ref": {"8": ["HIGH"]}
+  },
+  {
+    "name": "uncited_statement_control",
+    "document": "examples/document_extraction_uncited.json",
+    "expected_assertions_max": 0,
+    "expected_refs": []
+  },
+  {
+    "name": "numeric_range_expansion",
+    "document": "examples/document_extraction_range.json",
+    "expected_assertions_min": 1,
+    "expected_refs": ["10", "11", "12", "14"],
+    "expected_purpose_by_ref": {"10": ["BACKGROUND", "SUPPORT"], "11": ["BACKGROUND", "SUPPORT"], "12": ["BACKGROUND", "SUPPORT"], "14": ["BACKGROUND", "SUPPORT"]}
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "paper_id": "synthetic_uncited",
+  "title": "Synthetic uncited-control test",
+  "sections": [
+    {
+      "id": "results",
+      "heading": "Results",
+      "text": "The 10% composite showed the highest specific capacitance. Figure 5 summarizes the comparison.",
+      "location": {"page": 10, "section": "Results"}
+    }
+  ],
+  "references": []
+}

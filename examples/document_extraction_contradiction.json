@@ -1,0 +1,15 @@
+{
+  "paper_id": "synthetic_contradiction",
+  "title": "Synthetic contradiction-citation test",
+  "sections": [
+    {
+      "id": "discussion",
+      "heading": "Discussion",
+      "text": "In contrast to the increase reported in [8], we observed a decrease in particle size under otherwise comparable conditions.",
+      "location": {"page": 8, "section": "Discussion"}
+    }
+  ],
+  "references": [
+    {"reference_number": "8", "raw_text": "Reference 8"}
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "paper_id": "synthetic_range",
+  "title": "Synthetic citation-range test",
+  "sections": [
+    {
+      "id": "intro",
+      "heading": "Introduction",
+      "text": "Several studies have reported related metal-oxide electrode systems [10-12,14].",
+      "location": {"page": 1, "section": "Introduction"}
+    }
+  ],
+  "references": [
+    {"reference_number": "10", "raw_text": "Reference 10"},
+    {"reference_number": "11", "raw_text": "Reference 11"},
+    {"reference_number": "12", "raw_text": "Reference 12"},
+    {"reference_number": "14", "raw_text": "Reference 14"}
+  ]
+}

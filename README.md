@@ -1,3 +1,109 @@
+# Citation Needed — Extraction v1.6
+
+v1.6 keeps the validated judgement stack from v1.5 and adds the first upstream stage: **guarded extraction of citation-bearing scientific assertions from parser-neutral structured text**.
+
+```text
+Structured scientific text
+        |
+        v
+Citation-bearing Assertion Extractor v1
+        |
+        +-- Assertion
+        +-- CitationRelation
+        +-- Citation Purpose
+        +-- deterministic Follow Priority
+        |
+        v
+(existing) Relation Judge -> Source Assessor -> Reliability Policy
+```
+
+## What v1.6 adds
+
+- parser-neutral `StructuredDocument`, `DocumentSection`, and `ReferenceEntry` contracts
+- `ExtractionResult` containing `Assertion[]` + `CitationRelation[]`
+- hosted semantic extraction with structured outputs
+- numeric bracket citation support for `[14]`, `[1,2,3]`, and ranges such as `[10-12,14]`
+- deterministic follow-priority policy:
+  - METHOD / PARAMETER / CONTRADICTION -> HIGH
+  - RESULT / SUPPORT / COMPARISON -> MEDIUM
+  - BACKGROUND / THEORY -> LOW
+- extraction guardrails:
+  - source text must be verbatim from a supplied section
+  - returned reference numbers must be visibly present in that text
+  - section/page provenance is taken from structured input, not invented by the model
+  - cited-paper resolution is deliberately deferred
+  - uncited statements are excluded
+- hosted semantic extraction suite with support, background, method dependency, contradiction, uncited-control, and citation-range cases
+
+## Why structured text first?
+
+PDF parsing is deliberately not coupled to citation reasoning. A later parser only needs to produce `StructuredDocument`; the extraction and judgement layers remain unchanged. This lets us validate citation semantics before introducing PDF-layout noise.
+
+## Install
+
+```bash
+cd citation-needed-v1.6
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e .
+pip install pytest
+export OPENAI_API_KEY="your_key_here"
+```
+
+## Local tests
+
+```bash
+pytest -q
+```
+
+## Run one extraction
+
+```bash
+python scripts/run_extraction.py \
+  --document examples/document_extraction_gita.json \
+  --out data/extraction.json
+```
+
+## Run extraction semantic suite
+
+```bash
+python scripts/run_extraction_suite.py \
+  --out data/extraction_report.json
+```
+
+## Existing suites
+
+```bash
+python scripts/run_adversarial_suite.py --out data/adversarial_report.json
+python scripts/run_source_suite.py --out data/source_assessment_report.json
+python scripts/run_reliability_suite.py --out data/reliability_report.json
+```
+
+## Current architecture
+
+```text
+StructuredDocument
+      |
+      v
+Assertion + CitationRelation Extraction
+      |
+      v
+Source Resolution / Evidence Retrieval     <- next
+      |
+      v
+Evidence + Provenance
+      |                 |
+      v                 v
+Relation Judge      Source Assessor
+      +--------+--------+
+               v
+       Reliability Policy
+```
+
+Not yet implemented: PDF parsing, bibliography/source resolution, cited-paper retrieval, evidence retrieval, recursive citation traversal, and cross-paper reproducibility/consistency.
+
+---
+
 # Citation Needed — Reliability Policy v1
 
 This version keeps **Relation Judge v1.2** and **Source Assessor v1.4**, then combines them with a deterministic final reliability policy.

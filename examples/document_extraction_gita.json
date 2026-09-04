@@ -1,0 +1,24 @@
+{
+  "paper_id": "gita_mfo_pani",
+  "title": "Nano-flowered manganese doped ferrite@PANI composite as energy storage electrode material for supercapacitors",
+  "sections": [
+    {
+      "id": "intro_background",
+      "heading": "Introduction",
+      "text": "Currently, there are eight most promising and emerging energy storage technologies viz. compressed air energy systems, flywheels, flow batteries, superconducting magnets, pumped hydropower, sodium-sulphur batteries, lithium-ion batteries and supercapacitors [1,2,3].",
+      "location": {"page": 1, "section": "Introduction"}
+    },
+    {
+      "id": "intro_support",
+      "heading": "Introduction",
+      "text": "Bimetallic oxides and metal ferrites (MxFe2O4, where M = Mn, Zn, Co, Ni, etc.) are also considered as a promising candidate due to their higher electric conductivity and electrochemical activity due to the presence of multiple valence cations [14].",
+      "location": {"page": 2, "section": "Introduction"}
+    }
+  ],
+  "references": [
+    {"reference_number": "1", "raw_text": "Reference 1"},
+    {"reference_number": "2", "raw_text": "Reference 2"},
+    {"reference_number": "3", "raw_text": "Reference 3"},
+    {"reference_number": "14", "raw_text": "Reference 14"}
+  ]
+}

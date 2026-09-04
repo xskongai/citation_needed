@@ -1,0 +1,15 @@
+{
+  "paper_id": "synthetic_method",
+  "title": "Synthetic method-citation test",
+  "sections": [
+    {
+      "id": "method",
+      "heading": "Experimental Methods",
+      "text": "The synthesis method was adapted from the procedure reported in [17]. The mixture was then heated at 145 C for 24 hours.",
+      "location": {"page": 3, "section": "Experimental Methods"}
+    }
+  ],
+  "references": [
+    {"reference_number": "17", "raw_text": "Reference 17"}
+  ]
+}

@@ -2,6 +2,8 @@ from .audit import CitationAuditResult, ReliabilityDecision
 from .assertion import Assertion, ClaimType
 from .citation import CitationPurpose, CitationRelation, FollowPriority, ResolutionStatus
 from .evidence import Evidence, EvidenceState, EvidenceType
+from .document import DocumentSection, ReferenceEntry, StructuredDocument
+from .extraction import ExtractionResult
 from .judgement import (
     AlignmentAssessment,
     CharacterisationQuality,
@@ -46,6 +48,10 @@ __all__ = [
     "Evidence",
     "EvidenceState",
     "EvidenceType",
+    "DocumentSection",
+    "ReferenceEntry",
+    "StructuredDocument",
+    "ExtractionResult",
     "Judgement",
     "RelevanceJudgement",
     "SupportJudgement",
