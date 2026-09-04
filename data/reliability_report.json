@@ -1,0 +1,776 @@
+[
+  {
+    "case": "strong_primary_realistic",
+    "status": "PASS",
+    "issues": [],
+    "audit": {
+      "assertion_id": "a_rel_strong",
+      "citation_relation_id": "cr_rel_strong",
+      "evidence_ids": [
+        "e_rel_strong"
+      ],
+      "relation_judgement": {
+        "id": "j_b23c026920",
+        "assertion_id": "a_rel_strong",
+        "citation_relation_id": "cr_rel_strong",
+        "evidence_ids": [
+          "e_rel_strong"
+        ],
+        "relevance": "RELEVANT",
+        "support": "SUPPORTED",
+        "reliability": "MODERATE",
+        "alignment": {
+          "subject_match": "MATCH",
+          "outcome_match": "MATCH",
+          "condition_match": "MATCH",
+          "condition_mismatches": [],
+          "rationale": "The evidence concerns the same electrode, reports the claimed specific-capacitance value, and specifies the same current density of 1 A/g."
+        },
+        "claim_components": [
+          {
+            "component": "The electrode is the 10% MnFe2O4@PANI electrode.",
+            "status": "SUPPORTED",
+            "rationale": "The reported result explicitly identifies the 10% MnFe2O4@PANI electrode."
+          },
+          {
+            "component": "The electrode had a specific capacitance of 623 F/g at a current density of 1 A/g.",
+            "status": "SUPPORTED",
+            "rationale": "The evidence reports 623 F/g specific capacitance, and its experimental context specifies 1 A/g."
+          }
+        ],
+        "reliability_factors": {
+          "evidence_directness": "DIRECT",
+          "source_originality": "PRIMARY",
+          "method_completeness": "UNKNOWN",
+          "characterization_quality": "PARTIAL",
+          "context_match": "MATCH",
+          "reproducibility_evidence": "UNKNOWN",
+          "reporting_clarity": "CLEAR"
+        },
+        "factor_rationale": {
+          "evidence_directness": "The source-reported result directly states the electrode identity and capacitance value; supplied context gives the current density.",
+          "source_originality": "Provenance metadata marks the supplied evidence source as a primary study.",
+          "method_completeness": "The supplied excerpt notes GCD and calculation using equation (2), but does not permit assessment of the source paper's overall method reporting.",
+          "characterization_quality": "GCD and a stated calculation equation are pertinent to specific capacitance, but the supplied material lacks underlying curves, calculation inputs, and validation details.",
+          "context_match": "Derived from subject/outcome/condition alignment: subject=MATCH, outcome=MATCH, condition=MATCH.",
+          "reproducibility_evidence": "No independent replication or reproduction evidence is supplied.",
+          "reporting_clarity": "The reported result and measurement context are stated unambiguously."
+        },
+        "supported_components": [
+          "The electrode is the 10% MnFe2O4@PANI electrode.",
+          "The electrode had a specific capacitance of 623 F/g at a current density of 1 A/g."
+        ],
+        "unsupported_components": [],
+        "contradicted_components": [],
+        "uncertainty": [
+          "The supplied material is a reported result excerpt rather than underlying electrochemical data or the full calculation details.",
+          "Method completeness was not assessed from the supplied material.",
+          "Independent reproducibility evidence is unknown from the supplied material."
+        ],
+        "rationale": "The primary-study evidence directly reports that the 10% MnFe2O4@PANI electrode achieved 623 F/g specific capacitance, with supplied experimental context specifying 1 A/g. It therefore supports the normalized claim.",
+        "judgement_status": "COMPLETE",
+        "judge_backend": "openai-responses",
+        "judge_model": "gpt-5.6-terra"
+      },
+      "source_assessment": {
+        "id": "sa_ebf39d8048",
+        "source_paper_id": "paper_gita_mfo_pani",
+        "evidence_ids": [
+          "e_rel_strong"
+        ],
+        "context_scope": "RELEVANT_SECTIONS",
+        "evidence_basis": "DERIVED_RESULT",
+        "method_completeness": "PARTIAL",
+        "measurement_traceability": {
+          "method_status": "IDENTIFIED",
+          "identified_methods": [
+            "Chronopotentiometric galvanostatic charge-discharge (GCD)",
+            "Repeated charge-discharge measurement at a constant current density of 1 A/g"
+          ],
+          "target_link": "EXPLICIT",
+          "appropriateness": "APPROPRIATE",
+          "rationale": "The source explicitly states that GCD was used to examine electrochemical capacitance and cycling performance, at 1 A/g, and directly reports the 623 F/g value as calculated using equation (2)."
+        },
+        "reporting_completeness": "PARTIAL",
+        "source_originality": "PRIMARY",
+        "internal_consistency": "UNKNOWN",
+        "missing_information": [
+          "The text of equation (2) and its calculation inputs are not supplied.",
+          "The reported cyclic-stability outcome is qualitative; no capacitance-retention value, degradation metric, or endpoint value at 10,000 cycles is supplied.",
+          "Other measurement conditions needed to fully reproduce or interpret the result are not supplied in the relevant excerpts."
+        ],
+        "supporting_locations": [
+          {
+            "page": 3,
+            "section": "2.2. Characterization",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          {
+            "page": 13,
+            "section": "3.4.2. Cycling performances",
+            "paragraph": null,
+            "figure": "Fig. 7d",
+            "table": null,
+            "supplementary": null
+          },
+          {
+            "page": 13,
+            "section": "3.4.2. Cycling performances",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          }
+        ],
+        "factor_rationale": {
+          "evidence_basis": "The 623 F/g specific-capacitance result is explicitly described as calculated using equation (2), rather than presented as an unprocessed instrument reading. The stability finding is directly reported but lacks a quantitative retention value in the supplied text.",
+          "method_completeness": "GCD, its purpose, the cycling protocol type, and current density are supplied; the equation and further experimental/calculation details are absent.",
+          "reporting_completeness": "The electrode composition, capacitance value, unit, current density, calculation reference, and cycling duration are reported. Quantitative stability retention and the equation/calculation details are missing.",
+          "source_originality": "Provenance metadata marks the evidence-bearing source as a primary study.",
+          "internal_consistency": "Only relevant sections were supplied. They do not show a material conflict, but consistency across the full source cannot be established."
+        },
+        "rationale": "The relevant sections explicitly connect GCD at 1 A/g to capacitance and cycling testing and report 623 F/g calculated using equation (2), with cycling stated to extend to 10,000 cycles. The supplied excerpts do not provide the equation or a quantitative cycling-retention result.",
+        "assessment_status": "COMPLETE",
+        "assessor_backend": "openai-responses",
+        "assessor_model": "gpt-5.6-terra"
+      },
+      "reliability": {
+        "level": "MODERATE",
+        "positive_signals": [
+          "Evidence is relevant to the evaluated claim.",
+          "The supplied evidence supports the material claim components.",
+          "Claim and evidence align on subject and outcome.",
+          "Evidence comes from a primary study.",
+          "Evidence basis is derived result.",
+          "The target result is supported by an appropriate identified measurement.",
+          "A measurement/characterisation method is identified.",
+          "The measurement-to-result link is explicit."
+        ],
+        "caution_signals": [
+          "Source-wide internal consistency is not established from the supplied scope.",
+          "Critical method details are only partially reported/assessed.",
+          "Target-result reporting is only partially complete/assessed."
+        ],
+        "blocking_signals": [],
+        "rationale": "Reliability is MODERATE: the audit is evaluable and has no hard failure, but one or more relation/source factors remain partial, limited, or unknown.",
+        "policy_version": "reliability-v1"
+      },
+      "audit_status": "COMPLETE"
+    }
+  },
+  {
+    "case": "secondary_only_support",
+    "status": "PASS",
+    "issues": [],
+    "audit": {
+      "assertion_id": "a_secondary",
+      "citation_relation_id": "cr_secondary",
+      "evidence_ids": [
+        "e_secondary"
+      ],
+      "relation_judgement": {
+        "id": "j_e945d5b392",
+        "assertion_id": "a_secondary",
+        "citation_relation_id": "cr_secondary",
+        "evidence_ids": [
+          "e_secondary"
+        ],
+        "relevance": "RELEVANT",
+        "support": "SUPPORTED",
+        "reliability": "MODERATE",
+        "alignment": {
+          "subject_match": "MATCH",
+          "outcome_match": "MATCH",
+          "condition_match": "MATCH",
+          "condition_mismatches": [],
+          "rationale": "The evidence describes the same method, nanoparticle product, and average-size outcome, with the identical reported value of 8 nm. No claim-specific conditions are stated that differ from the evidence."
+        },
+        "claim_components": [
+          {
+            "component": "Method X produces nanoparticles.",
+            "status": "SUPPORTED",
+            "rationale": "The review explicitly reports that Method X produced nanoparticles."
+          },
+          {
+            "component": "The nanoparticles produced by Method X have an average particle size of 8 nm.",
+            "status": "SUPPORTED",
+            "rationale": "The review explicitly reports an average particle size of 8 nm for nanoparticles produced by Method X."
+          }
+        ],
+        "reliability_factors": {
+          "evidence_directness": "INDIRECT",
+          "source_originality": "SECONDARY",
+          "method_completeness": "UNKNOWN",
+          "characterization_quality": "UNKNOWN",
+          "context_match": "MATCH",
+          "reproducibility_evidence": "UNKNOWN",
+          "reporting_clarity": "CLEAR"
+        },
+        "factor_rationale": {
+          "evidence_directness": "The review directly states the claimed result but reports it second-hand as attributed to Smith et al., rather than supplying original experimental results.",
+          "source_originality": "Provenance metadata marks the supplied evidence source as secondary.",
+          "method_completeness": "The supplied review excerpt does not provide enough information to assess method reporting in the underlying source.",
+          "characterization_quality": "No particle-sizing method, data, or characterization details are supplied.",
+          "context_match": "Derived from subject/outcome/condition alignment: subject=MATCH, outcome=MATCH, condition=MATCH.",
+          "reproducibility_evidence": "No independent replication evidence is supplied.",
+          "reporting_clarity": "The excerpt clearly states that Method X produced nanoparticles with an average size of 8 nm."
+        },
+        "supported_components": [
+          "Method X produces nanoparticles.",
+          "The nanoparticles produced by Method X have an average particle size of 8 nm."
+        ],
+        "unsupported_components": [],
+        "contradicted_components": [],
+        "uncertainty": [
+          "The supplied support is secondary reporting attributed to Smith et al.; the original study and its measurement details are not provided.",
+          "Evidence is not clearly direct support for the evaluated claim.",
+          "The supplied evidence is secondary; the original source should be followed where possible.",
+          "Method completeness was not assessed from the supplied material.",
+          "Characterization/measurement quality was not assessed from the supplied material.",
+          "Independent reproducibility evidence is unknown from the supplied material."
+        ],
+        "rationale": "The supplied review explicitly reports the full claimed method-to-average-size result, so it supports the assertion as presented. Its evidentiary strength is limited by its secondary, attributed nature and the absence of underlying measurement and methodological details.",
+        "judgement_status": "COMPLETE",
+        "judge_backend": "openai-responses",
+        "judge_model": "gpt-5.6-terra"
+      },
+      "source_assessment": {
+        "id": "sa_14b7f47fa6",
+        "source_paper_id": "paper_review",
+        "evidence_ids": [
+          "e_secondary"
+        ],
+        "context_scope": "EXCERPT_ONLY",
+        "evidence_basis": "SECONDARY_REPORT",
+        "method_completeness": "UNKNOWN",
+        "measurement_traceability": {
+          "method_status": "IDENTIFIED",
+          "identified_methods": [
+            "Method X"
+          ],
+          "target_link": "EXPLICIT",
+          "appropriateness": "UNKNOWN",
+          "rationale": "The excerpt explicitly associates Method X with the reported 8 nm average particle size, but provides no measurement or characterisation procedure for particle size and no basis to assess method fit."
+        },
+        "reporting_completeness": "UNKNOWN",
+        "source_originality": "SECONDARY",
+        "internal_consistency": "UNKNOWN",
+        "missing_information": [
+          "Particle-size measurement or characterisation method",
+          "Measurement conditions and particle-size definition/statistic beyond the stated average",
+          "Uncertainty, distribution, sample size, or other variability information",
+          "Original Smith et al. source details and its underlying methods"
+        ],
+        "supporting_locations": [
+          {
+            "page": 4,
+            "section": "Review of synthesis methods",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          }
+        ],
+        "factor_rationale": {
+          "evidence_basis": "The review excerpt attributes the 8 nm average particle-size result to Smith et al.; it is therefore a secondary report rather than an original measurement in this source.",
+          "method_completeness": "Not assessed: only an excerpt was supplied, so source-level method completeness cannot be established.",
+          "reporting_completeness": "Not assessed: only an excerpt was supplied, so source-level reporting completeness cannot be established.",
+          "source_originality": "Provenance metadata marks the evidence-bearing source as secondary.",
+          "internal_consistency": "Only an excerpt is supplied, so consistency across the full source cannot be established."
+        },
+        "rationale": "This excerpt clearly reports an 8 nm average particle size attributed to Smith et al. and explicitly links it to Method X, but it does not provide the original measurement basis or sufficient methodological and reporting detail to evaluate that result further.",
+        "assessment_status": "COMPLETE",
+        "assessor_backend": "openai-responses",
+        "assessor_model": "gpt-5.6-terra"
+      },
+      "reliability": {
+        "level": "LOW",
+        "positive_signals": [
+          "Evidence is relevant to the evaluated claim.",
+          "The supplied evidence supports the material claim components.",
+          "Claim and evidence align on subject and outcome.",
+          "A measurement/characterisation method is identified.",
+          "The measurement-to-result link is explicit."
+        ],
+        "caution_signals": [
+          "Source-wide internal consistency is not established from the supplied scope.",
+          "Measurement appropriateness is not established from the supplied material.",
+          "Method completeness is unknown from the supplied scope.",
+          "Reporting completeness is unknown from the supplied scope."
+        ],
+        "blocking_signals": [
+          "The current support is secondary; the original source has not been audited directly.",
+          "The evidence basis is a secondary report of another study."
+        ],
+        "rationale": "Reliability is LOW because at least one source-level condition materially weakens the evidential chain.",
+        "policy_version": "reliability-v1"
+      },
+      "audit_status": "COMPLETE"
+    }
+  },
+  {
+    "case": "internal_source_conflict",
+    "status": "PASS",
+    "issues": [],
+    "audit": {
+      "assertion_id": "a_rel_conflict",
+      "citation_relation_id": "cr_internal_conflict",
+      "evidence_ids": [
+        "e_internal_conflict"
+      ],
+      "relation_judgement": {
+        "id": "j_5bada685fd",
+        "assertion_id": "a_rel_conflict",
+        "citation_relation_id": "cr_internal_conflict",
+        "evidence_ids": [
+          "e_internal_conflict"
+        ],
+        "relevance": "RELEVANT",
+        "support": "PARTIALLY_SUPPORTED",
+        "reliability": "MODERATE",
+        "alignment": {
+          "subject_match": "MATCH",
+          "outcome_match": "MATCH",
+          "condition_match": "MATCH",
+          "condition_mismatches": [],
+          "rationale": "The evidence concerns the nanoparticles in the same prepared sample and reports the identical average-diameter outcome and value."
+        },
+        "claim_components": [
+          {
+            "component": "The nanoparticles had an average diameter of 8 nm.",
+            "status": "PARTIALLY_SUPPORTED",
+            "rationale": "The supplied result states this exact diameter for the same prepared sample, but its epistemic state is marked CONFLICTED, preventing unqualified establishment of the measurement."
+          }
+        ],
+        "reliability_factors": {
+          "evidence_directness": "DIRECT",
+          "source_originality": "PRIMARY",
+          "method_completeness": "UNKNOWN",
+          "characterization_quality": "UNKNOWN",
+          "context_match": "MATCH",
+          "reproducibility_evidence": "UNKNOWN",
+          "reporting_clarity": "CLEAR"
+        },
+        "factor_rationale": {
+          "evidence_directness": "The evidence directly reports the claimed average diameter.",
+          "source_originality": "Provenance metadata marks the supplied evidence source as a primary study.",
+          "method_completeness": "No source-level methodological detail is supplied.",
+          "characterization_quality": "No particle-sizing method, measurement data, or characterization detail is supplied.",
+          "context_match": "Derived from subject/outcome/condition alignment: subject=MATCH, outcome=MATCH, condition=MATCH.",
+          "reproducibility_evidence": "No independent replication information is supplied.",
+          "reporting_clarity": "The reported numerical result is explicit, although its epistemic state is conflicted."
+        },
+        "supported_components": [],
+        "unsupported_components": [
+          "The nanoparticles had an average diameter of 8 nm."
+        ],
+        "contradicted_components": [],
+        "uncertainty": [
+          "The sole evidence item is explicitly labeled CONFLICTED; the conflicting underlying information is not supplied.",
+          "No sizing method, uncertainty estimate, or supporting characterization data is provided.",
+          "Method completeness was not assessed from the supplied material.",
+          "Characterization/measurement quality was not assessed from the supplied material.",
+          "Independent reproducibility evidence is unknown from the supplied material."
+        ],
+        "rationale": "The evidence text exactly reports an 8 nm average diameter for the same nanoparticle sample, making it directly relevant and aligned. However, its conflicted epistemic state means the supplied material cannot establish the result without qualification.",
+        "judgement_status": "COMPLETE",
+        "judge_backend": "openai-responses",
+        "judge_model": "gpt-5.6-terra"
+      },
+      "source_assessment": {
+        "id": "sa_bad837ba5b",
+        "source_paper_id": "paper_conflict",
+        "evidence_ids": [
+          "e_internal_conflict"
+        ],
+        "context_scope": "RELEVANT_SECTIONS",
+        "evidence_basis": "REPORTED_RESULT",
+        "method_completeness": "PARTIAL",
+        "measurement_traceability": {
+          "method_status": "IDENTIFIED",
+          "identified_methods": [
+            "TEM analysis"
+          ],
+          "target_link": "INFERRED",
+          "appropriateness": "UNKNOWN",
+          "rationale": "TEM analysis is explicitly linked to an 18 nm average diameter for the same prepared sample, but no method is linked to the abstract's 8 nm value."
+        },
+        "reporting_completeness": "PARTIAL",
+        "source_originality": "PRIMARY",
+        "internal_consistency": "CONFLICTED",
+        "missing_information": [
+          "Measurement method and conditions for the 8 nm abstract value.",
+          "Particle-size distribution, uncertainty, and number of particles analyzed for both reported averages.",
+          "Explanation reconciling the 8 nm and 18 nm average diameters for the same prepared sample."
+        ],
+        "supporting_locations": [
+          {
+            "page": 1,
+            "section": "Abstract",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          {
+            "page": 6,
+            "section": "Results",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          }
+        ],
+        "factor_rationale": {
+          "evidence_basis": "The abstract explicitly reports an average diameter but does not state its measurement basis; the Results section reports a TEM-derived average for the same sample.",
+          "method_completeness": "TEM is named for the 18 nm result, but critical details and any method for the 8 nm result are absent from the supplied sections.",
+          "reporting_completeness": "Both values include nm units and identify the same sample context, but lack uncertainty, distribution/statistical details, and reconciliation.",
+          "source_originality": "Provenance metadata marks the evidence-bearing source as a primary study.",
+          "internal_consistency": "The supplied Abstract and Results sections report materially different average diameters (8 nm versus 18 nm) for the same prepared sample."
+        },
+        "rationale": "The relevant sections contain an unresolved internal conflict in the reported average diameter. TEM is identified only for the conflicting 18 nm Results value, while the target 8 nm value has no supplied measurement basis.",
+        "assessment_status": "COMPLETE",
+        "assessor_backend": "openai-responses",
+        "assessor_model": "gpt-5.6-terra"
+      },
+      "reliability": {
+        "level": "LOW",
+        "positive_signals": [
+          "Evidence is relevant to the evaluated claim.",
+          "Claim and evidence align on subject and outcome.",
+          "Evidence comes from a primary study.",
+          "The source explicitly reports the target result.",
+          "A measurement/characterisation method is identified."
+        ],
+        "caution_signals": [
+          "Only part of the claim is supported by the supplied evidence.",
+          "Measurement appropriateness is not established from the supplied material.",
+          "The measurement-to-result link is inferred rather than explicit.",
+          "Critical method details are only partially reported/assessed.",
+          "Target-result reporting is only partially complete/assessed."
+        ],
+        "blocking_signals": [
+          "The source contains a material internal conflict about the target evidence."
+        ],
+        "rationale": "Reliability is LOW because at least one source-level condition materially weakens the evidential chain.",
+        "policy_version": "reliability-v1"
+      },
+      "audit_status": "COMPLETE"
+    }
+  },
+  {
+    "case": "condition_mismatch_is_limited_not_bad_source",
+    "status": "PASS",
+    "issues": [],
+    "audit": {
+      "assertion_id": "a_condition_mismatch",
+      "citation_relation_id": "cr_condition_mismatch",
+      "evidence_ids": [
+        "e_condition_mismatch"
+      ],
+      "relation_judgement": {
+        "id": "j_3341c6b31c",
+        "assertion_id": "a_condition_mismatch",
+        "citation_relation_id": "cr_condition_mismatch",
+        "evidence_ids": [
+          "e_condition_mismatch"
+        ],
+        "relevance": "RELEVANT",
+        "support": "PARTIALLY_SUPPORTED",
+        "reliability": "MODERATE",
+        "alignment": {
+          "subject_match": "MATCH",
+          "outcome_match": "MATCH",
+          "condition_match": "MISMATCH",
+          "condition_mismatches": [
+            "claim: room temperature; evidence: 145 °C",
+            "claim does not specify reaction duration; evidence: 24 hours"
+          ],
+          "rationale": "The evidence concerns Method X and the claimed 8 nm particle-size outcome, but the reported synthesis temperature is 145 °C rather than room temperature."
+        },
+        "claim_components": [
+          {
+            "component": "Method X produces nanoparticles with an average particle size of 8 nm.",
+            "status": "SUPPORTED",
+            "rationale": "The reported evidence states that Method X produced nanoparticles with an average particle size of 8 nm."
+          },
+          {
+            "component": "Method X produces 8 nm particles at room temperature.",
+            "status": "INSUFFICIENT_EVIDENCE",
+            "rationale": "The evidence reports the 8 nm result at 145 °C for 24 hours, not at room temperature."
+          }
+        ],
+        "reliability_factors": {
+          "evidence_directness": "DIRECT",
+          "source_originality": "PRIMARY",
+          "method_completeness": "UNKNOWN",
+          "characterization_quality": "UNKNOWN",
+          "context_match": "PARTIAL_MATCH",
+          "reproducibility_evidence": "UNKNOWN",
+          "reporting_clarity": "CLEAR"
+        },
+        "factor_rationale": {
+          "evidence_directness": "The source directly reports Method X, average particle size, temperature, and reaction duration.",
+          "source_originality": "Provenance metadata marks the supplied evidence source as a primary study.",
+          "method_completeness": "The supplied excerpt does not permit assessment of source-level method reporting completeness.",
+          "characterization_quality": "The excerpt reports an average size but provides no particle-sizing method or underlying characterization data.",
+          "context_match": "Derived from subject/outcome/condition alignment: subject=MATCH, outcome=MATCH, condition=MISMATCH.",
+          "reproducibility_evidence": "No independent replication evidence is supplied.",
+          "reporting_clarity": "The reported particle size and reaction conditions are stated unambiguously."
+        },
+        "supported_components": [
+          "Method X produces nanoparticles with an average particle size of 8 nm."
+        ],
+        "unsupported_components": [
+          "Method X produces 8 nm particles at room temperature."
+        ],
+        "contradicted_components": [],
+        "uncertainty": [
+          "The evidence does not state whether Method X can produce 8 nm particles at room temperature.",
+          "The particle-size characterization method is not supplied.",
+          "Method completeness was not assessed from the supplied material.",
+          "Characterization/measurement quality was not assessed from the supplied material.",
+          "Experimental-condition alignment is incomplete, mismatched, or unknown.",
+          "Condition mismatch: claim: room temperature; evidence: 145 °C",
+          "Condition mismatch: claim does not specify reaction duration; evidence: 24 hours",
+          "Independent reproducibility evidence is unknown from the supplied material."
+        ],
+        "rationale": "The citation supports that Method X produced 8 nm nanoparticles under the reported condition of 145 °C for 24 hours. It does not establish the asserted room-temperature condition; this condition mismatch prevents full support but does not itself show that room-temperature synthesis is impossible.",
+        "judgement_status": "COMPLETE",
+        "judge_backend": "openai-responses",
+        "judge_model": "gpt-5.6-terra"
+      },
+      "source_assessment": {
+        "id": "sa_076c743ecf",
+        "source_paper_id": "paper_source_condition",
+        "evidence_ids": [
+          "e_condition_mismatch"
+        ],
+        "context_scope": "RELEVANT_SECTIONS",
+        "evidence_basis": "REPORTED_RESULT",
+        "method_completeness": "PARTIAL",
+        "measurement_traceability": {
+          "method_status": "UNKNOWN",
+          "identified_methods": [],
+          "target_link": "UNKNOWN",
+          "appropriateness": "UNKNOWN",
+          "rationale": "The result explicitly links the reported 8 nm average particle size to Method X at 145 °C for 24 hours. No particle-size measurement or characterization method is identified in the supplied excerpts."
+        },
+        "reporting_completeness": "PARTIAL",
+        "source_originality": "PRIMARY",
+        "internal_consistency": "UNKNOWN",
+        "missing_information": [
+          "Particle-size measurement/characterization method",
+          "Particle-size uncertainty, distribution, or replicate/sample information",
+          "Additional reporting details needed to interpret the average particle size"
+        ],
+        "supporting_locations": [
+          {
+            "page": 5,
+            "section": "Methods",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          {
+            "page": 6,
+            "section": "Results",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          }
+        ],
+        "factor_rationale": {
+          "evidence_basis": "The Results excerpt explicitly reports the particle-size result and its reaction conditions, but does not present the size as a direct measurement reading or an explicitly derived calculation.",
+          "method_completeness": "Reaction temperature and duration are supplied, but the supplied material does not identify how average particle size was measured.",
+          "reporting_completeness": "The average size and associated conditions are reported, but uncertainty and measurement-context details are absent from the supplied excerpts.",
+          "source_originality": "Provenance metadata marks the evidence-bearing source as a primary study.",
+          "internal_consistency": "Only relevant sections, rather than the full source, are supplied; no full-source consistency determination can be made."
+        },
+        "rationale": "The supplied source reports that Method X yielded an average particle size of 8 nm under explicitly stated conditions of 145 °C for 24 hours. The conditions match between the Methods and Results excerpts. However, the supplied material does not identify the particle-size measurement method or provide uncertainty/context for the reported average.",
+        "assessment_status": "COMPLETE",
+        "assessor_backend": "openai-responses",
+        "assessor_model": "gpt-5.6-terra"
+      },
+      "reliability": {
+        "level": "MODERATE",
+        "positive_signals": [
+          "Evidence is relevant to the evaluated claim.",
+          "Claim and evidence align on subject and outcome.",
+          "Evidence comes from a primary study.",
+          "The source explicitly reports the target result."
+        ],
+        "caution_signals": [
+          "Only part of the claim is supported by the supplied evidence.",
+          "Experimental conditions materially differ between claim and evidence.",
+          "Source-wide internal consistency is not established from the supplied scope.",
+          "Measurement appropriateness is not established from the supplied material.",
+          "Measurement/characterisation method is not fully identified.",
+          "The measurement-to-result link is not established.",
+          "Critical method details are only partially reported/assessed.",
+          "Target-result reporting is only partially complete/assessed."
+        ],
+        "blocking_signals": [],
+        "rationale": "Reliability is MODERATE: the audit is evaluable and has no hard failure, but one or more relation/source factors remain partial, limited, or unknown.",
+        "policy_version": "reliability-v1"
+      },
+      "audit_status": "COMPLETE"
+    }
+  },
+  {
+    "case": "related_but_insufficient_primary",
+    "status": "PASS",
+    "issues": [],
+    "audit": {
+      "assertion_id": "a_related_insufficient",
+      "citation_relation_id": "cr_related_insufficient",
+      "evidence_ids": [
+        "e_related_insufficient"
+      ],
+      "relation_judgement": {
+        "id": "j_a63322922d",
+        "assertion_id": "a_related_insufficient",
+        "citation_relation_id": "cr_related_insufficient",
+        "evidence_ids": [
+          "e_related_insufficient"
+        ],
+        "relevance": "PARTIALLY_RELEVANT",
+        "support": "INSUFFICIENT_EVIDENCE",
+        "reliability": "LOW",
+        "alignment": {
+          "subject_match": "MATCH",
+          "outcome_match": "MISMATCH",
+          "condition_match": "UNKNOWN",
+          "condition_mismatches": [],
+          "rationale": "The evidence concerns a composite with added MnFe2O4, but reports specific capacitance rather than electrical conductivity. No experimental conditions are supplied for comparison."
+        },
+        "claim_components": [
+          {
+            "component": "MnFe2O4 is added to the composite.",
+            "status": "SUPPORTED",
+            "rationale": "The supplied result states that MnFe2O4 was added."
+          },
+          {
+            "component": "Adding MnFe2O4 improves the composite's electrical conductivity.",
+            "status": "INSUFFICIENT_EVIDENCE",
+            "rationale": "The supplied result reports a 20% increase in specific capacitance and explicitly states that electrical conductivity was not measured."
+          }
+        ],
+        "reliability_factors": {
+          "evidence_directness": "INDIRECT",
+          "source_originality": "PRIMARY",
+          "method_completeness": "UNKNOWN",
+          "characterization_quality": "UNKNOWN",
+          "context_match": "MISMATCH",
+          "reproducibility_evidence": "UNKNOWN",
+          "reporting_clarity": "CLEAR"
+        },
+        "factor_rationale": {
+          "evidence_directness": "The reported measurement is specific capacitance, not electrical conductivity.",
+          "source_originality": "Provenance metadata marks the supplied evidence source as a primary study.",
+          "method_completeness": "The supplied excerpt does not permit assessment of source-level method reporting.",
+          "characterization_quality": "No conductivity characterization or data are supplied.",
+          "context_match": "Derived from subject/outcome/condition alignment: subject=MATCH, outcome=MISMATCH, condition=UNKNOWN.",
+          "reproducibility_evidence": "No independent replication evidence is supplied.",
+          "reporting_clarity": "The result clearly states the capacitance increase and that conductivity was not measured."
+        },
+        "supported_components": [
+          "MnFe2O4 is added to the composite."
+        ],
+        "unsupported_components": [
+          "Adding MnFe2O4 improves the composite's electrical conductivity."
+        ],
+        "contradicted_components": [],
+        "uncertainty": [
+          "Electrical conductivity data, measurement method, and conditions are not supplied.",
+          "Evidence is not clearly direct support for the evaluated claim.",
+          "Method completeness was not assessed from the supplied material.",
+          "Characterization/measurement quality was not assessed from the supplied material.",
+          "Claim/evidence outcome alignment is incomplete, mismatched, or unknown.",
+          "Experimental-condition alignment is incomplete, mismatched, or unknown.",
+          "Independent reproducibility evidence is unknown from the supplied material."
+        ],
+        "rationale": "The evidence is related because it evaluates MnFe2O4 addition to a composite, but it establishes only increased specific capacitance. It provides no evidence that electrical conductivity improved.",
+        "judgement_status": "COMPLETE",
+        "judge_backend": "openai-responses",
+        "judge_model": "gpt-5.6-terra"
+      },
+      "source_assessment": {
+        "id": "sa_231dc023c8",
+        "source_paper_id": "paper_source_related",
+        "evidence_ids": [
+          "e_related_insufficient"
+        ],
+        "context_scope": "RELEVANT_SECTIONS",
+        "evidence_basis": "REPORTED_RESULT",
+        "method_completeness": "UNKNOWN",
+        "measurement_traceability": {
+          "method_status": "UNKNOWN",
+          "identified_methods": [],
+          "target_link": "UNKNOWN",
+          "appropriateness": "UNKNOWN",
+          "rationale": "The supplied excerpt reports a 20% specific-capacitance increase but does not identify a measurement method or link a method to that result."
+        },
+        "reporting_completeness": "PARTIAL",
+        "source_originality": "PRIMARY",
+        "internal_consistency": "UNKNOWN",
+        "missing_information": [
+          "Specific-capacitance measurement method and protocol",
+          "Baseline and post-addition specific-capacitance values and units",
+          "Experimental conditions and sample/composition details",
+          "Uncertainty, replicate, or statistical information",
+          "Electrical-conductivity measurement data or method"
+        ],
+        "supporting_locations": [
+          {
+            "page": 7,
+            "section": "Electrochemical performance",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          }
+        ],
+        "factor_rationale": {
+          "evidence_basis": "The source explicitly reports a comparative 20% increase in specific capacitance; it does not present a raw measurement record or an explicit calculation.",
+          "method_completeness": "Within the supplied relevant section, no measurement method or critical protocol details are provided, but the limited scope cannot establish whether they appear elsewhere in the source.",
+          "reporting_completeness": "The relative change and material addition are reported, but absolute values, units, conditions, and uncertainty are absent from the supplied excerpt.",
+          "source_originality": "Provenance metadata marks the evidence-bearing source as a primary study.",
+          "internal_consistency": "Only a relevant excerpt is supplied, not the full source; consistency across the source cannot be assessed."
+        },
+        "rationale": "This is a traceable reported electrochemical result at page 7. It is incomplete for methodological interpretation because no capacitance measurement method, conditions, absolute values, or uncertainty are supplied. The excerpt explicitly states that electrical conductivity was not measured in the supplied result.",
+        "assessment_status": "COMPLETE",
+        "assessor_backend": "openai-responses",
+        "assessor_model": "gpt-5.6-terra"
+      },
+      "reliability": {
+        "level": "MODERATE",
+        "positive_signals": [
+          "Evidence comes from a primary study.",
+          "The source explicitly reports the target result."
+        ],
+        "caution_signals": [
+          "Evidence is only partially relevant to the evaluated claim.",
+          "The supplied evidence is insufficient to establish the claim.",
+          "Subject/outcome alignment is incomplete or mismatched.",
+          "Experimental-condition alignment is incomplete or not fully established.",
+          "Source-wide internal consistency is not established from the supplied scope.",
+          "Measurement appropriateness is not established from the supplied material.",
+          "Measurement/characterisation method is not fully identified.",
+          "The measurement-to-result link is not established.",
+          "Method completeness is unknown from the supplied scope.",
+          "Target-result reporting is only partially complete/assessed."
+        ],
+        "blocking_signals": [],
+        "rationale": "Reliability is MODERATE: the audit is evaluable and has no hard failure, but one or more relation/source factors remain partial, limited, or unknown.",
+        "policy_version": "reliability-v1"
+      },
+      "audit_status": "COMPLETE"
+    }
+  }
+]
