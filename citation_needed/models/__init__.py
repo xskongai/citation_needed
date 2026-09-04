@@ -20,8 +20,18 @@ from .judgement import (
 )
 from .source import Provenance, SourceLocation, SourceRole
 from .source_assessment import (
-    InternalConsistency, MeasurementAppropriateness, SourceAssessment, SourceAssessmentInput,
-    SourceAssessmentRationale, SourceContextItem, SourceContextScope, SourceContextType,
+    InternalConsistency,
+    MeasurementAppropriateness,
+    MeasurementMethodStatus,
+    MeasurementTargetLink,
+    MeasurementTraceability,
+    SourceAssessment,
+    SourceAssessmentInput,
+    SourceAssessmentRationale,
+    SourceContextItem,
+    SourceContextScope,
+    SourceContextType,
+    SourceEvidenceBasis,
     SourceEvidenceDirectness,
 )
 
@@ -62,4 +72,8 @@ __all__ = [
     "SourceEvidenceDirectness",
     "MeasurementAppropriateness",
     "InternalConsistency",
+    "SourceEvidenceBasis",
+    "MeasurementMethodStatus",
+    "MeasurementTargetLink",
+    "MeasurementTraceability",
 ]

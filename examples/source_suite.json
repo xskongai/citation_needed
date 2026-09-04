@@ -1,5 +1,64 @@
-{"cases":[
-{"id":"strong_primary_relevant_sections","source":"examples/source_strong.json","evidence":"examples/evidence_source_strong.json","expected":{"evidence_directness":["DIRECT_MEASUREMENT","DERIVED_RESULT"],"method_completeness":["SUFFICIENT","PARTIAL"],"measurement_appropriateness":["APPROPRIATE"],"reporting_completeness":["SUFFICIENT","PARTIAL"],"source_originality":["PRIMARY"],"internal_consistency":["UNKNOWN"]}},
-{"id":"excerpt_does_not_imply_bad_source","source":"examples/source_excerpt_only.json","evidence":"examples/evidence_source_excerpt_only.json","expected":{"method_completeness":["UNKNOWN"],"reporting_completeness":["UNKNOWN"],"measurement_appropriateness":["UNKNOWN"],"source_originality":["PRIMARY"],"internal_consistency":["UNKNOWN"]}},
-{"id":"secondary_report","source":"examples/source_secondary.json","evidence":"examples/evidence_source_secondary.json","expected":{"evidence_directness":["SECONDARY_REPORT"],"source_originality":["SECONDARY"],"method_completeness":["UNKNOWN"],"reporting_completeness":["UNKNOWN"],"internal_consistency":["UNKNOWN"]}},
-{"id":"internal_numeric_conflict","source":"examples/source_internal_conflict.json","evidence":"examples/evidence_source_internal_conflict.json","expected":{"source_originality":["PRIMARY"],"internal_consistency":["CONFLICTED"]}}]}
+{
+  "cases": [
+    {
+      "id": "strong_primary_measurement_traceability",
+      "source": "examples/source_strong.json",
+      "evidence": "examples/evidence_source_strong.json",
+      "expected": {
+        "evidence_basis": ["DERIVED_RESULT", "DIRECT_MEASUREMENT"],
+        "method_completeness": ["SUFFICIENT", "PARTIAL"],
+        "measurement_traceability.method_status": ["IDENTIFIED"],
+        "measurement_traceability.target_link": ["EXPLICIT"],
+        "measurement_traceability.appropriateness": ["APPROPRIATE"],
+        "reporting_completeness": ["SUFFICIENT", "PARTIAL"],
+        "source_originality": ["PRIMARY"],
+        "internal_consistency": ["UNKNOWN"]
+      }
+    },
+    {
+      "id": "reported_comparative_result",
+      "source": "examples/source_reported_result.json",
+      "evidence": "examples/evidence_source_reported_result.json",
+      "expected": {
+        "evidence_basis": ["REPORTED_RESULT"],
+        "measurement_traceability.method_status": ["IDENTIFIED"],
+        "measurement_traceability.target_link": ["EXPLICIT", "INFERRED"],
+        "source_originality": ["PRIMARY"],
+        "internal_consistency": ["UNKNOWN"]
+      }
+    },
+    {
+      "id": "excerpt_does_not_imply_bad_source",
+      "source": "examples/source_excerpt_only.json",
+      "evidence": "examples/evidence_source_excerpt_only.json",
+      "expected": {
+        "method_completeness": ["UNKNOWN"],
+        "reporting_completeness": ["UNKNOWN"],
+        "measurement_traceability.appropriateness": ["UNKNOWN", "NA"],
+        "source_originality": ["PRIMARY"],
+        "internal_consistency": ["UNKNOWN"]
+      }
+    },
+    {
+      "id": "secondary_report",
+      "source": "examples/source_secondary.json",
+      "evidence": "examples/evidence_source_secondary.json",
+      "expected": {
+        "evidence_basis": ["SECONDARY_REPORT"],
+        "source_originality": ["SECONDARY"],
+        "method_completeness": ["UNKNOWN"],
+        "reporting_completeness": ["UNKNOWN"],
+        "internal_consistency": ["UNKNOWN"]
+      }
+    },
+    {
+      "id": "internal_numeric_conflict",
+      "source": "examples/source_internal_conflict.json",
+      "evidence": "examples/evidence_source_internal_conflict.json",
+      "expected": {
+        "source_originality": ["PRIMARY"],
+        "internal_consistency": ["CONFLICTED"]
+      }
+    }
+  ]
+}

@@ -1,11 +1,21 @@
 from __future__ import annotations
+
 from pydantic import BaseModel, Field
-from citation_needed.models import Completeness, InternalConsistency, MeasurementAppropriateness, SourceAssessmentRationale, SourceEvidenceDirectness, SourceLocation
+
+from citation_needed.models import (
+    Completeness,
+    InternalConsistency,
+    MeasurementTraceability,
+    SourceAssessmentRationale,
+    SourceEvidenceBasis,
+    SourceLocation,
+)
+
 
 class SemanticSourceAssessmentOutput(BaseModel):
-    evidence_directness: SourceEvidenceDirectness
+    evidence_basis: SourceEvidenceBasis
     method_completeness: Completeness
-    measurement_appropriateness: MeasurementAppropriateness
+    measurement_traceability: MeasurementTraceability
     reporting_completeness: Completeness
     internal_consistency: InternalConsistency
     missing_information: list[str] = Field(default_factory=list)

@@ -1,0 +1,19 @@
+{
+  "evidence": [
+    {
+      "id": "e_source_reported_result",
+      "citation_relation_id": "cr_source_reported_result",
+      "source_paper_id": "paper_gita_mfo_pani",
+      "content": "As can be seen from Fig. 5a, 10% MnFe2O4@PANI nanoflower gave the highest specific capacitance, followed by 20% MnFe2O4@PANI, and 50% MnFe2O4@PANI.",
+      "evidence_type": "RESULT",
+      "provenance": {
+        "paper_id": "paper_gita_mfo_pani",
+        "title": "Nano-flowered manganese doped ferrite@PANI composite as energy storage electrode material for supercapacitors",
+        "source_role": "PRIMARY_STUDY",
+        "location": {"page": 10, "section": "3.4.1. Electrochemical performances", "figure": "Fig. 5a"}
+      },
+      "epistemic_state": "REPORTED",
+      "experimental_context": {"target_quantity": "comparative specific capacitance"}
+    }
+  ]
+}
