@@ -1,0 +1,31 @@
+{
+  "paper_id": "paper:gita-mfo-pani",
+  "title": "MnFe2O4@PANI nanoflower composite for supercapacitor application",
+  "sections": [
+    {
+      "id": "methods-synthesis",
+      "heading": "2.1.1 Synthesis of MnFe2O4 Nanoparticles",
+      "text": "MnFe2O4 nano-ferrites were prepared by hydrothermal method. A suspension was prepared using 1 mmol iron(III) chloride hexahydrate and 0.5 mmol manganese(II) chloride in deionized water. The pH was raised to 12 with 5 M NaOH. The solution mixture was transferred to an autoclave and placed in a preheated oven at 145 °C for 24 hours.",
+      "location": {"page": 3, "section": "2.1.1 Synthesis of MnFe2O4 Nanoparticles"}
+    },
+    {
+      "id": "methods-characterization",
+      "heading": "2.2 Characterization",
+      "text": "XRD was performed to analyze phase structure and crystalline nature. Surface morphology was examined by FE-SEM and HR-TEM. XPS measurements were performed to confirm elemental composition. Electrochemical properties were studied using an Autolab potentiostat for CV and EIS, whereas an Arbin battery testing instrument was used for GCD analysis of the composite electrode.",
+      "location": {"page": 4, "section": "2.2 Characterization"}
+    },
+    {
+      "id": "results-composition",
+      "heading": "3.4 Electrochemical performance",
+      "text": "The electrochemical performance of MnFe2O4 nanoparticles, polyaniline and 2.5%, 5%, 10%, 20%, and 50% MnFe2O4@PANI electrodes was examined by cyclic voltammetry. Figure 5a compares the compositions against specific capacitance. The 10% MnFe2O4@PANI nanoflower gave the highest specific capacitance, followed by 20% and 50% MnFe2O4@PANI.",
+      "location": {"page": 10, "section": "3.4 Electrochemical performance", "figure": "Fig. 5a"}
+    },
+    {
+      "id": "results-cycling",
+      "heading": "3.4.2 Cycling performances",
+      "text": "Galvanostatic charge-discharge (GCD) was performed to examine cycling performance and electrochemical capacitance. The measurements were repeated at a constant current density of 1 A/g. The 10% MnFe2O4@PANI electrode showed a specific capacitance of 623 F/g using equation (2), with cyclic stability up to 10,000 cycles.",
+      "location": {"page": 13, "section": "3.4.2 Cycling performances", "figure": "Fig. 7d"}
+    }
+  ],
+  "references": []
+}

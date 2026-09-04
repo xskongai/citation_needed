@@ -1,0 +1,141 @@
+[
+  {
+    "name": "gita_specific_capacitance",
+    "source_document": "examples/document_retrieval_gita.json",
+    "source_role": "PRIMARY_STUDY",
+    "assertion": {
+      "id": "a-cap",
+      "text": "The 10% MnFe2O4@PANI electrode showed a specific capacitance of 623 F/g at 1 A/g.",
+      "normalized_claim": "10% MnFe2O4@PANI showed specific capacitance 623 F/g at 1 A/g",
+      "paper_id": "paper-a",
+      "location": {"page": 1},
+      "claim_type": "RESULT",
+      "citation_ids": ["rel-cap"]
+    },
+    "relation": {
+      "id": "rel-cap",
+      "assertion_id": "a-cap",
+      "source_paper_id": "paper-a",
+      "cited_paper_id": "paper:gita-mfo-pani",
+      "reference_number": "17",
+      "citation_context": "The electrode showed 623 F/g at 1 A/g [17].",
+      "purpose": "SUPPORT",
+      "follow_priority": "HIGH",
+      "resolution_status": "RESOLVED"
+    },
+    "expected_status": "FOUND",
+    "expected_evidence_min": 1,
+    "must_include_any": ["623 F/g", "1 A/g"]
+  },
+  {
+    "name": "gita_method_conditions",
+    "source_document": "examples/document_retrieval_gita.json",
+    "source_role": "PRIMARY_STUDY",
+    "assertion": {
+      "id": "a-method",
+      "text": "MnFe2O4 nanoparticles were synthesized hydrothermally at pH 12 and 145 °C for 24 hours.",
+      "normalized_claim": "MnFe2O4 hydrothermal synthesis pH 12 145 °C 24 hours",
+      "paper_id": "paper-a",
+      "location": {"page": 1},
+      "claim_type": "METHOD",
+      "citation_ids": ["rel-method"]
+    },
+    "relation": {
+      "id": "rel-method",
+      "assertion_id": "a-method",
+      "source_paper_id": "paper-a",
+      "cited_paper_id": "paper:gita-mfo-pani",
+      "reference_number": "17",
+      "citation_context": "The hydrothermal synthesis used pH 12, 145 °C and 24 h [17].",
+      "purpose": "METHOD",
+      "follow_priority": "HIGH",
+      "resolution_status": "RESOLVED"
+    },
+    "expected_status": "FOUND",
+    "expected_evidence_min": 1,
+    "must_include_any": ["pH was raised to 12", "145 °C", "24 hours"]
+  },
+  {
+    "name": "contradictory_value_is_still_retrieved",
+    "source_document": "examples/document_retrieval_conflict.json",
+    "source_role": "PRIMARY_STUDY",
+    "assertion": {
+      "id": "a-size",
+      "text": "The as-prepared sample had an average particle diameter of 8 nm.",
+      "normalized_claim": "as-prepared sample average particle diameter 8 nm",
+      "paper_id": "paper-a",
+      "location": {"page": 1},
+      "claim_type": "PROPERTY",
+      "citation_ids": ["rel-size"]
+    },
+    "relation": {
+      "id": "rel-size",
+      "assertion_id": "a-size",
+      "source_paper_id": "paper-a",
+      "cited_paper_id": "paper:particle-size-study",
+      "reference_number": "8",
+      "citation_context": "The sample had an average particle diameter of 8 nm [8].",
+      "purpose": "SUPPORT",
+      "follow_priority": "HIGH",
+      "resolution_status": "RESOLVED"
+    },
+    "expected_status": "FOUND",
+    "expected_evidence_min": 1,
+    "must_include_any": ["18 nm"]
+  },
+  {
+    "name": "condition_mismatch_is_still_retrieved",
+    "source_document": "examples/document_retrieval_gita.json",
+    "source_role": "PRIMARY_STUDY",
+    "assertion": {
+      "id": "a-current",
+      "text": "The electrode showed 623 F/g at a current density of 5 A/g.",
+      "normalized_claim": "electrode specific capacitance 623 F/g at 5 A/g",
+      "paper_id": "paper-a",
+      "location": {"page": 1},
+      "claim_type": "RESULT",
+      "citation_ids": ["rel-current"]
+    },
+    "relation": {
+      "id": "rel-current",
+      "assertion_id": "a-current",
+      "source_paper_id": "paper-a",
+      "cited_paper_id": "paper:gita-mfo-pani",
+      "reference_number": "17",
+      "citation_context": "The capacitance was 623 F/g at 5 A/g [17].",
+      "purpose": "SUPPORT",
+      "follow_priority": "HIGH",
+      "resolution_status": "RESOLVED"
+    },
+    "expected_status": "FOUND",
+    "expected_evidence_min": 1,
+    "must_include_any": ["623 F/g", "1 A/g"]
+  },
+  {
+    "name": "no_relevant_thermal_evidence",
+    "source_document": "examples/document_retrieval_gita.json",
+    "source_role": "PRIMARY_STUDY",
+    "assertion": {
+      "id": "a-thermal",
+      "text": "The composite has a thermal conductivity of 12 W/mK at room temperature.",
+      "normalized_claim": "composite thermal conductivity 12 W/mK room temperature",
+      "paper_id": "paper-a",
+      "location": {"page": 1},
+      "claim_type": "PROPERTY",
+      "citation_ids": ["rel-thermal"]
+    },
+    "relation": {
+      "id": "rel-thermal",
+      "assertion_id": "a-thermal",
+      "source_paper_id": "paper-a",
+      "cited_paper_id": "paper:gita-mfo-pani",
+      "reference_number": "17",
+      "citation_context": "The composite has thermal conductivity 12 W/mK [17].",
+      "purpose": "SUPPORT",
+      "follow_priority": "HIGH",
+      "resolution_status": "RESOLVED"
+    },
+    "expected_status": "NO_RELEVANT_EVIDENCE",
+    "expected_evidence_max": 0
+  }
+]

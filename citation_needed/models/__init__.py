@@ -5,6 +5,7 @@ from .evidence import Evidence, EvidenceState, EvidenceType
 from .document import DocumentSection, ReferenceEntry, StructuredDocument
 from .extraction import ExtractionResult
 from .resolution import CitationResolution, IdentityBasis
+from .retrieval import EvidenceCandidate, EvidenceRetrievalResult, EvidenceRetrievalStatus
 from .judgement import (
     AlignmentAssessment,
     CharacterisationQuality,
@@ -55,6 +56,9 @@ __all__ = [
     "ExtractionResult",
     "CitationResolution",
     "IdentityBasis",
+    "EvidenceCandidate",
+    "EvidenceRetrievalResult",
+    "EvidenceRetrievalStatus",
     "Judgement",
     "RelevanceJudgement",
     "SupportJudgement",

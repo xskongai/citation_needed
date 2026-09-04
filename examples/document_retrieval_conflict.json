@@ -1,0 +1,25 @@
+{
+  "paper_id": "paper:particle-size-study",
+  "title": "Synthetic particle-size study",
+  "sections": [
+    {
+      "id": "methods-tem",
+      "heading": "Methods",
+      "text": "Particle size was measured by transmission electron microscopy on the as-prepared sample.",
+      "location": {"page": 2, "section": "Methods"}
+    },
+    {
+      "id": "results-size",
+      "heading": "Results",
+      "text": "TEM analysis showed an average particle diameter of 18 nm for the as-prepared sample. The size distribution was obtained from measurements of the imaged particles.",
+      "location": {"page": 5, "section": "Results"}
+    },
+    {
+      "id": "results-unrelated",
+      "heading": "Results",
+      "text": "The sample exhibited a saturation magnetization of 42 emu/g at room temperature.",
+      "location": {"page": 6, "section": "Results"}
+    }
+  ],
+  "references": []
+}
