@@ -134,11 +134,11 @@ def _append_paragraph(
 
 def _parse_pdf(path: Path, *, paper_id: str, title: str | None) -> StructuredDocument:
     try:
-        import fitz  # PyMuPDF
+        import pymupdf
     except ImportError as exc:  # pragma: no cover - dependency contract
         raise RuntimeError("PyMuPDF is required to parse PDF artifacts.") from exc
 
-    doc = fitz.open(path)
+    doc = pymupdf.open(path)
     sections: list[DocumentSection] = []
     ref_chunks: list[str] = []
     current_heading: str | None = None

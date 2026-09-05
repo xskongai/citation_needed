@@ -6,6 +6,7 @@ from typing import Callable
 from citation_needed.acquisition.acquirer import acquire_source
 from citation_needed.acquisition.http import HttpClient
 from citation_needed.extraction.openai_extractor import extract_citation_assertions_openai
+from citation_needed.extraction.markers import extract_numeric_reference_numbers
 from citation_needed.judgement.openai_judge import judge_openai
 from citation_needed.models import (
     ArtifactKind,
@@ -30,6 +31,7 @@ from citation_needed.models import (
 from citation_needed.parsing.parser import parse_acquired_source, parse_artifact
 from citation_needed.reliability.policy import build_audit_result
 from citation_needed.resolution.resolver import resolve_citation_relation
+from citation_needed.resolution.enrichment import enrich_resolution_crossref
 from citation_needed.retrieval.openai_retriever import retrieve_evidence_openai
 from citation_needed.source_assessment.openai_assessor import assess_source_openai
 
@@ -55,6 +57,7 @@ def select_citation_relation(
     *,
     reference_number: str | None = None,
     relation_id: str | None = None,
+    citation_context_contains: str | None = None,
 ) -> tuple[Assertion, CitationRelation, list[str]]:
     """Select exactly one relation for a single-citation audit.
 
@@ -69,6 +72,9 @@ def select_citation_relation(
         relations = [r for r in relations if r.id == relation_id]
     if reference_number is not None:
         relations = [r for r in relations if r.reference_number == str(reference_number)]
+    if citation_context_contains is not None:
+        needle = citation_context_contains.strip().lower()
+        relations = [r for r in relations if needle in r.citation_context.lower()]
 
     if not relations:
         selector = relation_id or reference_number or "automatic selection"
@@ -81,7 +87,10 @@ def select_citation_relation(
                 "Multiple citation relations were extracted; the highest follow-priority relation was selected automatically."
             )
     elif len(relations) > 1:
-        raise ValueError("The supplied selector matched multiple citation relations; use relation_id to disambiguate.")
+        raise ValueError(
+            "The supplied selector matched multiple citation relations; use relation_id "
+            "or citation_context_contains to disambiguate."
+        )
 
     relation = relations[0]
     assertion = next((a for a in extraction.assertions if a.id == relation.assertion_id), None)
@@ -165,11 +174,32 @@ def build_source_assessment_input(
     )
 
 
+def _target_document_for_reference(document: StructuredDocument, reference_number: str | None) -> StructuredDocument:
+    """Reduce extraction input when the caller explicitly targets one reference.
+
+    Real papers commonly contain many citations and may reuse the same reference
+    multiple times. Restricting extraction to sections where the requested
+    numeric marker is actually visible reduces cost without changing provenance.
+    The complete bibliography is retained for downstream resolution.
+    """
+    if reference_number is None:
+        return document
+    target = str(reference_number).strip()
+    selected = [
+        section for section in document.sections
+        if target in set(extract_numeric_reference_numbers(section.text))
+    ]
+    if not selected:
+        return document
+    return document.model_copy(update={"sections": selected})
+
+
 def audit_single_citation_from_document(
     source_document: StructuredDocument,
     *,
     reference_number: str | None = None,
     relation_id: str | None = None,
+    citation_context_contains: str | None = None,
     source_role: SourceRole = SourceRole.UNKNOWN,
     context_scope: SourceContextScope = SourceContextScope.RELEVANT_SECTIONS,
     model: str | None = None,
@@ -179,6 +209,7 @@ def audit_single_citation_from_document(
     top_k: int = 12,
     extractor: Callable[..., ExtractionResult] = extract_citation_assertions_openai,
     resolver: Callable[..., CitationResolution] = resolve_citation_relation,
+    resolution_enricher=enrich_resolution_crossref,
     acquirer=acquire_source,
     parser=parse_acquired_source,
     retriever=retrieve_evidence_openai,
@@ -188,17 +219,22 @@ def audit_single_citation_from_document(
     """Run one traceable Paper-A -> cited-source -> evidence -> judgement audit."""
 
     warnings: list[str] = []
-    extraction = extractor(source_document, model=model)
+    extraction_document = _target_document_for_reference(source_document, reference_number)
+    extraction = extractor(extraction_document, model=model)
     warnings.extend(extraction.warnings)
     assertion, relation, selection_warnings = select_citation_relation(
         extraction,
         reference_number=reference_number,
         relation_id=relation_id,
+        citation_context_contains=citation_context_contains,
     )
     warnings.extend(selection_warnings)
 
     resolution = resolver(relation, source_document.references)
     warnings.extend(resolution.warnings)
+    if resolution.status == ResolutionStatus.PARTIALLY_RESOLVED and resolution_enricher is not None:
+        resolution = resolution_enricher(resolution, client=http_client)
+        warnings.extend(resolution.warnings)
 
     resolved_relation = relation.model_copy(
         update={

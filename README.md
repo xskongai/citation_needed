@@ -1,90 +1,81 @@
-# Citation Needed — Single Citation End-to-End Audit v2.0.1
+# Citation Needed — Real-world Validation v2.1.1
 
-v2.0 is the first orchestration milestone: the previously tested modules are now connected into one traceable single-citation audit.
+v2.1.1 hardens the single-citation MVP against a real scientific paper and bundles the Gita PDF inside the project for reproducible local validation.
 
-```text
-Paper A (local PDF/XML/HTML/TXT)
-  |
-  v
-Parse Paper A
-  |
-  v
-Citation-bearing Assertion Extraction       [v1.6]
-  |
-  v
-Reference Resolution                        [v1.7]
-  |
-  v
-Source Acquisition                          [v1.9]
-  |
-  v
-Parse cited Paper B                         [v1.10]
-  |
-  v
-Evidence Retrieval                          [v1.8]
-  |
-  v
-Relation Judge                              [v1.2]
-  |
-  v
-Source Assessor                             [v1.4]
-  |
-  v
-Deterministic Reliability Policy            [v1.5]
-  |
-  v
-SingleCitationAuditTrace                    [v2.0]
-```
-
-## What v2.0 adds
-
-The new orchestration layer lives in `citation_needed/pipeline/single_citation.py`.
-
-It produces a `SingleCitationAuditTrace` that preserves every stage rather than collapsing the pipeline into one opaque answer:
+The live validation target is Gita Singh et al.'s MnFe2O4@PANI paper, using its reference **[17]**:
 
 ```text
-extraction
-resolution
-acquisition
-parse_result
-retrieval
-relation_judgement
-source_assessment
-audit_result
+Paper A: Nano-flowered manganese doped ferrite@PANI composite...
+  |
+  | citation [17]
+  v
+K. V. Sankar & R. K. Selvan (2014)
+The preparation of MnFe2O4 decorated flexible graphene wrapped with PANI...
+DOI: 10.1039/C3RA47681B
 ```
 
-Important boundaries remain explicit:
+## What v2.1 adds
+
+### 1. Conservative bibliography -> Crossref identity enrichment
+
+Real bibliographies often contain no DOI. v1.7 therefore correctly returned `PARTIALLY_RESOLVED` for Gita reference [17].
+
+v2.1 adds a deterministic Crossref bibliographic lookup:
 
 ```text
-source unavailable != evidence absent
-retrieval failure != contradiction
-abstract-only != full source
-SUPPORTED != HIGH reliability
-CONTRADICTED != LOW reliability
-UNKNOWN != bad source
+raw bibliography entry
+  -> Crossref candidates
+  -> title/year/author agreement checks
+  -> strong unique match only
+  -> canonical DOI
 ```
 
-## Citation selection
+If the match is weak or ambiguous, the state remains `PARTIALLY_RESOLVED`. No LLM is allowed to invent a DOI.
 
-You can explicitly choose a citation by reference number or relation ID. If no selector is supplied, v2.0 deterministically selects the highest follow-priority relation and records a warning when alternatives existed.
+### 2. Repeated-citation disambiguation
+
+The same reference can appear more than once in a real paper. A reference number alone is therefore not always a unique citation relation.
+
+v2.1 adds `citation_context_contains`, so a specific use of `[17]` can be selected by its local citation context.
+
+### 3. Targeted extraction for an explicit reference
+
+When `--reference-number` is supplied, the extractor receives only sections where that numeric citation is actually visible. This reduces token cost and avoids unrelated citation extraction while preserving original provenance.
+
+### 4. PyMuPDF API hardening
+
+Runtime/tests now use:
+
+```python
+import pymupdf
+```
+
+rather than the deprecated `fitz` alias.
+
+## Architecture
+
+```text
+Paper A
+  -> Source Parser
+  -> Targeted Citation Extraction
+  -> Local Reference Resolution
+  -> Crossref Identity Enrichment       [new]
+  -> Source Acquisition
+  -> Parse Paper B
+  -> Evidence Retrieval
+  -> Relation Judge
+  -> Source Assessor
+  -> Reliability Policy
+  -> SingleCitationAuditTrace
+```
 
 ## Install
 
-Dependencies are now listed explicitly.
-
 ```bash
-cd citation-needed-v2.0
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements-dev.txt
-```
-
-Equivalent package install:
-
-```bash
-python -m pip install -e .
-python -m pip install pytest
 ```
 
 ## Local tests
@@ -96,76 +87,54 @@ python -m pytest -q
 Expected baseline:
 
 ```text
-71 passed
+75 passed
 ```
 
-## Hosted end-to-end semantic suite
+## Bundled Gita paper
 
-This suite uses synthetic Paper A + synthetic cited PDFs and a fake acquisition HTTP backend, so it does not depend on Crossref/Unpaywall availability. The semantic stages still use the configured OpenAI model.
-
-```bash
-export OPENAI_API_KEY="your_key"
-
-python scripts/run_e2e_suite.py \
-  --out data/e2e_report.json
-```
-
-The three cases test:
-
-1. exact support through the complete chain;
-2. contradiction that must still be retrieved and judged;
-3. restricted source propagation to `UNRESOLVED`, rather than false negative evidence.
-
-Expected shape:
+The real validation PDF is stored inside the project at:
 
 ```text
-[PASS] supported_full_text: ... support=SUPPORTED ...
-[PASS] contradicted_full_text: ... support=CONTRADICTED ...
-[PASS] restricted_source_propagates_unknown: ... reliability=UNRESOLVED ...
-
-3/3 cases matched the declared expectations.
+papers/MFO-PANI_Gita.pdf
 ```
 
-## Run one real single-citation audit
+This keeps the live validation case self-contained. You do not need to pass a PDF path for the default run.
 
-Example with a local Paper A PDF:
+## Run the Gita live audit
 
 ```bash
-export OPENAI_API_KEY="your_key"
+export OPENAI_API_KEY="your_new_key"
 export CITATION_NEEDED_CONTACT_EMAIL="you@example.com"
 
+python scripts/run_gita_live_audit.py \
+  --out data/gita_live_audit.json
+```
+
+You can still override the bundled paper by passing another path as the optional first argument.
+
+The script targets the specific use of reference [17] in the sentence beginning:
+
+```text
+Different composites with different ratios have already been utilized successfully...
+```
+
+It independently checks that the resolved DOI is:
+
+```text
+10.1039/C3RA47681B
+```
+
+Source availability is intentionally not a pass/fail scientific result. A publisher or OA access change may yield full text, abstract/metadata only, or restricted access; those states remain explicit in the audit trace.
+
+## Generic real audit
+
+```bash
 python scripts/run_single_audit.py paper_a.pdf \
   --kind PDF \
   --paper-id paper-a \
   --reference-number 17 \
-  --source-role PRIMARY_STUDY \
+  --context-contains "distinctive citation context" \
   --out data/single_citation_audit.json
-```
-
-The contact email is used for Unpaywall. Without it, DOI metadata lookup can still run, but Unpaywall is skipped.
-
-`source-role` defaults to `UNKNOWN`; v2.0 does not guess primary-vs-secondary provenance from prose.
-
-## Scope of this MVP
-
-v2.0 is a **single-citation audit**, not yet a recursive literature-review agent.
-
-Implemented:
-
-```text
-Paper A -> citation -> Paper B -> evidence -> judgement -> reliability
-```
-
-Still future work:
-
-```text
-multi-citation batch audit
-recursive citation-chain traversal
-cross-paper consistency / replication assessment
-human review queue
-materials-science domain adapter
-figure/table-specific evidence extraction
-final researcher-facing audit UI/report
 ```
 
 ## GitHub summary
@@ -173,14 +142,9 @@ final researcher-facing audit UI/report
 Suggested commit message:
 
 ```text
-Add v2.0 single-citation end-to-end audit pipeline
+Bundle real Gita paper for reproducible live citation audit
 ```
 
 Short PR description:
 
-> Connects extraction, reference resolution, guarded source acquisition, source parsing, evidence retrieval, relation judgement, source assessment, and deterministic reliability into one traceable single-citation audit. Adds explicit pipeline-stage outputs, citation selection, dependency files, and end-to-end semantic tests for support, contradiction, and unavailable-source propagation.
-
-
-## Packaging fix in v2.0.1
-
-Setuptools package discovery is explicitly restricted to `citation_needed*`, so top-level runtime folders such as `data/` are not treated as packages during editable installation.
+> Bundles the Gita validation PDF under `papers/`, defaults the live audit script to that project-local file, and retains conservative Crossref enrichment, citation-context disambiguation, targeted extraction, and the existing single-citation audit pipeline.

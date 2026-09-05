@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import fitz
+import pymupdf
 
 from citation_needed.models import (
     AccessLevel,
@@ -19,7 +19,7 @@ from citation_needed.parsing import classify_section, parse_acquired_source, par
 
 
 def _write_pdf(path: Path) -> None:
-    doc = fitz.open()
+    doc = pymupdf.open()
     p1 = doc.new_page()
     y = 60
     for line in [

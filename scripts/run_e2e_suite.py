@@ -5,7 +5,7 @@ import json
 import tempfile
 from pathlib import Path
 
-import fitz
+import pymupdf
 
 from citation_needed.acquisition.http import HttpResponse
 from citation_needed.models import ArtifactKind, SourceRole
@@ -50,7 +50,7 @@ class FakeHttpClient:
 
 
 def make_pdf_bytes(result_sentence: str) -> bytes:
-    doc = fitz.open()
+    doc = pymupdf.open()
     page = doc.new_page()
     text = (
         "Synthetic cited study\n\n"
@@ -61,7 +61,7 @@ def make_pdf_bytes(result_sentence: str) -> bytes:
         "Discussion\n"
         "The reported conversion refers to the stated 300 C test condition.\n"
     )
-    page.insert_textbox(fitz.Rect(50, 50, 550, 780), text, fontsize=11)
+    page.insert_textbox(pymupdf.Rect(50, 50, 550, 780), text, fontsize=11)
     data = doc.tobytes()
     doc.close()
     return data

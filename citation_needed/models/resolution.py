@@ -19,11 +19,11 @@ class IdentityBasis(str, Enum):
 class CitationResolution(BaseModel):
     """Resolution of one in-text citation relation to a bibliography entry.
 
-    v1.7 deliberately separates *local bibliography resolution* from remote
-    full-text acquisition. RESOLVED means that the source identity has a
-    canonical identifier (currently DOI or URL) in the supplied bibliography.
-    PARTIALLY_RESOLVED means the numbered bibliography entry was found but no
-    canonical identifier is present yet.
+    Local bibliography matching is separated from remote full-text acquisition.
+    v2.1 may conservatively enrich a PARTIALLY_RESOLVED bibliography entry via
+    Crossref when a unique title/year/author match is strong enough. RESOLVED
+    therefore means a canonical identifier is available from either the supplied
+    bibliography or verified metadata enrichment.
     """
 
     relation_id: str

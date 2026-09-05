@@ -16,6 +16,7 @@ def main() -> None:
     parser.add_argument("--title")
     parser.add_argument("--reference-number")
     parser.add_argument("--relation-id")
+    parser.add_argument("--context-contains", help="Substring used to disambiguate repeated uses of the same reference number.")
     parser.add_argument("--source-role", choices=[r.value for r in SourceRole], default=SourceRole.UNKNOWN.value)
     parser.add_argument("--context-scope", choices=[s.value for s in SourceContextScope], default=SourceContextScope.RELEVANT_SECTIONS.value)
     parser.add_argument("--model")
@@ -31,6 +32,7 @@ def main() -> None:
         paper_a_title=args.title,
         reference_number=args.reference_number,
         relation_id=args.relation_id,
+        citation_context_contains=args.context_contains,
         source_role=SourceRole(args.source_role),
         context_scope=SourceContextScope(args.context_scope),
         model=args.model,
