@@ -12,6 +12,7 @@ from citation_needed.pipeline import audit_single_citation_from_artifact
 EXPECTED_REF_17_DOI = "10.1039/c3ra47681b"
 DEFAULT_CONTEXT = "Different composites with different ratios have already been utilized successfully"
 DEFAULT_PAPER_A = Path("papers/MFO-PANI_Gita.pdf")
+DEFAULT_CITED_DIR = Path("papers/cited")
 
 
 def main() -> None:
@@ -29,6 +30,17 @@ def main() -> None:
     parser.add_argument("--contact-email", default=os.getenv("CITATION_NEEDED_CONTACT_EMAIL"))
     parser.add_argument("--out", default="data/gita_live_audit.json")
     parser.add_argument("--acquired-dir", default="data/gita_acquired")
+    parser.add_argument(
+        "--cited-dir",
+        type=Path,
+        default=DEFAULT_CITED_DIR,
+        help="Directory containing manually supplied cited PDFs (default: papers/cited).",
+    )
+    parser.add_argument(
+        "--cited-pdf",
+        type=Path,
+        help="Explicit local PDF for reference [17]; overrides automatic filename discovery.",
+    )
     args = parser.parse_args()
 
     if not args.paper_a.exists():
@@ -47,6 +59,8 @@ def main() -> None:
         model=args.model,
         contact_email=args.contact_email,
         acquisition_output_dir=args.acquired_dir,
+        local_cited_pdf=args.cited_pdf,
+        local_cited_dir=args.cited_dir,
     )
 
     out = Path(args.out)
@@ -64,8 +78,13 @@ def main() -> None:
         f"resolution={result.resolution.status.value} doi={resolved_doi or 'none'} "
         f"identity_check={'PASS' if identity_ok else 'REVIEW'}"
     )
+    provider = (
+        result.acquisition.artifacts[0].provider.value
+        if result.acquisition.artifacts else "none"
+    )
     print(
-        f"acquisition={result.acquisition.status.value} parse={result.parse_result.status.value} "
+        f"acquisition={result.acquisition.status.value} provider={provider} "
+        f"parse={result.parse_result.status.value} "
         f"retrieval={result.retrieval.status.value} evidence={len(result.retrieval.evidence)}"
     )
     print(

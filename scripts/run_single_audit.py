@@ -22,6 +22,8 @@ def main() -> None:
     parser.add_argument("--model")
     parser.add_argument("--contact-email")
     parser.add_argument("--acquired-dir", default="data/acquired")
+    parser.add_argument("--cited-dir", type=Path, help="Directory containing manually supplied cited PDFs.")
+    parser.add_argument("--cited-pdf", type=Path, help="Explicit local cited PDF for this audit.")
     parser.add_argument("--out", default="data/single_citation_audit.json")
     args = parser.parse_args()
 
@@ -38,6 +40,8 @@ def main() -> None:
         model=args.model,
         contact_email=args.contact_email,
         acquisition_output_dir=args.acquired_dir,
+        local_cited_pdf=args.cited_pdf,
+        local_cited_dir=args.cited_dir,
     )
 
     out = Path(args.out)

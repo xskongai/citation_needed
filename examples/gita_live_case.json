@@ -1,11 +1,16 @@
 {
-  "paper_a": "MFO-PANI_Gita.pdf",
+  "paper_a": "papers/MFO-PANI_Gita.pdf",
   "reference_number": "17",
   "citation_context_contains": "Different composites with different ratios have already been utilized successfully",
+  "manual_cited_pdf": "papers/cited/reference_17.pdf",
   "expected_reference_identity": {
     "title": "The preparation of MnFe2O4 decorated flexible graphene wrapped with PANI and its electrochemical performances for hybrid supercapacitors",
     "doi": "10.1039/C3RA47681B",
     "year": 2014
   },
-  "note": "This is a live validation case. Source availability may vary over time; access failure is an audit state, not a scientific contradiction."
+  "expected_manual_acquisition": {
+    "status": "FULL_TEXT_AVAILABLE",
+    "provider": "LOCAL_FILE"
+  },
+  "note": "Place the researcher-supplied Paper B PDF at papers/cited/reference_17.pdf to bypass remote source acquisition and continue the audit pipeline."
 }

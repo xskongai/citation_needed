@@ -1,8 +1,8 @@
-# Citation Needed — Real-world Validation v2.1.1
+# Citation Needed — Manual Cited-PDF Fallback v2.1.3
 
-v2.1.1 hardens the single-citation MVP against a real scientific paper and bundles the Gita PDF inside the project for reproducible local validation.
+v2.1.3 keeps the existing real-world single-citation audit and adds the first explicit **human-in-the-loop source recovery path**: when Citation Needed identifies a cited paper but cannot retrieve its full text automatically, the researcher can place the cited PDF inside the project and re-run the same audit.
 
-The live validation target is Gita Singh et al.'s MnFe2O4@PANI paper, using its reference **[17]**:
+The bundled Paper A is Gita Singh et al.'s MnFe2O4@PANI paper. The current live case targets reference **[17]**:
 
 ```text
 Paper A: Nano-flowered manganese doped ferrite@PANI composite...
@@ -14,60 +14,92 @@ The preparation of MnFe2O4 decorated flexible graphene wrapped with PANI...
 DOI: 10.1039/C3RA47681B
 ```
 
-## What v2.1 adds
+## v2.1.3 goal
 
-### 1. Conservative bibliography -> Crossref identity enrichment
-
-Real bibliographies often contain no DOI. v1.7 therefore correctly returned `PARTIALLY_RESOLVED` for Gita reference [17].
-
-v2.1 adds a deterministic Crossref bibliographic lookup:
+This version intentionally solves only the source handoff problem:
 
 ```text
-raw bibliography entry
-  -> Crossref candidates
-  -> title/year/author agreement checks
-  -> strong unique match only
-  -> canonical DOI
+Automatic source access fails
+        ↓
+Researcher supplies Paper B PDF
+        ↓
+Citation Needed detects local PDF
+        ↓
+Parse Paper B
+        ↓
+Retrieve evidence
+        ↓
+Judge claim–citation relation
+        ↓
+Assess source
+        ↓
+Reliability decision
 ```
 
-If the match is weak or ambiguous, the state remains `PARTIALLY_RESOLVED`. No LLM is allowed to invent a DOI.
+It does **not** yet redesign online source discovery, and it does **not** yet fix the known claim-granularity issue in the Gita multi-citation sentence. Those are separate changes so this workflow can be validated in isolation.
 
-### 2. Repeated-citation disambiguation
-
-The same reference can appear more than once in a real paper. A reference number alone is therefore not always a unique citation relation.
-
-v2.1 adds `citation_context_contains`, so a specific use of `[17]` can be selected by its local citation context.
-
-### 3. Targeted extraction for an explicit reference
-
-When `--reference-number` is supplied, the extractor receives only sections where that numeric citation is actually visible. This reduces token cost and avoids unrelated citation extraction while preserving original provenance.
-
-### 4. PyMuPDF API hardening
-
-Runtime/tests now use:
-
-```python
-import pymupdf
-```
-
-rather than the deprecated `fitz` alias.
-
-## Architecture
+## Project layout
 
 ```text
-Paper A
-  -> Source Parser
-  -> Targeted Citation Extraction
-  -> Local Reference Resolution
-  -> Crossref Identity Enrichment       [new]
-  -> Source Acquisition
-  -> Parse Paper B
-  -> Evidence Retrieval
-  -> Relation Judge
-  -> Source Assessor
-  -> Reliability Policy
-  -> SingleCitationAuditTrace
+citation-needed-v2.1.3/
+├── papers/
+│   ├── MFO-PANI_Gita.pdf          # Paper A, bundled
+│   └── cited/
+│       ├── README.md
+│       └── reference_17.pdf       # Paper B: you place this manually
+├── citation_needed/
+├── scripts/
+├── examples/
+├── tests/
+└── data/
 ```
+
+The cited PDF itself is intentionally **not** bundled and is git-ignored. This avoids accidentally redistributing a paper that the researcher obtained separately.
+
+## Manual cited-PDF naming
+
+For the Gita [17] case, the recommended filename is:
+
+```text
+papers/cited/reference_17.pdf
+```
+
+The acquirer also recognizes:
+
+```text
+papers/cited/ref_17.pdf
+papers/cited/17.pdf
+papers/cited/10.1039_c3ra47681b.pdf
+```
+
+Or explicitly provide any local path:
+
+```bash
+python scripts/run_gita_live_audit.py \
+  --cited-pdf /path/to/paper-b.pdf \
+  --out data/gita_live_audit.json
+```
+
+## Acquisition priority
+
+When `papers/cited/` is configured, the order is now:
+
+```text
+1. Explicit --cited-pdf
+2. Matching local PDF in papers/cited/
+3. Existing remote Crossref / Unpaywall acquisition
+```
+
+A local file is accepted as full text only if it has a PDF header. A random text/HTML file renamed to `.pdf` is not promoted to full-text evidence.
+
+When a local PDF is used, the acquisition trace records:
+
+```text
+acquisition=FULL_TEXT_AVAILABLE
+provider=LOCAL_FILE
+```
+
+Remote acquisition is then skipped, but **all downstream scientific processing remains unchanged**.
 
 ## Install
 
@@ -78,7 +110,7 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements-dev.txt
 ```
 
-## Local tests
+## Tests
 
 ```bash
 python -m pytest -q
@@ -87,53 +119,77 @@ python -m pytest -q
 Expected baseline:
 
 ```text
-75 passed
+80 passed
 ```
 
-## Bundled Gita paper
+The new tests cover:
 
-The real validation PDF is stored inside the project at:
+- explicit local cited PDF;
+- automatic `reference_<n>.pdf` discovery;
+- DOI-based local filename discovery;
+- invalid fake-PDF rejection;
+- local PDF -> Source Parser continuation.
+
+## Run the Gita case
+
+### Step 1 — place Paper B
+
+Put the manually obtained [17] paper at:
 
 ```text
-papers/MFO-PANI_Gita.pdf
+papers/cited/reference_17.pdf
 ```
 
-This keeps the live validation case self-contained. You do not need to pass a PDF path for the default run.
-
-## Run the Gita live audit
+### Step 2 — run
 
 ```bash
-export OPENAI_API_KEY="your_new_key"
-export CITATION_NEEDED_CONTACT_EMAIL="you@example.com"
+export OPENAI_API_KEY="your_key"
 
 python scripts/run_gita_live_audit.py \
   --out data/gita_live_audit.json
 ```
 
-You can still override the bundled paper by passing another path as the optional first argument.
+No `CITATION_NEEDED_CONTACT_EMAIL` is required when the local PDF is found because the remote acquisition route is skipped.
 
-The script targets the specific use of reference [17] in the sentence beginning:
-
-```text
-Different composites with different ratios have already been utilized successfully...
-```
-
-It independently checks that the resolved DOI is:
+The important transition to look for is:
 
 ```text
-10.1039/C3RA47681B
+resolution=RESOLVED ... identity_check=PASS
+acquisition=FULL_TEXT_AVAILABLE provider=LOCAL_FILE
+parse=FULL_TEXT_PARSED
+retrieval=FOUND ...
 ```
 
-Source availability is intentionally not a pass/fail scientific result. A publisher or OA access change may yield full text, abstract/metadata only, or restricted access; those states remain explicit in the audit trace.
+After that, inspect the actual `support`, `reliability`, evidence excerpts, and the complete JSON trace.
 
-## Generic real audit
+## Existing v2.1 capabilities retained
+
+- conservative bibliography -> Crossref identity enrichment;
+- repeated-citation context disambiguation;
+- targeted extraction for an explicit reference number;
+- explicit availability and unresolved states;
+- PyMuPDF parser using `import pymupdf`;
+- deterministic reliability policy.
+
+## Generic single-citation audit with manual Paper B
 
 ```bash
 python scripts/run_single_audit.py paper_a.pdf \
   --kind PDF \
   --paper-id paper-a \
   --reference-number 17 \
-  --context-contains "distinctive citation context" \
+  --cited-pdf /path/to/paper-b.pdf \
+  --out data/single_citation_audit.json
+```
+
+Or use a reusable directory:
+
+```bash
+python scripts/run_single_audit.py paper_a.pdf \
+  --kind PDF \
+  --paper-id paper-a \
+  --reference-number 17 \
+  --cited-dir papers/cited \
   --out data/single_citation_audit.json
 ```
 
@@ -142,9 +198,14 @@ python scripts/run_single_audit.py paper_a.pdf \
 Suggested commit message:
 
 ```text
-Bundle real Gita paper for reproducible live citation audit
+Add researcher-supplied cited PDF fallback
 ```
 
 Short PR description:
 
-> Bundles the Gita validation PDF under `papers/`, defaults the live audit script to that project-local file, and retains conservative Crossref enrichment, citation-context disambiguation, targeted extraction, and the existing single-citation audit pipeline.
+> Adds a local cited-PDF acquisition path before remote lookup. Researchers can place inaccessible cited papers in `papers/cited/` or pass `--cited-pdf`; the source is validated, traced as `LOCAL_FILE`, and then passed through the existing parser, evidence retriever, judge, source assessor, and reliability policy. Adds regression tests and git-ignore protection for manually supplied PDFs.
+
+
+## v2.1.3 test isolation fix
+
+Acquisition tests that explicitly exercise the no-email branch now clear `CITATION_NEEDED_CONTACT_EMAIL` with pytest `monkeypatch`. This prevents a developer's exported shell environment from changing deterministic unit-test expectations. Production behavior is unchanged: when no explicit `contact_email` is passed, the environment variable is still a valid fallback.

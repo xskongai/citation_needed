@@ -21,6 +21,7 @@ class AcquisitionStatus(str, Enum):
 
 
 class AcquisitionProvider(str, Enum):
+    LOCAL_FILE = "LOCAL_FILE"
     CROSSREF = "CROSSREF"
     UNPAYWALL = "UNPAYWALL"
     DIRECT_URL = "DIRECT_URL"

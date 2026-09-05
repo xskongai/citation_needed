@@ -205,6 +205,8 @@ def audit_single_citation_from_document(
     model: str | None = None,
     contact_email: str | None = None,
     acquisition_output_dir: str | Path = "data/acquired",
+    local_cited_pdf: str | Path | None = None,
+    local_cited_dir: str | Path | None = None,
     http_client: HttpClient | None = None,
     top_k: int = 12,
     extractor: Callable[..., ExtractionResult] = extract_citation_assertions_openai,
@@ -248,6 +250,8 @@ def audit_single_citation_from_document(
         output_dir=acquisition_output_dir,
         contact_email=contact_email,
         client=http_client,
+        local_source_path=local_cited_pdf,
+        local_source_dir=local_cited_dir,
     )
     warnings.extend(acquisition.warnings)
 

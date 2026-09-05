@@ -108,12 +108,91 @@ def _dedupe_candidates(candidates: list[RemoteCandidate]) -> list[RemoteCandidat
     return out
 
 
+def _local_pdf_name_candidates(resolution: CitationResolution) -> list[str]:
+    """Deterministic filenames accepted for a manually supplied cited PDF."""
+    names: list[str] = []
+    ref = str(resolution.reference_number).strip()
+    if ref:
+        names.extend([f"reference_{ref}.pdf", f"ref_{ref}.pdf", f"{ref}.pdf"])
+
+    doi = _doi_from_resolution(resolution)
+    if doi:
+        safe = re.sub(r"[^A-Za-z0-9._-]+", "_", doi).strip("._-")
+        if safe:
+            names.append(f"{safe}.pdf")
+
+    return list(dict.fromkeys(names))
+
+
+def _find_local_cited_pdf(
+    resolution: CitationResolution,
+    *,
+    local_source_path: str | Path | None,
+    local_source_dir: str | Path | None,
+) -> tuple[Path | None, list[str]]:
+    """Locate a researcher-supplied PDF without guessing across arbitrary files."""
+    warnings: list[str] = []
+
+    if local_source_path is not None:
+        path = Path(local_source_path)
+        if path.exists() and path.is_file():
+            return path, warnings
+        warnings.append(f"Explicit local cited source was not found: {path}")
+
+    if local_source_dir is None:
+        return None, warnings
+
+    directory = Path(local_source_dir)
+    if not directory.exists():
+        return None, warnings
+    if not directory.is_dir():
+        warnings.append(f"Local cited-source path is not a directory: {directory}")
+        return None, warnings
+
+    by_lower = {p.name.lower(): p for p in directory.iterdir() if p.is_file()}
+    for name in _local_pdf_name_candidates(resolution):
+        hit = by_lower.get(name.lower())
+        if hit is not None:
+            return hit, warnings
+
+    return None, warnings
+
+
+def _local_pdf_artifact(
+    resolution: CitationResolution,
+    path: Path,
+) -> tuple[AcquiredArtifact | None, str | None]:
+    """Validate a local PDF enough to avoid treating arbitrary files as full text."""
+    try:
+        size = path.stat().st_size
+        with path.open("rb") as fh:
+            prefix = fh.read(5)
+        if prefix != b"%PDF-":
+            return None, f"Local cited source is not a valid PDF header: {path}"
+        body = path.read_bytes()
+    except OSError as exc:
+        return None, f"Could not read local cited source {path}: {exc}"
+
+    return AcquiredArtifact(
+        provider=AcquisitionProvider.LOCAL_FILE,
+        url=path.resolve().as_uri(),
+        kind=ArtifactKind.PDF,
+        media_type="application/pdf",
+        access_level=AccessLevel.UNKNOWN,
+        local_path=str(path),
+        sha256=hashlib.sha256(body).hexdigest(),
+        size_bytes=size,
+    ), None
+
+
 def acquire_source(
     resolution: CitationResolution,
     *,
     output_dir: str | Path = "data/acquired",
     contact_email: str | None = None,
     client: HttpClient | None = None,
+    local_source_path: str | Path | None = None,
+    local_source_dir: str | Path | None = None,
     timeout: float = 20.0,
     metadata_max_bytes: int = 5_000_000,
     artifact_max_bytes: int = 50_000_000,
@@ -132,11 +211,43 @@ def acquire_source(
             warnings=["Citation identity is unresolved; remote acquisition was not attempted."],
         )
 
+    metadata = _metadata_from_resolution(resolution)
+
+    # Human-in-the-loop recovery: a researcher-supplied local PDF takes
+    # precedence over all remote acquisition routes. This is source access,
+    # not scientific judgement; the downstream parser/retriever/judge remain
+    # unchanged.
+    local_path, local_warnings = _find_local_cited_pdf(
+        resolution,
+        local_source_path=local_source_path,
+        local_source_dir=local_source_dir,
+    )
+    if local_path is not None:
+        artifact, error = _local_pdf_artifact(resolution, local_path)
+        if artifact is not None:
+            return AcquiredSource(
+                relation_id=resolution.relation_id,
+                cited_paper_id=resolution.cited_paper_id,
+                status=AcquisitionStatus.FULL_TEXT_AVAILABLE,
+                metadata=metadata,
+                artifacts=[artifact],
+                discovered_urls=[artifact.url],
+                provider_attempts=[ProviderAttempt(
+                    provider=AcquisitionProvider.LOCAL_FILE,
+                    url=artifact.url,
+                    outcome="researcher_supplied_full_text",
+                    detail="Local cited PDF selected before remote acquisition.",
+                )],
+                warnings=local_warnings + [
+                    "Using researcher-supplied local cited PDF; remote acquisition was skipped."
+                ],
+            )
+        local_warnings.append(error or "Local cited source could not be validated as PDF.")
+
     http = client or UrllibHttpClient()
     email = contact_email or os.getenv("CITATION_NEEDED_CONTACT_EMAIL")
-    metadata = _metadata_from_resolution(resolution)
     attempts: list[ProviderAttempt] = []
-    warnings: list[str] = []
+    warnings: list[str] = list(local_warnings)
     candidates: list[RemoteCandidate] = []
     discovered_urls: list[str] = []
     network_failures = 0

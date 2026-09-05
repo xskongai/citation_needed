@@ -130,7 +130,8 @@ def test_non_oa_without_abstract_is_access_restricted(tmp_path):
     assert out.status == AcquisitionStatus.ACCESS_RESTRICTED
 
 
-def test_crossref_only_metadata_is_metadata_only_without_unpaywall_email(tmp_path):
+def test_crossref_only_metadata_is_metadata_only_without_unpaywall_email(tmp_path, monkeypatch):
+    monkeypatch.delenv("CITATION_NEEDED_CONTACT_EMAIL", raising=False)
     doi = "10.1234/example"
     cu = crossref_url(doi)
     client = FakeHttpClient({cu: response(cu, payload=crossref_payload(doi))})
@@ -138,6 +139,21 @@ def test_crossref_only_metadata_is_metadata_only_without_unpaywall_email(tmp_pat
     assert out.status == AcquisitionStatus.METADATA_ONLY
     assert out.metadata.title == "Remote title"
     assert any("Unpaywall" in w for w in out.warnings)
+
+
+def test_unpaywall_email_can_come_from_environment(tmp_path, monkeypatch):
+    doi = "10.1234/example"
+    email = "env@example.test"
+    monkeypatch.setenv("CITATION_NEEDED_CONTACT_EMAIL", email)
+    cu = crossref_url(doi)
+    uu = unpaywall_url(doi, email)
+    client = FakeHttpClient({
+        cu: response(cu, payload=crossref_payload(doi)),
+        uu: response(uu, payload=unpaywall_payload(is_oa=False)),
+    })
+    out = acquire_source(resolution(doi=doi), output_dir=tmp_path, client=client, contact_email=None)
+    assert out.status == AcquisitionStatus.ACCESS_RESTRICTED
+    assert uu in client.calls
 
 
 def test_invalid_doi_not_found_when_both_providers_404(tmp_path):
@@ -184,3 +200,93 @@ def test_direct_pdf_url_can_be_acquired_without_doi(tmp_path):
     out = acquire_source(res, output_dir=tmp_path, client=client)
     assert out.status == AcquisitionStatus.FULL_TEXT_AVAILABLE
     assert out.artifacts[0].url == url
+
+
+def _write_minimal_pdf(path: Path, text: str = "Local cited source") -> None:
+    import pymupdf
+
+    doc = pymupdf.open()
+    page = doc.new_page()
+    page.insert_text((72, 72), text)
+    doc.save(path)
+    doc.close()
+
+
+def test_researcher_supplied_local_pdf_takes_priority_and_skips_network(tmp_path):
+    local_pdf = tmp_path / "paper-b.pdf"
+    _write_minimal_pdf(local_pdf)
+    client = FakeHttpClient()
+
+    out = acquire_source(
+        resolution(),
+        output_dir=tmp_path / "remote",
+        client=client,
+        contact_email="a@b.example",
+        local_source_path=local_pdf,
+    )
+
+    assert out.status == AcquisitionStatus.FULL_TEXT_AVAILABLE
+    assert len(out.artifacts) == 1
+    assert out.artifacts[0].provider.value == "LOCAL_FILE"
+    assert Path(out.artifacts[0].local_path) == local_pdf
+    assert out.artifacts[0].sha256
+    assert client.calls == []
+    assert any("researcher-supplied" in w for w in out.warnings)
+
+
+def test_local_cited_directory_discovers_reference_number_filename(tmp_path):
+    cited = tmp_path / "cited"
+    cited.mkdir()
+    local_pdf = cited / "reference_7.pdf"
+    _write_minimal_pdf(local_pdf)
+    client = FakeHttpClient()
+
+    out = acquire_source(
+        resolution(),
+        client=client,
+        local_source_dir=cited,
+    )
+
+    assert out.status == AcquisitionStatus.FULL_TEXT_AVAILABLE
+    assert out.artifacts[0].provider.value == "LOCAL_FILE"
+    assert Path(out.artifacts[0].local_path) == local_pdf
+    assert client.calls == []
+
+
+def test_local_cited_directory_discovers_doi_filename(tmp_path):
+    cited = tmp_path / "cited"
+    cited.mkdir()
+    local_pdf = cited / "10.1234_example.pdf"
+    _write_minimal_pdf(local_pdf)
+    client = FakeHttpClient()
+
+    out = acquire_source(
+        resolution(),
+        client=client,
+        local_source_dir=cited,
+    )
+
+    assert out.status == AcquisitionStatus.FULL_TEXT_AVAILABLE
+    assert Path(out.artifacts[0].local_path) == local_pdf
+    assert client.calls == []
+
+
+def test_invalid_local_pdf_is_not_promoted_to_full_text_and_remote_fallback_runs(tmp_path, monkeypatch):
+    monkeypatch.delenv("CITATION_NEEDED_CONTACT_EMAIL", raising=False)
+    local_pdf = tmp_path / "reference_7.pdf"
+    local_pdf.write_text("this is not a PDF")
+    doi = "10.1234/example"
+    cu = crossref_url(doi)
+    client = FakeHttpClient({cu: response(cu, payload=crossref_payload(doi))})
+
+    out = acquire_source(
+        resolution(doi=doi),
+        output_dir=tmp_path / "remote",
+        client=client,
+        contact_email=None,
+        local_source_path=local_pdf,
+    )
+
+    assert out.status == AcquisitionStatus.METADATA_ONLY
+    assert any("not a valid PDF header" in w for w in out.warnings)
+    assert cu in client.calls

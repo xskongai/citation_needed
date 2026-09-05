@@ -2,10 +2,20 @@
 
 `MFO-PANI_Gita.pdf` is the bundled real-world Paper A used by `scripts/run_gita_live_audit.py`.
 
-Default path:
-
 ```text
 papers/MFO-PANI_Gita.pdf
 ```
 
-The script may still be given a different PDF path as its optional first positional argument.
+When an automatically retrieved cited paper is unavailable, manually obtained cited PDFs belong under:
+
+```text
+papers/cited/
+```
+
+For the current Gita reference [17] audit, use:
+
+```text
+papers/cited/reference_17.pdf
+```
+
+See `papers/cited/README.md` for accepted filenames and override options.
