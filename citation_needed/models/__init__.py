@@ -1,3 +1,13 @@
+from .acquisition import (
+    AccessLevel,
+    AcquisitionProvider,
+    AcquisitionStatus,
+    AcquiredArtifact,
+    AcquiredMetadata,
+    AcquiredSource,
+    ArtifactKind,
+    ProviderAttempt,
+)
 from .audit import CitationAuditResult, ReliabilityDecision
 from .assertion import Assertion, ClaimType
 from .citation import CitationPurpose, CitationRelation, FollowPriority, ResolutionStatus
@@ -41,6 +51,14 @@ from .source_assessment import (
 )
 
 __all__ = [
+    "AccessLevel",
+    "AcquisitionProvider",
+    "AcquisitionStatus",
+    "AcquiredArtifact",
+    "AcquiredMetadata",
+    "AcquiredSource",
+    "ArtifactKind",
+    "ProviderAttempt",
     "Assertion",
     "ClaimType",
     "CitationPurpose",

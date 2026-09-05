@@ -1,148 +1,131 @@
-# Citation Needed — Evidence Retriever v1.8
+# Citation Needed — Source Acquisition v1.9
 
-v1.8 adds the missing bridge between a resolved citation and the existing judgement stack: **retrieve exact, auditable evidence passages from a supplied cited paper**.
+v1.9 fills the availability gap between **Reference Resolution** and **Evidence Retrieval**.
 
 ```text
 Paper A
   |
   v
-Citation-bearing Assertion Extraction      [v1.6]
+Citation-bearing Assertion Extraction       [v1.6] DONE
   |
   v
-Reference Resolution                        [v1.7]
+Reference Resolution                         [v1.7] DONE
   |
   v
-Cited Paper B as StructuredDocument
+Source Acquisition                           [v1.9] NEW
+  |-- Crossref metadata lookup
+  |-- optional Unpaywall OA-location lookup
+  |-- guarded full-text artifact download
+  |-- explicit availability states
+  |-- exact artifact provenance + SHA-256
   |
   v
-Evidence Retriever                          [v1.8]
-  |-- deterministic candidate generation
-  |-- semantic relevance selection
-  |-- exact passage materialization
-  |-- provenance preserved
+Acquired source artifact
   |
   v
-Evidence + Provenance
+Source Parsing / StructuredDocument          NEXT
   |
-  +------------------+
-  v                  v
-Relation Judge   Source Assessor
-  +--------+---------+
-           v
-   Reliability Policy
+  v
+Evidence Retriever                           [v1.8] DONE
+  |
+  v
+Relation Judge + Source Assessor + Reliability Policy
 ```
 
-## Important boundary
+## Core boundary
 
-v1.8 assumes **Paper B has already been acquired and parsed into `StructuredDocument`**.
+v1.9 answers:
 
-It does **not** yet download papers from DOI/URL, query Crossref/OpenAlex/Unpaywall, or parse PDF bytes. Those belong to the source-acquisition layer.
+> **Where is the cited source, and what content can we actually obtain?**
 
-This separation is deliberate:
+It does **not** answer:
+
+- whether the source supports the claim;
+- whether the source is scientifically good;
+- which passage is evidence;
+- whether an unavailable paper is negative evidence.
 
 ```text
-Citation resolution != source acquisition != evidence retrieval
+source unavailable != evidence absent
+abstract != full text
+landing page != full text
+metadata-only != bad source
 ```
 
-## What v1.8 adds
-
-### 1. `EvidenceCandidate`
-
-Every retrieval candidate is an exact passage from the supplied cited source and carries:
-
-- source paper ID
-- section ID
-- retrieval-local passage index
-- exact passage text
-- source location copied from the parser
-- evidence type (`TEXT`, `METHOD`, `RESULT`)
-- lexical prefilter score
-- matched query terms
-- small citation-purpose section boost
-
-The generated passage index is **not written into source provenance as a fake paragraph number**.
-
-### 2. Cheap deterministic candidate generation
-
-`build_evidence_candidates(...)` uses:
+## Acquisition states
 
 ```text
-normalized claim
-+
-citation context
-+
-small purpose-aware section preference
-```
-
-to create a short candidate set.
-
-Purpose preference is only a boost, never a hard filter. A result passage is not removed merely because the citation was classified as METHOD, and vice versa.
-
-### 3. Semantic selector with anti-confirmation-bias rule
-
-The hosted selector is explicitly told:
-
-```text
-Retrieval != support judgement
-```
-
-It may retrieve passages that:
-
-- support the claim
-- contradict the claim
-- qualify/limit the claim
-- expose a condition mismatch
-- provide method/parameter context
-
-A contradictory value is therefore **successful retrieval**, not a retrieval failure.
-
-### 4. Candidate-ID-only materialization
-
-The LLM cannot write evidence text.
-
-It returns only candidate IDs:
-
-```text
-[cand:results:1, cand:methods:2]
-```
-
-Code then copies the exact system-owned candidate text into `Evidence` objects.
-
-Unknown/invented candidate IDs are ignored and recorded as warnings.
-
-### 5. Explicit retrieval states
-
-```text
-FOUND
-NO_RELEVANT_EVIDENCE
-SOURCE_UNAVAILABLE
+FULL_TEXT_AVAILABLE
+ABSTRACT_ONLY
+METADATA_ONLY
+ACCESS_RESTRICTED
+NOT_FOUND
+ACQUISITION_FAILED
 UNRESOLVED
 ```
 
-Examples:
+The distinctions are intentional:
 
-- cited paper not supplied -> `SOURCE_UNAVAILABLE`
-- supplied paper ID does not match `citation_relation.cited_paper_id` -> `UNRESOLVED`
-- paper is supplied but contains no directly relevant evidence -> `NO_RELEVANT_EVIDENCE`
+- `ACCESS_RESTRICTED`: a source appears to exist, but usable full text is not openly available through the attempted routes.
+- `NOT_FOUND`: the remote identity lookup returned not-found states.
+- `ACQUISITION_FAILED`: network/tooling failed, so absence was **not established**.
+- `UNRESOLVED`: the citation identity itself was not resolved, so remote acquisition was not attempted.
 
-Core rule:
+## Providers in v1.9
 
-```text
-No relevant evidence found != source unavailable
-Related topic != relevant evidence
-Contradiction != retrieval failure
+### Crossref
+
+Used for DOI metadata and provider-declared full-text links when present.
+
+### Unpaywall
+
+Used optionally for open-access locations. Set either:
+
+```bash
+export CITATION_NEEDED_CONTACT_EMAIL="you@example.com"
 ```
+
+or pass `--contact-email` to the CLI.
+
+### Direct URL
+
+A bibliography URL ending in a clear full-text format such as `.pdf`, `.xml`, or `.txt` can be fetched directly.
+
+## Guardrails
+
+### 1. A landing page is not full text
+
+The acquirer does not mark a generic HTML landing page as `FULL_TEXT_AVAILABLE`.
+
+### 2. PDF candidate returning HTML is rejected as full text
+
+This catches common login / access pages returned from a URL that looked like a PDF.
+
+### 3. Full-text bytes are system-owned
+
+Downloaded artifacts are saved locally with:
+
+- source URL;
+- provider;
+- detected media type;
+- byte size;
+- SHA-256 checksum.
+
+### 4. Network failure is not `NOT_FOUND`
+
+A timeout or connection failure becomes `ACQUISITION_FAILED`, preserving epistemic uncertainty.
 
 ## Install
 
 ```bash
-cd citation-needed-v1.8
+cd citation-needed-v1.9
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e .
 pip install pytest
-export OPENAI_API_KEY="your_key_here"
 ```
+
+No OpenAI key is needed for the acquisition layer itself.
 
 ## Local tests
 
@@ -150,64 +133,90 @@ export OPENAI_API_KEY="your_key_here"
 pytest -q
 ```
 
-## Run the hosted retrieval suite
+## Run the deterministic acquisition suite
+
+This suite uses a fake HTTP transport, so it does not depend on external services:
 
 ```bash
-python scripts/run_retrieval_suite.py \
-  --out data/retrieval_report.json
+python scripts/run_acquisition_suite.py \
+  --out data/acquisition_report.json
 ```
 
-The suite covers:
+It covers:
 
-1. real-paper-inspired specific capacitance retrieval
-2. method/condition retrieval (`pH 12`, `145 °C`, `24 hours`)
-3. contradictory numeric evidence must still be retrieved (`8 nm` claim vs `18 nm` source)
-4. condition mismatch must still be retrieved (`5 A/g` claim vs `1 A/g` source)
-5. unrelated thermal-conductivity claim -> `NO_RELEVANT_EVIDENCE`
+1. open-access PDF -> `FULL_TEXT_AVAILABLE`
+2. abstract without full text -> `ABSTRACT_ONLY`
+3. metadata only -> `METADATA_ONLY`
+4. known non-OA source -> `ACCESS_RESTRICTED`
+5. provider 404s -> `NOT_FOUND`
+6. network failure -> `ACQUISITION_FAILED`
+7. PDF URL returning login HTML must **not** become full text
+8. direct PDF URL acquisition
 
-## Run one retrieval
+## Run a real acquisition
+
+First produce or save a single `CitationResolution` JSON, then:
 
 ```bash
-python scripts/run_retrieval.py \
-  --assertion examples/your_assertion.json \
-  --citation examples/your_citation.json \
-  --source-document examples/your_cited_paper.json \
-  --source-role PRIMARY_STUDY \
-  --out data/retrieval.json
+python scripts/run_acquisition.py \
+  --resolution data/resolution.json \
+  --contact-email "you@example.com" \
+  --artifact-dir data/acquired \
+  --out data/acquisition.json
 ```
+
+Remote behavior depends on source availability, publisher/repository access, and provider uptime. The deterministic suite tests our policy and state transitions; a live run tests external integration.
 
 ## Current architecture
 
 ```text
-Structured Paper A
-      |
-      v
-Assertion + CitationRelation Extraction       DONE
-      |
-      v
-Local Bibliography Resolution                 DONE
-      |
-      v
-Remote Metadata / Full-text Acquisition       NOT DONE
-      |
-      v
-Structured Paper B
-      |
-      v
-Evidence Retrieval                            DONE (v1.8 baseline)
-      |
-      v
-Evidence + Provenance
-      |                 |
-      v                 v
-Relation Judge      Source Assessor            DONE
-      +--------+--------+
-               v
-       Reliability Policy                      DONE
+Paper A
+  |
+  v
+Extraction                                  DONE
+  |
+  v
+Reference Resolution                       DONE
+  |
+  v
+Remote Source Acquisition                  DONE (v1.9 baseline)
+  |
+  v
+Raw PDF/XML/Text artifact
+  |
+  v
+Source Parser -> StructuredDocument        NOT DONE
+  |
+  v
+Evidence Retrieval                         DONE
+  |
+  v
+Relation Judge                             DONE
+  |
+  v
+Source Assessor                            DONE
+  |
+  v
+Reliability Policy                         DONE
 ```
 
-## Why this is still a baseline
+## Next
 
-The candidate generator is intentionally simple: lexical overlap + small section-purpose boosts, followed by semantic selection. It is designed to validate the **retrieval contract and safeguards** before introducing embeddings, vector indexes, figure/table retrieval, or domain-specific retrieval strategies.
+The next missing contract is deliberately small:
 
-Next after semantic validation: connect `Reference Resolution -> Source Acquisition -> StructuredDocument -> Evidence Retriever`, then run the first true `Paper A -> Paper B -> Evidence -> Judgement` end-to-end audit.
+```text
+AcquiredArtifact
+      |
+      v
+Source Parser
+      |
+      v
+StructuredDocument
+```
+
+Once that parser exists, the first true single-citation end-to-end audit can connect:
+
+```text
+Paper A -> citation -> Paper B -> acquired full text -> parsed source
+        -> evidence -> judgement -> source assessment -> reliability
+```

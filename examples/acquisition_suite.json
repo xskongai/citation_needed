@@ -1,0 +1,10 @@
+[
+  {"name": "open_access_pdf", "fixture": "open_access_pdf", "expected_status": "FULL_TEXT_AVAILABLE", "expected_artifacts": 1},
+  {"name": "abstract_only", "fixture": "abstract_only", "expected_status": "ABSTRACT_ONLY", "expected_artifacts": 0},
+  {"name": "metadata_only", "fixture": "metadata_only", "expected_status": "METADATA_ONLY", "expected_artifacts": 0},
+  {"name": "access_restricted", "fixture": "access_restricted", "expected_status": "ACCESS_RESTRICTED", "expected_artifacts": 0},
+  {"name": "not_found", "fixture": "not_found", "expected_status": "NOT_FOUND", "expected_artifacts": 0},
+  {"name": "network_failure", "fixture": "network_failure", "expected_status": "ACQUISITION_FAILED", "expected_artifacts": 0},
+  {"name": "html_login_not_full_text", "fixture": "html_login_not_full_text", "expected_status": "METADATA_ONLY", "expected_artifacts": 0},
+  {"name": "direct_pdf", "fixture": "direct_pdf", "expected_status": "FULL_TEXT_AVAILABLE", "expected_artifacts": 1}
+]
