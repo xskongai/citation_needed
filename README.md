@@ -1,6 +1,6 @@
-# Citation Needed — Source Acquisition v1.9
+# Citation Needed — Source Parser v1.10
 
-v1.9 fills the availability gap between **Reference Resolution** and **Evidence Retrieval**.
+v1.10 closes the structural gap between **Source Acquisition** and **Evidence Retrieval**.
 
 ```text
 Paper A
@@ -9,24 +9,27 @@ Paper A
 Citation-bearing Assertion Extraction       [v1.6] DONE
   |
   v
-Reference Resolution                         [v1.7] DONE
+Reference Resolution                        [v1.7] DONE
   |
   v
-Source Acquisition                           [v1.9] NEW
-  |-- Crossref metadata lookup
-  |-- optional Unpaywall OA-location lookup
-  |-- guarded full-text artifact download
-  |-- explicit availability states
-  |-- exact artifact provenance + SHA-256
+Source Acquisition                          [v1.9] DONE
   |
   v
-Acquired source artifact
+PDF / XML / HTML / TXT
   |
   v
-Source Parsing / StructuredDocument          NEXT
+Source Parser                               [v1.10] NEW
+  |-- section classification
+  |-- page/section provenance
+  |-- bibliography extraction
+  |-- abstract-only boundary
+  |-- explicit parse states
   |
   v
-Evidence Retriever                           [v1.8] DONE
+StructuredDocument
+  |
+  v
+Evidence Retriever                          [v1.8] DONE
   |
   v
 Relation Judge + Source Assessor + Reliability Policy
@@ -34,98 +37,76 @@ Relation Judge + Source Assessor + Reliability Policy
 
 ## Core boundary
 
-v1.9 answers:
+v1.10 answers:
 
-> **Where is the cited source, and what content can we actually obtain?**
+> **How do we convert the source bytes we actually obtained into a traceable document structure that downstream retrieval can consume?**
 
-It does **not** answer:
-
-- whether the source supports the claim;
-- whether the source is scientifically good;
-- which passage is evidence;
-- whether an unavailable paper is negative evidence.
+It does **not** decide whether a passage supports a claim. That remains the responsibility of the Evidence Retriever and Relation Judge.
 
 ```text
-source unavailable != evidence absent
-abstract != full text
-landing page != full text
-metadata-only != bad source
+parse failure != source absence
+abstract-only != full-text parse
+reference list != evidence section
+page provenance must not be invented
 ```
 
-## Acquisition states
+## Supported input formats
+
+- PDF via PyMuPDF
+- JATS-like XML
+- HTML
+- plain text
+
+## Structured output
+
+`StructuredDocument` now includes typed sections:
 
 ```text
-FULL_TEXT_AVAILABLE
-ABSTRACT_ONLY
-METADATA_ONLY
-ACCESS_RESTRICTED
-NOT_FOUND
-ACQUISITION_FAILED
-UNRESOLVED
+ABSTRACT
+INTRODUCTION
+METHODS
+RESULTS
+DISCUSSION
+CONCLUSION
+SUPPLEMENTARY
+OTHER
 ```
 
-The distinctions are intentional:
+References are parsed separately and are deliberately excluded from evidence-bearing sections.
 
-- `ACCESS_RESTRICTED`: a source appears to exist, but usable full text is not openly available through the attempted routes.
-- `NOT_FOUND`: the remote identity lookup returned not-found states.
-- `ACQUISITION_FAILED`: network/tooling failed, so absence was **not established**.
-- `UNRESOLVED`: the citation identity itself was not resolved, so remote acquisition was not attempted.
+Each parsed body unit keeps:
 
-## Providers in v1.9
+- exact source text;
+- page when available;
+- logical section heading;
+- section type;
+- local paragraph index.
 
-### Crossref
+For PDFs, visual line blocks are aggregated under the same heading within a page. This keeps page provenance while preventing line-wrapped scientific sentences from becoming isolated retrieval fragments.
 
-Used for DOI metadata and provider-declared full-text links when present.
+## Parse states
 
-### Unpaywall
-
-Used optionally for open-access locations. Set either:
-
-```bash
-export CITATION_NEEDED_CONTACT_EMAIL="you@example.com"
+```text
+FULL_TEXT_PARSED
+ABSTRACT_ONLY_PARSED
+SOURCE_UNAVAILABLE
+UNSUPPORTED_FORMAT
+PARSE_FAILED
 ```
 
-or pass `--contact-email` to the CLI.
-
-### Direct URL
-
-A bibliography URL ending in a clear full-text format such as `.pdf`, `.xml`, or `.txt` can be fetched directly.
-
-## Guardrails
-
-### 1. A landing page is not full text
-
-The acquirer does not mark a generic HTML landing page as `FULL_TEXT_AVAILABLE`.
-
-### 2. PDF candidate returning HTML is rejected as full text
-
-This catches common login / access pages returned from a URL that looked like a PDF.
-
-### 3. Full-text bytes are system-owned
-
-Downloaded artifacts are saved locally with:
-
-- source URL;
-- provider;
-- detected media type;
-- byte size;
-- SHA-256 checksum.
-
-### 4. Network failure is not `NOT_FOUND`
-
-A timeout or connection failure becomes `ACQUISITION_FAILED`, preserving epistemic uncertainty.
+The distinction is intentional. For example, a restricted source remains `SOURCE_UNAVAILABLE`; it is not treated as an empty document.
 
 ## Install
 
 ```bash
-cd citation-needed-v1.9
+cd citation-needed-v1.10
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e .
 pip install pytest
 ```
 
-No OpenAI key is needed for the acquisition layer itself.
+No OpenAI key is needed for the parser layer itself.
 
 ## Local tests
 
@@ -133,39 +114,39 @@ No OpenAI key is needed for the acquisition layer itself.
 pytest -q
 ```
 
-## Run the deterministic acquisition suite
+Expected baseline for this package:
 
-This suite uses a fake HTTP transport, so it does not depend on external services:
-
-```bash
-python scripts/run_acquisition_suite.py \
-  --out data/acquisition_report.json
+```text
+65 passed
 ```
 
-It covers:
-
-1. open-access PDF -> `FULL_TEXT_AVAILABLE`
-2. abstract without full text -> `ABSTRACT_ONLY`
-3. metadata only -> `METADATA_ONLY`
-4. known non-OA source -> `ACCESS_RESTRICTED`
-5. provider 404s -> `NOT_FOUND`
-6. network failure -> `ACQUISITION_FAILED`
-7. PDF URL returning login HTML must **not** become full text
-8. direct PDF URL acquisition
-
-## Run a real acquisition
-
-First produce or save a single `CitationResolution` JSON, then:
+## Run the deterministic parser suite
 
 ```bash
-python scripts/run_acquisition.py \
-  --resolution data/resolution.json \
-  --contact-email "you@example.com" \
-  --artifact-dir data/acquired \
-  --out data/acquisition.json
+python scripts/run_parser_suite.py \
+  --out data/parser_report.json
 ```
 
-Remote behavior depends on source availability, publisher/repository access, and provider uptime. The deterministic suite tests our policy and state transitions; a live run tests external integration.
+The suite covers:
+
+1. PDF section detection + page provenance
+2. reference-list separation from evidence text
+3. plain-text parsing
+4. JATS-like XML parsing
+5. HTML parsing
+6. abstract-only source handling
+7. restricted source handling
+8. explicit parse-failure state
+
+## Parse a v1.9 acquisition result
+
+```bash
+python scripts/run_parser.py \
+  --source data/acquisition.json \
+  --out data/parsed_source.json
+```
+
+The output is a `SourceParseResult` containing the downstream `StructuredDocument` contract.
 
 ## Current architecture
 
@@ -179,13 +160,10 @@ Extraction                                  DONE
 Reference Resolution                       DONE
   |
   v
-Remote Source Acquisition                  DONE (v1.9 baseline)
+Source Acquisition                         DONE
   |
   v
-Raw PDF/XML/Text artifact
-  |
-  v
-Source Parser -> StructuredDocument        NOT DONE
+Source Parser                              DONE (v1.10 baseline)
   |
   v
 Evidence Retrieval                         DONE
@@ -202,21 +180,18 @@ Reliability Policy                         DONE
 
 ## Next
 
-The next missing contract is deliberately small:
+The next milestone is no longer another isolated component. It is the first orchestration layer:
 
 ```text
-AcquiredArtifact
-      |
-      v
-Source Parser
-      |
-      v
-StructuredDocument
+Paper A
+ -> citation-bearing assertion
+ -> resolve citation
+ -> acquire Paper B
+ -> parse Paper B
+ -> retrieve evidence
+ -> judge relation
+ -> assess source
+ -> reliability
 ```
 
-Once that parser exists, the first true single-citation end-to-end audit can connect:
-
-```text
-Paper A -> citation -> Paper B -> acquired full text -> parsed source
-        -> evidence -> judgement -> source assessment -> reliability
-```
+That will be **v2.0 — Single Citation End-to-End Audit**.

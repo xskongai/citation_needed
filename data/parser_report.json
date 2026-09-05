@@ -1,0 +1,42 @@
+[
+  {
+    "case": "pdf_sections_page_provenance",
+    "pass": true,
+    "detail": "sections=5 refs=1 pages=[1, 2]"
+  },
+  {
+    "case": "plain_text_structure",
+    "pass": true,
+    "detail": "sections=4 refs=1"
+  },
+  {
+    "case": "jats_xml_structure",
+    "pass": true,
+    "detail": "title='XML Paper' sections=3 refs=1"
+  },
+  {
+    "case": "html_structure",
+    "pass": true,
+    "detail": "title='HTML Paper' sections=2 refs=1"
+  },
+  {
+    "case": "abstract_only_not_full_text",
+    "pass": true,
+    "detail": "status=ABSTRACT_ONLY_PARSED sections=1"
+  },
+  {
+    "case": "restricted_stays_unavailable",
+    "pass": true,
+    "detail": "status=SOURCE_UNAVAILABLE"
+  },
+  {
+    "case": "acquired_pdf_to_structured_document",
+    "pass": true,
+    "detail": "status=FULL_TEXT_PARSED title='Metadata wins'"
+  },
+  {
+    "case": "parse_failure_is_explicit",
+    "pass": true,
+    "detail": "status=PARSE_FAILED"
+  }
+]

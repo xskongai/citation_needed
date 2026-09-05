@@ -12,8 +12,9 @@ from .audit import CitationAuditResult, ReliabilityDecision
 from .assertion import Assertion, ClaimType
 from .citation import CitationPurpose, CitationRelation, FollowPriority, ResolutionStatus
 from .evidence import Evidence, EvidenceState, EvidenceType
-from .document import DocumentSection, ReferenceEntry, StructuredDocument
+from .document import DocumentSection, ReferenceEntry, SectionType, StructuredDocument
 from .extraction import ExtractionResult
+from .parsing import ParseStatus, SourceParseResult
 from .resolution import CitationResolution, IdentityBasis
 from .retrieval import EvidenceCandidate, EvidenceRetrievalResult, EvidenceRetrievalStatus
 from .judgement import (
@@ -71,6 +72,9 @@ __all__ = [
     "DocumentSection",
     "ReferenceEntry",
     "StructuredDocument",
+    "SectionType",
+    "ParseStatus",
+    "SourceParseResult",
     "ExtractionResult",
     "CitationResolution",
     "IdentityBasis",

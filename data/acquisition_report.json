@@ -26,7 +26,7 @@
           "kind": "PDF",
           "media_type": "application/pdf",
           "access_level": "OPEN_ACCESS",
-          "local_path": "/var/folders/jn/rnx87xk15513vg6kd8fg09_h0000gn/T/citation-needed-acq-j1y3w0i1/open_access_pdf/doi-10.1234-fixture-0e1b861e1e53a215.pdf",
+          "local_path": "/tmp/citation-needed-acq-uvnrkihc/open_access_pdf/doi-10.1234-fixture-0e1b861e1e53a215.pdf",
           "sha256": "c5c2e8be6ad0825a56ded1f1a153ceaf11dc060ab44b120a94406a08207babc2",
           "size_bytes": 16
         }
@@ -343,7 +343,7 @@
           "kind": "PDF",
           "media_type": "application/pdf",
           "access_level": "UNKNOWN",
-          "local_path": "/var/folders/jn/rnx87xk15513vg6kd8fg09_h0000gn/T/citation-needed-acq-j1y3w0i1/direct_pdf/url-fixture-daaa38b4cfe5541a.pdf",
+          "local_path": "/tmp/citation-needed-acq-uvnrkihc/direct_pdf/url-fixture-daaa38b4cfe5541a.pdf",
           "sha256": "9b310a834a7b0c05207d5199a15cddd26765fa56290fbf81057215c0f42b50b6",
           "size_bytes": 15
         }

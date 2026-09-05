@@ -1,8 +1,22 @@
 from __future__ import annotations
 
+from enum import Enum
+
 from pydantic import BaseModel, Field
 
 from .source import SourceLocation
+
+
+class SectionType(str, Enum):
+    ABSTRACT = "ABSTRACT"
+    INTRODUCTION = "INTRODUCTION"
+    METHODS = "METHODS"
+    RESULTS = "RESULTS"
+    DISCUSSION = "DISCUSSION"
+    CONCLUSION = "CONCLUSION"
+    REFERENCES = "REFERENCES"
+    SUPPLEMENTARY = "SUPPLEMENTARY"
+    OTHER = "OTHER"
 
 
 class DocumentSection(BaseModel):
@@ -15,6 +29,7 @@ class DocumentSection(BaseModel):
     id: str
     heading: str | None = None
     text: str = Field(min_length=1)
+    section_type: SectionType = SectionType.OTHER
     location: SourceLocation = Field(default_factory=SourceLocation)
 
 
