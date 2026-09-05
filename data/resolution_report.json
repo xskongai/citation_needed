@@ -1,0 +1,162 @@
+[
+  {
+    "name": "canonical_doi_resolution",
+    "passed": true,
+    "errors": [],
+    "result": {
+      "relation_id": "relation-1",
+      "source_paper_id": "paper-a",
+      "reference_number": "1",
+      "status": "RESOLVED",
+      "reference_entry": {
+        "reference_number": "1",
+        "raw_text": "A. Example, A canonical source, Journal of Tests 12 (2020) 1-10. https://doi.org/10.1234/TEST.2020.001",
+        "title": null,
+        "authors": [],
+        "year": 2020,
+        "venue": null,
+        "doi": "10.1234/TEST.2020.001",
+        "url": "https://doi.org/10.1234/TEST.2020.001"
+      },
+      "cited_paper_id": "doi:10.1234/test.2020.001",
+      "identity_basis": "DOI",
+      "warnings": []
+    }
+  },
+  {
+    "name": "url_resolution",
+    "passed": true,
+    "errors": [],
+    "result": {
+      "relation_id": "relation-2",
+      "source_paper_id": "paper-a",
+      "reference_number": "2",
+      "status": "RESOLVED",
+      "reference_entry": {
+        "reference_number": "2",
+        "raw_text": "B. Example, A source with a URL only, Example Journal 5 (2021) 20-30. https://example.org/papers/2",
+        "title": null,
+        "authors": [],
+        "year": 2021,
+        "venue": null,
+        "doi": null,
+        "url": "https://example.org/papers/2"
+      },
+      "cited_paper_id": "url:59190474fd2c3a13",
+      "identity_basis": "URL",
+      "warnings": []
+    }
+  },
+  {
+    "name": "gita_reference_without_identifier",
+    "passed": true,
+    "errors": [],
+    "result": {
+      "relation_id": "relation-3",
+      "source_paper_id": "paper-a",
+      "reference_number": "17",
+      "status": "PARTIALLY_RESOLVED",
+      "reference_entry": {
+        "reference_number": "17",
+        "raw_text": "K.V. Sankar, R.K. Selvan, The preparation of MnFe2O4 decorated flexible graphene wrapped with PANI and its electrochemical performances for hybrid supercapacitors, RSC Adv. 4 (2014) 17555\u201317566.",
+        "title": null,
+        "authors": [],
+        "year": 2014,
+        "venue": null,
+        "doi": null,
+        "url": null
+      },
+      "cited_paper_id": null,
+      "identity_basis": "RAW_REFERENCE",
+      "warnings": [
+        "Bibliography entry found, but no canonical source identifier is available yet."
+      ]
+    }
+  },
+  {
+    "name": "missing_reference_number",
+    "passed": true,
+    "errors": [],
+    "result": {
+      "relation_id": "relation-4",
+      "source_paper_id": "paper-a",
+      "reference_number": "99",
+      "status": "UNRESOLVED",
+      "reference_entry": null,
+      "cited_paper_id": null,
+      "identity_basis": "UNKNOWN",
+      "warnings": [
+        "No bibliography entry matched the in-text reference number."
+      ]
+    }
+  },
+  {
+    "name": "multiline_reference_entry",
+    "passed": true,
+    "errors": [],
+    "result": {
+      "relation_id": "relation-5",
+      "source_paper_id": "paper-a",
+      "reference_number": "10",
+      "status": "PARTIALLY_RESOLVED",
+      "reference_entry": {
+        "reference_number": "10",
+        "raw_text": "A. Author, A long title that continues across a second physical line, Journal X 4 (2018) 1-9.",
+        "title": null,
+        "authors": [],
+        "year": 2018,
+        "venue": null,
+        "doi": null,
+        "url": null
+      },
+      "cited_paper_id": null,
+      "identity_basis": "RAW_REFERENCE",
+      "warnings": [
+        "Bibliography entry found, but no canonical source identifier is available yet."
+      ]
+    }
+  },
+  {
+    "name": "dot_style_numeric_reference",
+    "passed": true,
+    "errors": [],
+    "result": {
+      "relation_id": "relation-6",
+      "source_paper_id": "paper-a",
+      "reference_number": "2",
+      "status": "PARTIALLY_RESOLVED",
+      "reference_entry": {
+        "reference_number": "2",
+        "raw_text": "Second Author, Second paper, Journal B 2 (2018) 3-4.",
+        "title": null,
+        "authors": [],
+        "year": 2018,
+        "venue": null,
+        "doi": null,
+        "url": null
+      },
+      "cited_paper_id": null,
+      "identity_basis": "RAW_REFERENCE",
+      "warnings": [
+        "Bibliography entry found, but no canonical source identifier is available yet."
+      ]
+    }
+  },
+  {
+    "name": "duplicate_reference_number_is_ambiguous",
+    "passed": true,
+    "errors": [],
+    "result": {
+      "relation_id": "relation-7",
+      "source_paper_id": "paper-a",
+      "reference_number": "5",
+      "status": "UNRESOLVED",
+      "reference_entry": null,
+      "cited_paper_id": null,
+      "identity_basis": "UNKNOWN",
+      "warnings": [
+        "Multiple bibliography entries share the same reference number."
+      ]
+    }
+  }
+]

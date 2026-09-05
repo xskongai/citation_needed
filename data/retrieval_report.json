@@ -1,0 +1,654 @@
+[
+  {
+    "case": "gita_specific_capacitance",
+    "passed": true,
+    "issues": [],
+    "result": {
+      "assertion_id": "a-cap",
+      "citation_relation_id": "rel-cap",
+      "source_paper_id": "paper:gita-mfo-pani",
+      "status": "FOUND",
+      "candidates": [
+        {
+          "id": "cand:results-cycling:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "results-cycling",
+          "passage_index": 1,
+          "content": "Galvanostatic charge-discharge (GCD) was performed to examine cycling performance and electrochemical capacitance. The measurements were repeated at a constant current density of 1 A/g. The 10% MnFe2O4@PANI electrode showed a specific capacitance of 623 F/g using equation (2), with cyclic stability up to 10,000 cycles.",
+          "location": {
+            "page": 13,
+            "section": "3.4.2 Cycling performances",
+            "paragraph": null,
+            "figure": "Fig. 7d",
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "RESULT",
+          "lexical_score": 0.8975,
+          "purpose_boost": 0.08,
+          "matched_terms": [
+            "10%",
+            "623",
+            "capacitance",
+            "electrode",
+            "mnfe2o4",
+            "pani",
+            "specific"
+          ]
+        },
+        {
+          "id": "cand:results-composition:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "results-composition",
+          "passage_index": 1,
+          "content": "The electrochemical performance of MnFe2O4 nanoparticles, polyaniline and 2.5%, 5%, 10%, 20%, and 50% MnFe2O4@PANI electrodes was examined by cyclic voltammetry. Figure 5a compares the compositions against specific capacitance. The 10% MnFe2O4@PANI nanoflower gave the highest specific capacitance, followed by 20% and 50% MnFe2O4@PANI.",
+          "location": {
+            "page": 10,
+            "section": "3.4 Electrochemical performance",
+            "paragraph": null,
+            "figure": "Fig. 5a",
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "RESULT",
+          "lexical_score": 0.678908,
+          "purpose_boost": 0.08,
+          "matched_terms": [
+            "10%",
+            "capacitance",
+            "mnfe2o4",
+            "pani",
+            "specific"
+          ]
+        },
+        {
+          "id": "cand:methods-synthesis:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "methods-synthesis",
+          "passage_index": 1,
+          "content": "MnFe2O4 nano-ferrites were prepared by hydrothermal method. A suspension was prepared using 1 mmol iron(III) chloride hexahydrate and 0.5 mmol manganese(II) chloride in deionized water. The pH was raised to 12 with 5 M NaOH. The solution mixture was transferred to an autoclave and placed in a preheated oven at 145 °C for 24 hours.",
+          "location": {
+            "page": 3,
+            "section": "2.1.1 Synthesis of MnFe2O4 Nanoparticles",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "METHOD",
+          "lexical_score": 0.13179,
+          "purpose_boost": 0.0,
+          "matched_terms": [
+            "mnfe2o4"
+          ]
+        },
+        {
+          "id": "cand:methods-characterization:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "methods-characterization",
+          "passage_index": 1,
+          "content": "XRD was performed to analyze phase structure and crystalline nature. Surface morphology was examined by FE-SEM and HR-TEM. XPS measurements were performed to confirm elemental composition. Electrochemical properties were studied using an Autolab potentiostat for CV and EIS, whereas an Arbin battery testing instrument was used for GCD analysis of the composite electrode.",
+          "location": {
+            "page": 4,
+            "section": "2.2 Characterization",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "TEXT",
+          "lexical_score": 0.129291,
+          "purpose_boost": 0.0,
+          "matched_terms": [
+            "electrode"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev_27022560f2",
+          "citation_relation_id": "rel-cap",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "content": "Galvanostatic charge-discharge (GCD) was performed to examine cycling performance and electrochemical capacitance. The measurements were repeated at a constant current density of 1 A/g. The 10% MnFe2O4@PANI electrode showed a specific capacitance of 623 F/g using equation (2), with cyclic stability up to 10,000 cycles.",
+          "evidence_type": "RESULT",
+          "provenance": {
+            "paper_id": "paper:gita-mfo-pani",
+            "title": "MnFe2O4@PANI nanoflower composite for supercapacitor application",
+            "doi": null,
+            "source_role": "PRIMARY_STUDY",
+            "location": {
+              "page": 13,
+              "section": "3.4.2 Cycling performances",
+              "paragraph": null,
+              "figure": "Fig. 7d",
+              "table": null,
+              "supplementary": null
+            }
+          },
+          "epistemic_state": "REPORTED",
+          "experimental_context": {
+            "_retrieval_candidate_id": "cand:results-cycling:1",
+            "_retrieval_lexical_score": 0.8975,
+            "_retrieval_purpose_boost": 0.08
+          },
+          "extraction_confidence": null
+        }
+      ],
+      "warnings": [],
+      "rationale": "Directly reports the 10% MnFe2O4@PANI electrode’s specific capacitance (623 F/g) under GCD at 1 A/g.",
+      "retriever_backend": "openai-responses",
+      "retriever_model": "gpt-5.6-terra"
+    }
+  },
+  {
+    "case": "gita_method_conditions",
+    "passed": true,
+    "issues": [],
+    "result": {
+      "assertion_id": "a-method",
+      "citation_relation_id": "rel-method",
+      "source_paper_id": "paper:gita-mfo-pani",
+      "status": "FOUND",
+      "candidates": [
+        {
+          "id": "cand:methods-synthesis:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "methods-synthesis",
+          "passage_index": 1,
+          "content": "MnFe2O4 nano-ferrites were prepared by hydrothermal method. A suspension was prepared using 1 mmol iron(III) chloride hexahydrate and 0.5 mmol manganese(II) chloride in deionized water. The pH was raised to 12 with 5 M NaOH. The solution mixture was transferred to an autoclave and placed in a preheated oven at 145 °C for 24 hours.",
+          "location": {
+            "page": 3,
+            "section": "2.1.1 Synthesis of MnFe2O4 Nanoparticles",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "METHOD",
+          "lexical_score": 0.817778,
+          "purpose_boost": 0.12,
+          "matched_terms": [
+            "12",
+            "145",
+            "24",
+            "hours",
+            "hydrothermal",
+            "mnfe2o4",
+            "ph"
+          ]
+        },
+        {
+          "id": "cand:results-composition:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "results-composition",
+          "passage_index": 1,
+          "content": "The electrochemical performance of MnFe2O4 nanoparticles, polyaniline and 2.5%, 5%, 10%, 20%, and 50% MnFe2O4@PANI electrodes was examined by cyclic voltammetry. Figure 5a compares the compositions against specific capacitance. The 10% MnFe2O4@PANI nanoflower gave the highest specific capacitance, followed by 20% and 50% MnFe2O4@PANI.",
+          "location": {
+            "page": 10,
+            "section": "3.4 Electrochemical performance",
+            "paragraph": null,
+            "figure": "Fig. 5a",
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "RESULT",
+          "lexical_score": 0.124393,
+          "purpose_boost": 0.0,
+          "matched_terms": [
+            "mnfe2o4"
+          ]
+        },
+        {
+          "id": "cand:results-cycling:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "results-cycling",
+          "passage_index": 1,
+          "content": "Galvanostatic charge-discharge (GCD) was performed to examine cycling performance and electrochemical capacitance. The measurements were repeated at a constant current density of 1 A/g. The 10% MnFe2O4@PANI electrode showed a specific capacitance of 623 F/g using equation (2), with cyclic stability up to 10,000 cycles.",
+          "location": {
+            "page": 13,
+            "section": "3.4.2 Cycling performances",
+            "paragraph": null,
+            "figure": "Fig. 7d",
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "RESULT",
+          "lexical_score": 0.122655,
+          "purpose_boost": 0.0,
+          "matched_terms": [
+            "mnfe2o4"
+          ]
+        },
+        {
+          "id": "cand:methods-characterization:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "methods-characterization",
+          "passage_index": 1,
+          "content": "XRD was performed to analyze phase structure and crystalline nature. Surface morphology was examined by FE-SEM and HR-TEM. XPS measurements were performed to confirm elemental composition. Electrochemical properties were studied using an Autolab potentiostat for CV and EIS, whereas an Arbin battery testing instrument was used for GCD analysis of the composite electrode.",
+          "location": {
+            "page": 4,
+            "section": "2.2 Characterization",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "TEXT",
+          "lexical_score": 0.0,
+          "purpose_boost": 0.0,
+          "matched_terms": []
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev_0808963e84",
+          "citation_relation_id": "rel-method",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "content": "MnFe2O4 nano-ferrites were prepared by hydrothermal method. A suspension was prepared using 1 mmol iron(III) chloride hexahydrate and 0.5 mmol manganese(II) chloride in deionized water. The pH was raised to 12 with 5 M NaOH. The solution mixture was transferred to an autoclave and placed in a preheated oven at 145 °C for 24 hours.",
+          "evidence_type": "METHOD",
+          "provenance": {
+            "paper_id": "paper:gita-mfo-pani",
+            "title": "MnFe2O4@PANI nanoflower composite for supercapacitor application",
+            "doi": null,
+            "source_role": "PRIMARY_STUDY",
+            "location": {
+              "page": 3,
+              "section": "2.1.1 Synthesis of MnFe2O4 Nanoparticles",
+              "paragraph": null,
+              "figure": null,
+              "table": null,
+              "supplementary": null
+            }
+          },
+          "epistemic_state": "REPORTED",
+          "experimental_context": {
+            "_retrieval_candidate_id": "cand:methods-synthesis:1",
+            "_retrieval_lexical_score": 0.817778,
+            "_retrieval_purpose_boost": 0.12
+          },
+          "extraction_confidence": null
+        }
+      ],
+      "warnings": [],
+      "rationale": "Direct method passage for MnFe2O4 hydrothermal preparation, explicitly stating pH 12, autoclave treatment at 145 °C, and 24 hours.",
+      "retriever_backend": "openai-responses",
+      "retriever_model": "gpt-5.6-terra"
+    }
+  },
+  {
+    "case": "contradictory_value_is_still_retrieved",
+    "passed": true,
+    "issues": [],
+    "result": {
+      "assertion_id": "a-size",
+      "citation_relation_id": "rel-size",
+      "source_paper_id": "paper:particle-size-study",
+      "status": "FOUND",
+      "candidates": [
+        {
+          "id": "cand:results-size:1",
+          "source_paper_id": "paper:particle-size-study",
+          "section_id": "results-size",
+          "passage_index": 1,
+          "content": "TEM analysis showed an average particle diameter of 18 nm for the as-prepared sample. The size distribution was obtained from measurements of the imaged particles.",
+          "location": {
+            "page": 5,
+            "section": "Results",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "RESULT",
+          "lexical_score": 1.0,
+          "purpose_boost": 0.08,
+          "matched_terms": [
+            "average",
+            "diameter",
+            "nm",
+            "particle",
+            "prepared",
+            "sample"
+          ]
+        },
+        {
+          "id": "cand:methods-tem:1",
+          "source_paper_id": "paper:particle-size-study",
+          "section_id": "methods-tem",
+          "passage_index": 1,
+          "content": "Particle size was measured by transmission electron microscopy on the as-prepared sample.",
+          "location": {
+            "page": 2,
+            "section": "Methods",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "METHOD",
+          "lexical_score": 0.59,
+          "purpose_boost": 0.0,
+          "matched_terms": [
+            "particle",
+            "prepared",
+            "sample"
+          ]
+        },
+        {
+          "id": "cand:results-unrelated:1",
+          "source_paper_id": "paper:particle-size-study",
+          "section_id": "results-unrelated",
+          "passage_index": 1,
+          "content": "The sample exhibited a saturation magnetization of 42 emu/g at room temperature.",
+          "location": {
+            "page": 6,
+            "section": "Results",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "RESULT",
+          "lexical_score": 0.21141,
+          "purpose_boost": 0.08,
+          "matched_terms": [
+            "sample"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev_f8e90f17ed",
+          "citation_relation_id": "rel-size",
+          "source_paper_id": "paper:particle-size-study",
+          "content": "TEM analysis showed an average particle diameter of 18 nm for the as-prepared sample. The size distribution was obtained from measurements of the imaged particles.",
+          "evidence_type": "RESULT",
+          "provenance": {
+            "paper_id": "paper:particle-size-study",
+            "title": "Synthetic particle-size study",
+            "doi": null,
+            "source_role": "PRIMARY_STUDY",
+            "location": {
+              "page": 5,
+              "section": "Results",
+              "paragraph": null,
+              "figure": null,
+              "table": null,
+              "supplementary": null
+            }
+          },
+          "epistemic_state": "REPORTED",
+          "experimental_context": {
+            "_retrieval_candidate_id": "cand:results-size:1",
+            "_retrieval_lexical_score": 1.0,
+            "_retrieval_purpose_boost": 0.08
+          },
+          "extraction_confidence": null
+        },
+        {
+          "id": "ev_9c51c37f2f",
+          "citation_relation_id": "rel-size",
+          "source_paper_id": "paper:particle-size-study",
+          "content": "Particle size was measured by transmission electron microscopy on the as-prepared sample.",
+          "evidence_type": "METHOD",
+          "provenance": {
+            "paper_id": "paper:particle-size-study",
+            "title": "Synthetic particle-size study",
+            "doi": null,
+            "source_role": "PRIMARY_STUDY",
+            "location": {
+              "page": 2,
+              "section": "Methods",
+              "paragraph": null,
+              "figure": null,
+              "table": null,
+              "supplementary": null
+            }
+          },
+          "epistemic_state": "REPORTED",
+          "experimental_context": {
+            "_retrieval_candidate_id": "cand:methods-tem:1",
+            "_retrieval_lexical_score": 0.59,
+            "_retrieval_purpose_boost": 0.0
+          },
+          "extraction_confidence": null
+        }
+      ],
+      "warnings": [],
+      "rationale": "The results passage directly reports the as-prepared sample’s average particle diameter, while the methods passage supplies the measurement method for that property.",
+      "retriever_backend": "openai-responses",
+      "retriever_model": "gpt-5.6-terra"
+    }
+  },
+  {
+    "case": "condition_mismatch_is_still_retrieved",
+    "passed": true,
+    "issues": [],
+    "result": {
+      "assertion_id": "a-current",
+      "citation_relation_id": "rel-current",
+      "source_paper_id": "paper:gita-mfo-pani",
+      "status": "FOUND",
+      "candidates": [
+        {
+          "id": "cand:results-cycling:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "results-cycling",
+          "passage_index": 1,
+          "content": "Galvanostatic charge-discharge (GCD) was performed to examine cycling performance and electrochemical capacitance. The measurements were repeated at a constant current density of 1 A/g. The 10% MnFe2O4@PANI electrode showed a specific capacitance of 623 F/g using equation (2), with cyclic stability up to 10,000 cycles.",
+          "location": {
+            "page": 13,
+            "section": "3.4.2 Cycling performances",
+            "paragraph": null,
+            "figure": "Fig. 7d",
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "RESULT",
+          "lexical_score": 0.782177,
+          "purpose_boost": 0.08,
+          "matched_terms": [
+            "623",
+            "capacitance",
+            "electrode",
+            "specific"
+          ]
+        },
+        {
+          "id": "cand:results-composition:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "results-composition",
+          "passage_index": 1,
+          "content": "The electrochemical performance of MnFe2O4 nanoparticles, polyaniline and 2.5%, 5%, 10%, 20%, and 50% MnFe2O4@PANI electrodes was examined by cyclic voltammetry. Figure 5a compares the compositions against specific capacitance. The 10% MnFe2O4@PANI nanoflower gave the highest specific capacitance, followed by 20% and 50% MnFe2O4@PANI.",
+          "location": {
+            "page": 10,
+            "section": "3.4 Electrochemical performance",
+            "paragraph": null,
+            "figure": "Fig. 5a",
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "RESULT",
+          "lexical_score": 0.394563,
+          "purpose_boost": 0.08,
+          "matched_terms": [
+            "capacitance",
+            "specific"
+          ]
+        },
+        {
+          "id": "cand:methods-characterization:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "methods-characterization",
+          "passage_index": 1,
+          "content": "XRD was performed to analyze phase structure and crystalline nature. Surface morphology was examined by FE-SEM and HR-TEM. XPS measurements were performed to confirm elemental composition. Electrochemical properties were studied using an Autolab potentiostat for CV and EIS, whereas an Arbin battery testing instrument was used for GCD analysis of the composite electrode.",
+          "location": {
+            "page": 4,
+            "section": "2.2 Characterization",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "TEXT",
+          "lexical_score": 0.190791,
+          "purpose_boost": 0.0,
+          "matched_terms": [
+            "electrode"
+          ]
+        },
+        {
+          "id": "cand:methods-synthesis:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "methods-synthesis",
+          "passage_index": 1,
+          "content": "MnFe2O4 nano-ferrites were prepared by hydrothermal method. A suspension was prepared using 1 mmol iron(III) chloride hexahydrate and 0.5 mmol manganese(II) chloride in deionized water. The pH was raised to 12 with 5 M NaOH. The solution mixture was transferred to an autoclave and placed in a preheated oven at 145 °C for 24 hours.",
+          "location": {
+            "page": 3,
+            "section": "2.1.1 Synthesis of MnFe2O4 Nanoparticles",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "METHOD",
+          "lexical_score": 0.0,
+          "purpose_boost": 0.0,
+          "matched_terms": []
+        }
+      ],
+      "evidence": [
+        {
+          "id": "ev_8a526ce94d",
+          "citation_relation_id": "rel-current",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "content": "Galvanostatic charge-discharge (GCD) was performed to examine cycling performance and electrochemical capacitance. The measurements were repeated at a constant current density of 1 A/g. The 10% MnFe2O4@PANI electrode showed a specific capacitance of 623 F/g using equation (2), with cyclic stability up to 10,000 cycles.",
+          "evidence_type": "RESULT",
+          "provenance": {
+            "paper_id": "paper:gita-mfo-pani",
+            "title": "MnFe2O4@PANI nanoflower composite for supercapacitor application",
+            "doi": null,
+            "source_role": "PRIMARY_STUDY",
+            "location": {
+              "page": 13,
+              "section": "3.4.2 Cycling performances",
+              "paragraph": null,
+              "figure": "Fig. 7d",
+              "table": null,
+              "supplementary": null
+            }
+          },
+          "epistemic_state": "REPORTED",
+          "experimental_context": {
+            "_retrieval_candidate_id": "cand:results-cycling:1",
+            "_retrieval_lexical_score": 0.782177,
+            "_retrieval_purpose_boost": 0.08
+          },
+          "extraction_confidence": null
+        }
+      ],
+      "warnings": [],
+      "rationale": "Directly reports the 623 F/g specific capacitance for the 10% MnFe2O4@PANI electrode and specifies the measurement current density (1 A/g), which is directly relevant to evaluating the asserted 5 A/g condition.",
+      "retriever_backend": "openai-responses",
+      "retriever_model": "gpt-5.6-terra"
+    }
+  },
+  {
+    "case": "no_relevant_thermal_evidence",
+    "passed": true,
+    "issues": [],
+    "result": {
+      "assertion_id": "a-thermal",
+      "citation_relation_id": "rel-thermal",
+      "source_paper_id": "paper:gita-mfo-pani",
+      "status": "NO_RELEVANT_EVIDENCE",
+      "candidates": [
+        {
+          "id": "cand:methods-synthesis:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "methods-synthesis",
+          "passage_index": 1,
+          "content": "MnFe2O4 nano-ferrites were prepared by hydrothermal method. A suspension was prepared using 1 mmol iron(III) chloride hexahydrate and 0.5 mmol manganese(II) chloride in deionized water. The pH was raised to 12 with 5 M NaOH. The solution mixture was transferred to an autoclave and placed in a preheated oven at 145 °C for 24 hours.",
+          "location": {
+            "page": 3,
+            "section": "2.1.1 Synthesis of MnFe2O4 Nanoparticles",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "METHOD",
+          "lexical_score": 0.13179,
+          "purpose_boost": 0.0,
+          "matched_terms": [
+            "12"
+          ]
+        },
+        {
+          "id": "cand:methods-characterization:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "methods-characterization",
+          "passage_index": 1,
+          "content": "XRD was performed to analyze phase structure and crystalline nature. Surface morphology was examined by FE-SEM and HR-TEM. XPS measurements were performed to confirm elemental composition. Electrochemical properties were studied using an Autolab potentiostat for CV and EIS, whereas an Arbin battery testing instrument was used for GCD analysis of the composite electrode.",
+          "location": {
+            "page": 4,
+            "section": "2.2 Characterization",
+            "paragraph": null,
+            "figure": null,
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "TEXT",
+          "lexical_score": 0.129291,
+          "purpose_boost": 0.0,
+          "matched_terms": [
+            "composite"
+          ]
+        },
+        {
+          "id": "cand:results-composition:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "results-composition",
+          "passage_index": 1,
+          "content": "The electrochemical performance of MnFe2O4 nanoparticles, polyaniline and 2.5%, 5%, 10%, 20%, and 50% MnFe2O4@PANI electrodes was examined by cyclic voltammetry. Figure 5a compares the compositions against specific capacitance. The 10% MnFe2O4@PANI nanoflower gave the highest specific capacitance, followed by 20% and 50% MnFe2O4@PANI.",
+          "location": {
+            "page": 10,
+            "section": "3.4 Electrochemical performance",
+            "paragraph": null,
+            "figure": "Fig. 5a",
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "RESULT",
+          "lexical_score": 0.0,
+          "purpose_boost": 0.08,
+          "matched_terms": []
+        },
+        {
+          "id": "cand:results-cycling:1",
+          "source_paper_id": "paper:gita-mfo-pani",
+          "section_id": "results-cycling",
+          "passage_index": 1,
+          "content": "Galvanostatic charge-discharge (GCD) was performed to examine cycling performance and electrochemical capacitance. The measurements were repeated at a constant current density of 1 A/g. The 10% MnFe2O4@PANI electrode showed a specific capacitance of 623 F/g using equation (2), with cyclic stability up to 10,000 cycles.",
+          "location": {
+            "page": 13,
+            "section": "3.4.2 Cycling performances",
+            "paragraph": null,
+            "figure": "Fig. 7d",
+            "table": null,
+            "supplementary": null
+          },
+          "evidence_type": "RESULT",
+          "lexical_score": 0.0,
+          "purpose_boost": 0.08,
+          "matched_terms": []
+        }
+      ],
+      "evidence": [],
+      "warnings": [],
+      "rationale": "None of the supplied passages reports thermal conductivity, a value near 12 W/mK, or room-temperature thermal-property measurement of the composite.",
+      "retriever_backend": "openai-responses",
+      "retriever_model": "gpt-5.6-terra"
+    }
+  }
+]
