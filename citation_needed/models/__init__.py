@@ -15,6 +15,7 @@ from .evidence import Evidence, EvidenceState, EvidenceType
 from .document import DocumentSection, ReferenceEntry, SectionType, StructuredDocument
 from .extraction import ExtractionResult
 from .parsing import ParseStatus, SourceParseResult
+from .pipeline import EndToEndAuditStatus, SingleCitationAuditTrace
 from .resolution import CitationResolution, IdentityBasis
 from .retrieval import EvidenceCandidate, EvidenceRetrievalResult, EvidenceRetrievalStatus
 from .judgement import (
@@ -114,4 +115,6 @@ __all__ = [
     "MeasurementTraceability",
     "ReliabilityDecision",
     "CitationAuditResult",
+    "EndToEndAuditStatus",
+    "SingleCitationAuditTrace",
 ]

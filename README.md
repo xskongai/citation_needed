@@ -1,197 +1,186 @@
-# Citation Needed — Source Parser v1.10
+# Citation Needed — Single Citation End-to-End Audit v2.0.1
 
-v1.10 closes the structural gap between **Source Acquisition** and **Evidence Retrieval**.
-
-```text
-Paper A
-  |
-  v
-Citation-bearing Assertion Extraction       [v1.6] DONE
-  |
-  v
-Reference Resolution                        [v1.7] DONE
-  |
-  v
-Source Acquisition                          [v1.9] DONE
-  |
-  v
-PDF / XML / HTML / TXT
-  |
-  v
-Source Parser                               [v1.10] NEW
-  |-- section classification
-  |-- page/section provenance
-  |-- bibliography extraction
-  |-- abstract-only boundary
-  |-- explicit parse states
-  |
-  v
-StructuredDocument
-  |
-  v
-Evidence Retriever                          [v1.8] DONE
-  |
-  v
-Relation Judge + Source Assessor + Reliability Policy
-```
-
-## Core boundary
-
-v1.10 answers:
-
-> **How do we convert the source bytes we actually obtained into a traceable document structure that downstream retrieval can consume?**
-
-It does **not** decide whether a passage supports a claim. That remains the responsibility of the Evidence Retriever and Relation Judge.
+v2.0 is the first orchestration milestone: the previously tested modules are now connected into one traceable single-citation audit.
 
 ```text
-parse failure != source absence
-abstract-only != full-text parse
-reference list != evidence section
-page provenance must not be invented
+Paper A (local PDF/XML/HTML/TXT)
+  |
+  v
+Parse Paper A
+  |
+  v
+Citation-bearing Assertion Extraction       [v1.6]
+  |
+  v
+Reference Resolution                        [v1.7]
+  |
+  v
+Source Acquisition                          [v1.9]
+  |
+  v
+Parse cited Paper B                         [v1.10]
+  |
+  v
+Evidence Retrieval                          [v1.8]
+  |
+  v
+Relation Judge                              [v1.2]
+  |
+  v
+Source Assessor                             [v1.4]
+  |
+  v
+Deterministic Reliability Policy            [v1.5]
+  |
+  v
+SingleCitationAuditTrace                    [v2.0]
 ```
 
-## Supported input formats
+## What v2.0 adds
 
-- PDF via PyMuPDF
-- JATS-like XML
-- HTML
-- plain text
+The new orchestration layer lives in `citation_needed/pipeline/single_citation.py`.
 
-## Structured output
-
-`StructuredDocument` now includes typed sections:
+It produces a `SingleCitationAuditTrace` that preserves every stage rather than collapsing the pipeline into one opaque answer:
 
 ```text
-ABSTRACT
-INTRODUCTION
-METHODS
-RESULTS
-DISCUSSION
-CONCLUSION
-SUPPLEMENTARY
-OTHER
+extraction
+resolution
+acquisition
+parse_result
+retrieval
+relation_judgement
+source_assessment
+audit_result
 ```
 
-References are parsed separately and are deliberately excluded from evidence-bearing sections.
-
-Each parsed body unit keeps:
-
-- exact source text;
-- page when available;
-- logical section heading;
-- section type;
-- local paragraph index.
-
-For PDFs, visual line blocks are aggregated under the same heading within a page. This keeps page provenance while preventing line-wrapped scientific sentences from becoming isolated retrieval fragments.
-
-## Parse states
+Important boundaries remain explicit:
 
 ```text
-FULL_TEXT_PARSED
-ABSTRACT_ONLY_PARSED
-SOURCE_UNAVAILABLE
-UNSUPPORTED_FORMAT
-PARSE_FAILED
+source unavailable != evidence absent
+retrieval failure != contradiction
+abstract-only != full source
+SUPPORTED != HIGH reliability
+CONTRADICTED != LOW reliability
+UNKNOWN != bad source
 ```
 
-The distinction is intentional. For example, a restricted source remains `SOURCE_UNAVAILABLE`; it is not treated as an empty document.
+## Citation selection
+
+You can explicitly choose a citation by reference number or relation ID. If no selector is supplied, v2.0 deterministically selects the highest follow-priority relation and records a warning when alternatives existed.
 
 ## Install
 
+Dependencies are now listed explicitly.
+
 ```bash
-cd citation-needed-v1.10
+cd citation-needed-v2.0
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -e .
-pip install pytest
+python -m pip install --upgrade pip
+python -m pip install -r requirements-dev.txt
 ```
 
-No OpenAI key is needed for the parser layer itself.
+Equivalent package install:
+
+```bash
+python -m pip install -e .
+python -m pip install pytest
+```
 
 ## Local tests
 
 ```bash
-pytest -q
+python -m pytest -q
 ```
 
-Expected baseline for this package:
+Expected baseline:
 
 ```text
-65 passed
+71 passed
 ```
 
-## Run the deterministic parser suite
+## Hosted end-to-end semantic suite
+
+This suite uses synthetic Paper A + synthetic cited PDFs and a fake acquisition HTTP backend, so it does not depend on Crossref/Unpaywall availability. The semantic stages still use the configured OpenAI model.
 
 ```bash
-python scripts/run_parser_suite.py \
-  --out data/parser_report.json
+export OPENAI_API_KEY="your_key"
+
+python scripts/run_e2e_suite.py \
+  --out data/e2e_report.json
 ```
 
-The suite covers:
+The three cases test:
 
-1. PDF section detection + page provenance
-2. reference-list separation from evidence text
-3. plain-text parsing
-4. JATS-like XML parsing
-5. HTML parsing
-6. abstract-only source handling
-7. restricted source handling
-8. explicit parse-failure state
+1. exact support through the complete chain;
+2. contradiction that must still be retrieved and judged;
+3. restricted source propagation to `UNRESOLVED`, rather than false negative evidence.
 
-## Parse a v1.9 acquisition result
+Expected shape:
+
+```text
+[PASS] supported_full_text: ... support=SUPPORTED ...
+[PASS] contradicted_full_text: ... support=CONTRADICTED ...
+[PASS] restricted_source_propagates_unknown: ... reliability=UNRESOLVED ...
+
+3/3 cases matched the declared expectations.
+```
+
+## Run one real single-citation audit
+
+Example with a local Paper A PDF:
 
 ```bash
-python scripts/run_parser.py \
-  --source data/acquisition.json \
-  --out data/parsed_source.json
+export OPENAI_API_KEY="your_key"
+export CITATION_NEEDED_CONTACT_EMAIL="you@example.com"
+
+python scripts/run_single_audit.py paper_a.pdf \
+  --kind PDF \
+  --paper-id paper-a \
+  --reference-number 17 \
+  --source-role PRIMARY_STUDY \
+  --out data/single_citation_audit.json
 ```
 
-The output is a `SourceParseResult` containing the downstream `StructuredDocument` contract.
+The contact email is used for Unpaywall. Without it, DOI metadata lookup can still run, but Unpaywall is skipped.
 
-## Current architecture
+`source-role` defaults to `UNKNOWN`; v2.0 does not guess primary-vs-secondary provenance from prose.
+
+## Scope of this MVP
+
+v2.0 is a **single-citation audit**, not yet a recursive literature-review agent.
+
+Implemented:
 
 ```text
-Paper A
-  |
-  v
-Extraction                                  DONE
-  |
-  v
-Reference Resolution                       DONE
-  |
-  v
-Source Acquisition                         DONE
-  |
-  v
-Source Parser                              DONE (v1.10 baseline)
-  |
-  v
-Evidence Retrieval                         DONE
-  |
-  v
-Relation Judge                             DONE
-  |
-  v
-Source Assessor                            DONE
-  |
-  v
-Reliability Policy                         DONE
+Paper A -> citation -> Paper B -> evidence -> judgement -> reliability
 ```
 
-## Next
-
-The next milestone is no longer another isolated component. It is the first orchestration layer:
+Still future work:
 
 ```text
-Paper A
- -> citation-bearing assertion
- -> resolve citation
- -> acquire Paper B
- -> parse Paper B
- -> retrieve evidence
- -> judge relation
- -> assess source
- -> reliability
+multi-citation batch audit
+recursive citation-chain traversal
+cross-paper consistency / replication assessment
+human review queue
+materials-science domain adapter
+figure/table-specific evidence extraction
+final researcher-facing audit UI/report
 ```
 
-That will be **v2.0 — Single Citation End-to-End Audit**.
+## GitHub summary
+
+Suggested commit message:
+
+```text
+Add v2.0 single-citation end-to-end audit pipeline
+```
+
+Short PR description:
+
+> Connects extraction, reference resolution, guarded source acquisition, source parsing, evidence retrieval, relation judgement, source assessment, and deterministic reliability into one traceable single-citation audit. Adds explicit pipeline-stage outputs, citation selection, dependency files, and end-to-end semantic tests for support, contradiction, and unavailable-source propagation.
+
+
+## Packaging fix in v2.0.1
+
+Setuptools package discovery is explicitly restricted to `citation_needed*`, so top-level runtime folders such as `data/` are not treated as packages during editable installation.
